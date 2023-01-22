@@ -1,0 +1,15 @@
+{
+  "editor.rulers": [110],
+  "[postcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "css.lint.unknownAtRules": "ignore",
+  "postcss.validate": false, // Disable css linter. To remove warning from tailwind @apply helper.
+  "files.associations": {
+    "*.css": "postcss"
+  },
+
+  /** type checking for css modules classes. */
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

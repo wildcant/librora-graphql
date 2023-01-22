@@ -1,0 +1,49 @@
+.Chip {
+  @apply w-fit whitespace-nowrap rounded-full px-4 py-2;
+
+  &.primary {
+    &.solid {
+      @apply bg-primary-base text-white;
+    }
+    &.outline {
+      @apply border-primary-base text-primary-dark border;
+    }
+    &.ghost {
+      @apply text-primary-dark shadow-primary-light shadow-sm;
+    }
+    &.plain {
+      @apply text-primary-base;
+    }
+  }
+
+  &.secondary {
+    &.solid {
+      @apply bg-secondary-base text-white;
+    }
+    &.outline {
+      @apply border-secondary-base text-secondary-dark border;
+    }
+    &.ghost {
+      @apply text-secondary-dark shadow-secondary-light shadow-sm;
+    }
+    &.plain {
+      @apply text-secondary-base;
+    }
+  }
+
+  &.xs {
+    @apply px-4 py-2 text-xs;
+  }
+
+  &.sm {
+    @apply px-6 py-2 text-sm;
+  }
+
+  &.md {
+    @apply px-8 py-4 text-base;
+  }
+
+  &.lg {
+    @apply px-12 py-4 text-lg;
+  }
+}

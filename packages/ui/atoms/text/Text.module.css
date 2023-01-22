@@ -1,0 +1,30 @@
+.xs {
+  @apply text-xs;
+}
+.sm {
+  @apply text-sm;
+}
+.md {
+  @apply text-base;
+}
+.lg {
+  @apply text-lg;
+}
+.xl {
+  @apply text-xl;
+}
+.xl2 {
+  @apply text-2xl;
+}
+.xl3 {
+  @apply text-3xl;
+}
+.xl4 {
+  @apply text-4xl;
+}
+.xl5 {
+  @apply text-5xl;
+}
+.xl6 {
+  @apply text-6xl;
+}

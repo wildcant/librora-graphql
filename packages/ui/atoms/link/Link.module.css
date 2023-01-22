@@ -1,0 +1,64 @@
+.Link {
+}
+
+.Button {
+  @apply whitespace-nowrap rounded-lg text-center;
+  @apply disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none;
+
+  &.primary {
+    &.solid {
+      @apply bg-primary-base text-white;
+      @apply hover:bg-primary-dark;
+      @apply active:bg-primary-darker;
+      @apply disabled:bg-primary-base;
+    }
+    &.outline {
+      @apply border-primary-base text-primary-dark border;
+      @apply hover:bg-primary-lighter;
+      @apply active:bg-primary-light;
+      @apply disabled:bg-white;
+    }
+  }
+  &.secondary {
+    &.solid {
+      @apply bg-secondary-base text-white;
+      @apply hover:bg-secondary-dark;
+      @apply active:bg-secondary-darker;
+      @apply disabled:bg-secondary-base;
+    }
+    &.outline {
+      @apply border-secondary-base text-secondary-dark border;
+      @apply hover:bg-secondary-lighter;
+      @apply active:bg-secondary-light;
+      @apply disabled:bg-white;
+    }
+  }
+}
+
+.xs {
+  @apply px-4 py-2 text-xs;
+  &.icon-only {
+    @apply px-2 py-2;
+  }
+}
+
+.sm {
+  @apply px-6 py-2 text-sm;
+  &.icon-only {
+    @apply px-4 py-4;
+  }
+}
+
+.md {
+  @apply px-8 py-4 text-base;
+  &.icon-only {
+    @apply px-6 py-6;
+  }
+}
+
+.lg {
+  @apply px-12 py-4 text-lg;
+  &.icon-only {
+    @apply px-8 py-8;
+  }
+}

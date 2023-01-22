@@ -1,0 +1,27 @@
+.Root {
+  @apply relative m-0 box-border inline-block list-none p-0 text-sm tabular-nums leading-none;
+}
+
+.Badge {
+  @apply absolute top-0 right-0 z-auto origin-[100%_0%] translate-x-1/2 -translate-y-1/2;
+  @apply h-[22px] min-w-[22px] rounded-xl py-0 px-[6px] shadow-2xl;
+  @apply whitespace-nowrap text-center text-[12px] font-bold leading-[22px] text-white;
+
+  &.primary {
+    &.solid {
+      @apply bg-primary-base text-white;
+    }
+    &.outline {
+      @apply border-primary-base text-primary-dark border;
+    }
+  }
+
+  &.secondary {
+    &.solid {
+      @apply bg-secondary-base text-white;
+    }
+    &.outline {
+      @apply border-secondary-base text-secondary-dark border;
+    }
+  }
+}

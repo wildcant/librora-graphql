@@ -1,0 +1,15 @@
+{
+  "name": "config",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "./index.ts",
+  "files": [],
+  "scripts": {
+    "dev": "yarn update-theme",
+    "update-theme": "tsup theme.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsup": "^6.5.0"
+  }
+}

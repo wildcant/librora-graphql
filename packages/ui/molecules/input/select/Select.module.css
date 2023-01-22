@@ -1,0 +1,45 @@
+.Button {
+  @apply relative w-full cursor-default rounded-md border border-gray-300 py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm;
+  @apply focus-visible:border-primary-base focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300;
+  @apply disabled:opacity-50;
+}
+
+.ButtonLabel {
+  @apply text-primary-darkest block truncate font-medium;
+}
+
+.ChevronContainer {
+  @apply pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2;
+}
+
+.Chevron {
+  @apply h-5 w-5 text-gray-400;
+}
+
+.OptionContainer {
+  @apply absolute z-50 max-h-60 w-full overflow-auto rounded-b-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm;
+}
+
+.Option {
+  @apply relative cursor-default select-none py-2 pl-10 pr-4;
+
+  &.active {
+    @apply bg-secondary-lighter text-secondary-darkest;
+  }
+
+  &.inactive {
+    @apply text-gray-900;
+  }
+}
+
+.OptionLabel {
+  @apply block truncate font-normal;
+
+  &.selected {
+    @apply font-medium;
+  }
+}
+
+.CheckContainer {
+  @apply text-secondary-dark absolute inset-y-0 left-0 flex items-center pl-3;
+}
