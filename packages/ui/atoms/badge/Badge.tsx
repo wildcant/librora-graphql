@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import {ReactNode} from 'react'
+import { ReactNode } from 'react'
 import s from './Badge.module.css'
 
 interface IBadgeProps {
@@ -10,13 +10,7 @@ interface IBadgeProps {
   variant?: 'solid' | 'outline'
 }
 
-export function Badge({
-  children,
-  className,
-  color = 'primary',
-  content,
-  variant = 'solid',
-}: IBadgeProps) {
+export function Badge({ children, className, color = 'primary', content, variant = 'solid' }: IBadgeProps) {
   const badgeClassName = cn(
     s.Badge,
     {
@@ -25,7 +19,7 @@ export function Badge({
       [s.solid]: variant === 'solid',
       [s.outline]: variant === 'outline',
     },
-    className,
+    className
   )
 
   return (

@@ -1,0 +1,40 @@
+# 
+# -------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# -------------------------------------------------------
+#
+
+type Editorial {
+  name: String
+}
+
+type Author {
+  id: String!
+  name: String
+}
+
+type Query {
+  author(id: String!): Author
+  books: [Book]
+  book(id: String!): Book
+  user(id: String!): User
+}
+
+type Book {
+  id: String!
+  author: Author
+  editorial: Editorial
+  title: String
+  user: User
+}
+
+type User {
+  id: String!
+  firstName: String
+  lastName: String
+  initial: String
+}
+
+schema {
+  query: Query
+}

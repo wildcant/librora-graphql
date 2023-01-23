@@ -22,7 +22,7 @@
       "@organisms": ["./organisms/index.ts"],
       "@templates": ["./templates/index.ts"]
     },
-    "plugins": [{"name": "typescript-plugin-css-modules"}]
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["."]
 }

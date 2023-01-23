@@ -1,0 +1,12 @@
+type Editorial {
+  name: String
+}
+
+type Author {
+  id: String!
+  name: String
+}
+
+type Query {
+  author(id: String!): Author
+}

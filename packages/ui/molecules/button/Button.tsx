@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { ComponentPropsWithoutRef, ReactElement } from 'react'
 import s from './Button.module.css'
 
-export interface  IButtonProps extends ComponentPropsWithoutRef<'button'> {
+export interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
   color?: 'primary' | 'secondary'
   icon?: ReactElement | `${EIconName}`
   iconClassName?: string
