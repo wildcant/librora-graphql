@@ -1,0 +1,18 @@
+query Book($id: String!) {
+  book(id: $id) {
+    id
+    title
+    subtitle
+    description
+    author {
+      id
+      name
+    }
+
+    user {
+      id
+      firstName
+      lastName
+    }
+  }
+}

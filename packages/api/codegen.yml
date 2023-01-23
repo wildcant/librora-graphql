@@ -1,0 +1,45 @@
+overwrite: true
+schema: http://localhost:4000/graphql
+
+documents: 'graphql/**/*.gql'
+
+definitions:
+  add: &top-comment
+    content: >
+      /*
+       * -------------------------------------------------------
+       * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+       * -------------------------------------------------------
+       */
+
+      /* eslint-disable */
+
+generates:
+  operations/client.ts:
+    plugins:
+      - add: *top-comment
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+
+    config:
+      withHooks: true
+  operations/server.ts:
+    config:
+      documentMode: external
+      importDocumentNodeExternallyFrom: ./client
+      reactApolloVersion: 3
+      contextType: 'ApolloClientContext'
+      # contextTypeRequired: false
+      apolloClientInstanceImport: '../../../apps/web/lib/apollo'
+      # customOptions: '{"context": {"clientName": ""}}'
+      # apolloStateKey: '__APOLLO_STATE__'
+    preset: import-types
+    presetConfig:
+      typesPath: ./client
+    plugins:
+      - add: *top-comment
+      - codegen/custom-plugins/next-apollo-server-operations/index.js
+hooks:
+  afterAllFileWrite:
+    - prettier --write

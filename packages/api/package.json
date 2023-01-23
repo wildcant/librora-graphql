@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "generate": "graphql-codegen -r dotenv/config --config codegen.yml"
+  },
+  "devDependencies": {
+    "@graphql-codegen/add": "^3.2.3",
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/import-types-preset": "^2.2.6",
+    "@graphql-codegen/typescript": "^2.8.5",
+    "@graphql-codegen/typescript-operations": "^2.5.10",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.3",
+    "dotenv": "^16.0.3"
+  }
+}

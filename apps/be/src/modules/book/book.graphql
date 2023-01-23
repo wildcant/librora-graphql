@@ -3,6 +3,8 @@ type Book {
   author: Author
   editorial: Editorial
   title: String
+  subtitle: String
+  description: String
   user: User
 }
 
