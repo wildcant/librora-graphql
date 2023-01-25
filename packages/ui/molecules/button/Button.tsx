@@ -48,6 +48,7 @@ export const Button = ({
       [s.outline]: variant === 'outline',
       [s.ghost]: variant === 'ghost',
       [s.link]: variant === 'link',
+      [s.animated]: variant !== 'link' && !unstyled,
       [s.xs]: size === 'xs' && !unstyled,
       [s.sm]: size === 'sm' && !unstyled,
       [s.md]: size === 'md' && !unstyled,

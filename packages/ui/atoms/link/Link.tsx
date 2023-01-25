@@ -18,7 +18,7 @@ interface ILinkProps {
     | 'button-secondary-outline'
     | 'unstyled'
   size?: 'xs' | 'sm' | 'md' | 'lg'
-  icon?: 'arrow' | 'chevron'
+  // icon?: 'arrow' | 'chevron'
   onMouseOver?: React.MouseEventHandler<HTMLAnchorElement>
   onFocus?: React.FocusEventHandler<HTMLAnchorElement>
   onClick?: React.MouseEventHandler<HTMLAnchorElement>

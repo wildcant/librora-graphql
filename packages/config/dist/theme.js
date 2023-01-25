@@ -495,25 +495,28 @@ module.exports = __toCommonJS(theme_exports);
 var import_colors = __toESM(require_colors2());
 var theme = {
   extend: {
+    boxShadow: {
+      btn: "5px 6px 0px"
+    },
     colors: {
       current: "currentColor",
       primary: {
-        lightest: import_colors.default.stone[50],
-        lighter: import_colors.default.stone[100],
-        light: import_colors.default.stone[200],
-        base: import_colors.default.stone[600],
-        dark: import_colors.default.stone[700],
-        darker: import_colors.default.stone[800],
-        darkest: import_colors.default.stone[900]
+        lightest: import_colors.default.blue[50],
+        lighter: import_colors.default.blue[100],
+        light: import_colors.default.blue[200],
+        base: import_colors.default.blue[600],
+        dark: import_colors.default.blue[700],
+        darker: import_colors.default.blue[800],
+        darkest: import_colors.default.blue[900]
       },
       secondary: {
-        lightest: import_colors.default.emerald[50],
-        lighter: import_colors.default.emerald[100],
-        light: import_colors.default.emerald[200],
-        base: import_colors.default.emerald[600],
-        dark: import_colors.default.emerald[700],
-        darker: import_colors.default.emerald[800],
-        darkest: import_colors.default.emerald[900]
+        lightest: import_colors.default.orange[50],
+        lighter: import_colors.default.orange[100],
+        light: import_colors.default.orange[200],
+        base: import_colors.default.orange[600],
+        dark: import_colors.default.orange[700],
+        darker: import_colors.default.orange[800],
+        darkest: import_colors.default.orange[900]
       },
       success: {
         base: import_colors.default.green[600],

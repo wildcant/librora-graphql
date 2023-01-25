@@ -1,28 +1,28 @@
 .Btn {
-  @apply whitespace-nowrap rounded-lg;
+  @apply whitespace-nowrap rounded-lg bg-transparent;
   @apply disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none;
 
   &.primary {
     &.solid {
-      @apply bg-primary-base text-white;
+      @apply bg-primary-base border-none text-white;
       @apply hover:bg-primary-dark;
       @apply active:bg-primary-darker;
       @apply disabled:bg-primary-base;
     }
     &.outline {
-      @apply border-primary-base text-primary-dark border;
+      @apply text-primary-dark border-4 border-blue-500;
       @apply hover:bg-primary-lighter;
       @apply active:bg-primary-light;
       @apply disabled:bg-white;
     }
     &.ghost {
-      @apply text-primary-dark shadow-primary-light shadow-sm;
+      @apply text-primary-dark shadow-primary-light border-none shadow-sm;
       @apply hover:shadow-primary-light hover:shadow-md;
       @apply active:shadow-primary-light active:shadow-inner;
       @apply disabled:bg-white disabled:shadow-md;
     }
     &.link {
-      @apply text-primary-base;
+      @apply text-primary-base border-none;
       @apply hover:decoration-primary-base hover:underline;
       @apply disabled:no-underline;
     }
@@ -30,7 +30,7 @@
 
   &.secondary {
     &.solid {
-      @apply bg-secondary-base text-white;
+      @apply bg-secondary-base border-none text-white;
       @apply hover:bg-secondary-dark;
       @apply active:bg-secondary-darker;
       @apply disabled:bg-secondary-base;
@@ -42,13 +42,13 @@
       @apply disabled:bg-white;
     }
     &.ghost {
-      @apply text-secondary-dark shadow-secondary-light shadow-sm;
+      @apply text-secondary-dark shadow-secondary-light border-none shadow-sm;
       @apply hover:shadow-secondary-light hover:shadow-md;
       @apply active:shadow-secondary-light active:shadow-inner;
       @apply disabled:bg-white disabled:shadow-md;
     }
     &.link {
-      @apply text-secondary-base;
+      @apply text-secondary-base border-none;
       @apply hover:decoration-secondary-base hover:underline;
       @apply disabled:no-underline;
     }
@@ -84,5 +84,18 @@
 
   &.include-icon {
     @apply flex flex-row items-center gap-2;
+  }
+
+  &.animated {
+    transform: translateY(-0.2em);
+    transition: transform 0.1s ease;
+
+    &:hover {
+      transform: translateY(-0.33em);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 }

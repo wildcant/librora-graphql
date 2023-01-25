@@ -2,7 +2,6 @@ import { useBookQuery } from 'api/operations/client'
 
 export default function Home() {
   const { loading, data } = useBookQuery({ variables: { id: '3ce10880-c6a0-44a9-a143-eb1ba64def05' } })
-
   if (loading) {
     return <h1>Loading...</h1>
   }

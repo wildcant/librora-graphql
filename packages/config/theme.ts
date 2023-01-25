@@ -3,25 +3,28 @@ import { Config } from 'tailwindcss'
 
 export const theme: Config['theme'] = {
   extend: {
+    boxShadow: {
+      btn: '5px 6px 0px',
+    },
     colors: {
       current: 'currentColor',
       primary: {
-        lightest: twColors.stone[50],
-        lighter: twColors.stone[100],
-        light: twColors.stone[200],
-        base: twColors.stone[600],
-        dark: twColors.stone[700],
-        darker: twColors.stone[800],
-        darkest: twColors.stone[900],
+        lightest: twColors.blue[50],
+        lighter: twColors.blue[100],
+        light: twColors.blue[200],
+        base: twColors.blue[600],
+        dark: twColors.blue[700],
+        darker: twColors.blue[800],
+        darkest: twColors.blue[900],
       },
       secondary: {
-        lightest: twColors.emerald[50],
-        lighter: twColors.emerald[100],
-        light: twColors.emerald[200],
-        base: twColors.emerald[600],
-        dark: twColors.emerald[700],
-        darker: twColors.emerald[800],
-        darkest: twColors.emerald[900],
+        lightest: twColors.orange[50],
+        lighter: twColors.orange[100],
+        light: twColors.orange[200],
+        base: twColors.orange[600],
+        dark: twColors.orange[700],
+        darker: twColors.orange[800],
+        darkest: twColors.orange[900],
       },
       success: {
         base: twColors.green[600],

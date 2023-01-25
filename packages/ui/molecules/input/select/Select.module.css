@@ -1,18 +1,48 @@
+.SelectLabel {
+  @apply pointer-events-none absolute left-4 z-10 text-gray-500;
+  transform: translateY(0.5rem);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.displayLabelTop {
+    @apply bg-white px-2;
+    transform: translateY(-50%) scale(0.8);
+  }
+
+  &.focus {
+    &.valid {
+      @apply text-primary-base;
+    }
+
+    &.error {
+      @apply text-red-500;
+    }
+  }
+}
+
 .Button {
-  @apply relative w-full cursor-default rounded-md border border-gray-300 py-2 pl-3 pr-10 text-left shadow-sm sm:text-sm;
-  @apply focus-visible:border-primary-base focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300;
-  @apply disabled:opacity-50;
+  @apply relative w-full cursor-default rounded-md border-2 border-gray-500 py-2 pl-4 pr-10 text-left shadow-sm sm:text-sm min-h-[48px];
+  @apply focus-visible:border-primary-base focus-visible:ring-2 focus-visible:ring-primary-base focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+
+  &.focus {
+    &.valid {
+      @apply border-primary-base ring-primary-base;
+    }
+  }
+  &.error {
+    @apply ring-red-500 border-red-500;
+  }
 }
 
 .ButtonLabel {
-  @apply text-primary-darkest block truncate font-medium;
+  @apply text-black block truncate;
 }
 
-.ChevronContainer {
+.ArrowContainer {
   @apply pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2;
 }
 
-.Chevron {
+.Arrow {
   @apply h-5 w-5 text-gray-400;
 }
 
@@ -24,7 +54,7 @@
   @apply relative cursor-default select-none py-2 pl-10 pr-4;
 
   &.active {
-    @apply bg-secondary-lighter text-secondary-darkest;
+    @apply bg-primary-lighter text-primary-darkest;
   }
 
   &.inactive {
@@ -41,5 +71,5 @@
 }
 
 .CheckContainer {
-  @apply text-secondary-dark absolute inset-y-0 left-0 flex items-center pl-3;
+  @apply text-primary-dark absolute inset-y-0 left-0 flex items-center pl-3;
 }
