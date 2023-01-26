@@ -1,4 +1,4 @@
-import { TextField } from '@molecules'
+import { CheckboxField, TextField } from '@molecules'
 import { useForm } from 'react-hook-form'
 
 export default function Register() {
@@ -14,6 +14,7 @@ export default function Register() {
           rules={{ required: 'This field is required' }}
           label="Last name"
         />
+        <CheckboxField control={control} name={'yes'} label="Click here" />
         <button type="submit">Submit</button>
       </form>
     </div>

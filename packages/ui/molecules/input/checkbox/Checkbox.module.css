@@ -1,0 +1,26 @@
+.CheckboxContainer {
+  @apply relative flex flex-row items-center cursor-pointer max-w-fit;
+  &.disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+.Checkbox {
+  path {
+    transition: fill 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+
+  path:first-child {
+    @apply fill-transparent;
+  }
+
+  &.checked {
+    path:first-child {
+      @apply fill-primary-base;
+    }
+
+    path:nth-child(2) {
+      @apply fill-primary-base;
+    }
+  }
+}

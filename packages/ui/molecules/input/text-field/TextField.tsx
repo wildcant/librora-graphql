@@ -32,8 +32,6 @@ export function TextField<TValues extends FieldValues>({
     defaultValue,
   })
 
-  console.log({ error })
-
   const inputClassName = cn(
     s.Input,
     {
@@ -45,7 +43,6 @@ export function TextField<TValues extends FieldValues>({
     },
     className
   )
-  console.log({ inputClassName })
 
   return (
     <div className={s.Container}>

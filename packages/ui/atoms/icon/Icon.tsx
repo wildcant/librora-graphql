@@ -1,5 +1,15 @@
 import { ComponentPropsWithoutRef, ReactElement } from 'react'
-import { fallback, check, arrowDown, arrowUp, circleFilled, arrowLeft, arrowRight, menu } from './icons'
+import {
+  arrowDown,
+  arrowLeft,
+  arrowRight,
+  arrowUp,
+  check,
+  checkboxBlank,
+  circleFilled,
+  fallback,
+  menu,
+} from './icons'
 
 const dimension = {
   xs: 12,
@@ -17,6 +27,7 @@ export enum EIconName {
   circleFilled = 'circle-filled',
   fallback = 'fallback',
   menu = 'menu',
+  checkboxBlank = 'checkbox-blank',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -28,6 +39,7 @@ const icon: { [key in EIconName]: ReactElement } = {
   'arrow-up': arrowUp,
   'circle-filled': circleFilled,
   menu,
+  'checkbox-blank': checkboxBlank,
 }
 
 interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
