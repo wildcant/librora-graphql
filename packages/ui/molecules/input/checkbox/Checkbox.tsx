@@ -34,7 +34,7 @@ export function CheckboxField<TValues extends FieldValues>({
   const toggleCheckbox = () => !disabled && field.onChange(!field.value)
 
   return (
-    <div className="flex flex-col">
+    <div className={cn('flex flex-col', className)}>
       <div
         className={cn(s.CheckboxContainer, { [s.disabled]: disabled })}
         onKeyDown={(e) => e.key === ' ' && toggleCheckbox()}

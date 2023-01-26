@@ -1,5 +1,6 @@
 .Container {
-  @apply relative mb-4 max-w-fit;
+  @apply relative;
+  background: var(--my-css-var);
 }
 
 .Label {
@@ -9,8 +10,9 @@
 
   &:has(+ div > input:focus),
   &.displayLabelTop {
-    @apply bg-white px-2;
+    @apply px-2;
     transform: translateY(-50%) scale(0.8);
+    background-color: var(--colorScheme);
   }
 
   &:has(+ div > input:focus) {
@@ -41,16 +43,17 @@
 }
 
 .Input {
-  @apply box-border rounded-md border-2 border-solid border-gray-500 bg-none py-2 px-4 text-sm text-black;
+  @apply box-border w-full rounded-md border-2 border-solid border-gray-500 py-2 px-4 text-sm text-black;
   @apply focus:outline-none;
   transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--colorScheme);
 
   &.valid {
     @apply focus:ring-primary-base focus:border-primary-base;
   }
 
   &.error {
-    @apply ring-red-500 border-red-500;
+    @apply border-red-500 ring-red-500;
   }
 
   &.withIconLeft {
@@ -67,5 +70,5 @@
 }
 
 .disabled {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
 }
