@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 
-import * as Types from './schema'
+import * as Types from '../schema'
 
 import * as Operations from './client'
 import * as Apollo from '@apollo/client'

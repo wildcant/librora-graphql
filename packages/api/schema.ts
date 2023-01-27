@@ -8,6 +8,8 @@
 
 import { EAdminRole } from 'schemas/enums'
 import { ECountryCode } from 'schemas/enums'
+import { EFormat } from 'schemas/enums'
+import { ELanguage } from 'schemas/enums'
 import { EUserRole } from 'schemas/enums'
 import { EUserType } from 'schemas/enums'
 export type Maybe<T> = T | null
@@ -27,7 +29,7 @@ export type Scalars = {
 export type Author = {
   __typename?: 'Author'
   id: Scalars['String']
-  name?: Maybe<Scalars['String']>
+  name: Scalars['String']
 }
 
 export type Book = {
@@ -35,18 +37,20 @@ export type Book = {
   author?: Maybe<Author>
   description?: Maybe<Scalars['String']>
   editorial?: Maybe<Editorial>
+  format?: Maybe<EFormat>
   id: Scalars['String']
+  language?: Maybe<ELanguage>
   subtitle?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   user?: Maybe<User>
 }
 
 export type CreateUserInput = {
-  email?: InputMaybe<Scalars['String']>
-  firstName?: InputMaybe<Scalars['String']>
-  lastName?: InputMaybe<Scalars['String']>
-  password?: InputMaybe<Scalars['String']>
-  username?: InputMaybe<Scalars['String']>
+  email: Scalars['String']
+  firstName: Scalars['String']
+  lastName: Scalars['String']
+  password: Scalars['String']
+  username: Scalars['String']
 }
 
 export type CreateUserPayload = {
@@ -57,6 +61,10 @@ export type CreateUserPayload = {
 export { EAdminRole }
 
 export { ECountryCode }
+
+export { EFormat }
+
+export { ELanguage }
 
 export { EUserRole }
 
@@ -73,7 +81,7 @@ export type Mutation = {
 }
 
 export type MutationCreateUserArgs = {
-  input?: InputMaybe<CreateUserInput>
+  input: CreateUserInput
 }
 
 export type Query = {
@@ -122,7 +130,7 @@ export type BookQuery = {
     title?: string | null
     subtitle?: string | null
     description?: string | null
-    author?: { __typename?: 'Author'; id: string; name?: string | null } | null
+    author?: { __typename?: 'Author'; id: string; name: string } | null
     user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
   } | null
 }

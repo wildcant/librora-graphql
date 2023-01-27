@@ -15,7 +15,7 @@ definitions:
       /* eslint-disable */
 
 generates:
-  operations/schema.ts:
+  schema.ts:
     plugins:
       - add: *top-comment
       - 'typescript'
@@ -31,7 +31,7 @@ generates:
       withHooks: true
     preset: import-types
     presetConfig:
-      typesPath: ./schema
+      typesPath: ../schema
 
   operations/server.ts:
     config:
@@ -45,7 +45,7 @@ generates:
       # apolloStateKey: '__APOLLO_STATE__'
     preset: import-types
     presetConfig:
-      typesPath: ./schema
+      typesPath: ../schema
     plugins:
       - add: *top-comment
       - codegen/custom-plugins/next-apollo-server-operations/index.js
