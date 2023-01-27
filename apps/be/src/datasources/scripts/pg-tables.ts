@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { ECountryCode, EFormat, ELanguage, EUserRole, EUserType } from '../pg'
+import { ECountryCode, EFormat, ELanguage, EUserRole, EUserType } from 'schemas/enums'
 import { knex } from '../pg/knex'
 
 export async function createTables() {

@@ -1,7 +1,5 @@
 import { Knex } from 'knex'
-import { AuthorModel } from './pg/author'
-import { BookModel, PublisherModel, SubTopicModel, TopicModel } from './pg/book'
-import { UserModel } from './pg/user'
+import { AuthorModel, BookModel, UserModel } from 'schemas'
 
 interface BooksTopicsModel {
   id: string
@@ -21,10 +19,10 @@ declare module 'knex/types/tables' {
     books: BookModel
     authors: AuthorModel
     users: UserModel
-    publishers: PublisherModel
-    topics: TopicModel
-    subtopics: SubTopicModel
-    bookTopics: BooksTopicsModel
+    // publishers: PublisherModel
+    // topics: TopicModel
+    // subtopics: SubTopicModel
+    // bookTopics: BooksTopicsModel
     bookSubtopics: BooksSubTopicsModel
 
     // For more advanced types, you can specify separate type
@@ -80,10 +78,10 @@ declare module 'knex/types/tables' {
       Partial<Omit<UserModel, 'id'>>
     >
 
-    publishers_composite: Knex.CompositeTableType<
-      PublisherModel,
-      Pick<PublisherModel, 'name'>,
-      Partial<Omit<PublisherModel, 'id'>>
-    >
+    // publishers_composite: Knex.CompositeTableType<
+    //   PublisherModel,
+    //   Pick<PublisherModel, 'name'>,
+    //   Partial<Omit<PublisherModel, 'id'>>
+    // >
   }
 }

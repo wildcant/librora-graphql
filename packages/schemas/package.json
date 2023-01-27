@@ -1,0 +1,19 @@
+{
+  "name": "schemas",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "generate": "graphql-codegen -r dotenv/config --config codegen.yml"
+  },
+  "dependencies": {
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/add": "^3.2.3",
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/typescript": "^2.8.5",
+    "tsx": "^3.12.2"
+  }
+}

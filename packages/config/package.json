@@ -6,7 +6,7 @@
   "files": [],
   "scripts": {
     "dev": "yarn update-theme",
-    "update-theme": "tsup theme.ts"
+    "update-theme": "tsup theme.ts theme.js"
   },
   "dependencies": {},
   "devDependencies": {

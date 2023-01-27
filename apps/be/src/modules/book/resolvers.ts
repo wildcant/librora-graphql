@@ -15,7 +15,7 @@ export const resolvers: BookModule.Resolvers = {
 
   Book: {
     id: (b) => b.id,
-    author: async (b, _, c) => c.dataSources.authors.findUnique(b.author),
+    author: async (b, _, c) => (b.author ? c.dataSources.authors.findUnique(b.author) : null),
     user: async (b, _, c) => c.dataSources.users.findUnique(b.user),
   },
 }

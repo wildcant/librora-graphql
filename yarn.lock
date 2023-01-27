@@ -2141,6 +2141,11 @@
   resolved "https://registry.yarnpkg.com/@headlessui/tailwindcss/-/tailwindcss-0.1.2.tgz#f49a88f00b235fe812583ece8bdb1038b096646d"
   integrity sha512-AQNESz+f1grCxifrocOE6hDMDFqhqY0g3xrSGOS0ocGkmVkssaBzXaAPAPNSs/nHmr4ZUhfl5THQpYrvaouWlQ==
 
+"@hookform/resolvers@^2.9.10":
+  version "2.9.10"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.9.10.tgz#e7e88942ee34e97b7bc937b0be4694194c9cd420"
+  integrity sha512-JIL1DgJIlH9yuxcNGtyhsWX/PgNltz+5Gr6+8SX9fhXc/hPbEIk6wPI82nhgvp3uUb6ZfAM5mqg/x7KR7NAb+A==
+
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -9258,6 +9263,11 @@ jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
+jose@^4.11.2:
+  version "4.11.2"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.11.2.tgz#d9699307c02e18ff56825843ba90e2fae9f09e23"
+  integrity sha512-njj0VL2TsIxCtgzhO+9RRobBvws4oYyCM8TpvoUQwl/MbIM3NFJRR9+e6x0sS5xXaP1t6OCBkaBME98OV9zU5A==
+
 joycon@^3.0.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/joycon/-/joycon-3.1.1.tgz#bce8596d6ae808f8b68168f5fc69280996894f03"
@@ -12159,6 +12169,11 @@ schema-utils@^3.0.0, schema-utils@^3.1.0, schema-utils@^3.1.1:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
+schema@*:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/schema/-/schema-0.2.1.tgz#baf356888fb51f89ea2296a8de1fe527c567be84"
+  integrity sha512-qe1rWLwVGv4p11+9ZO6UwfcagNlHAexd7VdWhCQKajPRkoQOahq4mnE9YT88+osL1N3ZtQuh8broh+I3aeaPvA==
+
 scuid@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/scuid/-/scuid-1.1.0.tgz#d3f9f920956e737a60f72d0e4ad280bf324d5dab"
@@ -14284,6 +14299,11 @@ zen-observable@0.8.15:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+
+zod@^3.20.2:
+  version "3.20.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
+  integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==
 
 zwitch@^1.0.0:
   version "1.0.5"

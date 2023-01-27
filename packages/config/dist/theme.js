@@ -1520,10 +1520,6 @@ var require_defaultTheme = __commonJS({
 // theme.ts
 var theme_exports = {};
 __export(theme_exports, {
-  citrineWhite: () => citrineWhite,
-  electricViolet: () => electricViolet,
-  primary: () => primary,
-  secondary: () => secondary,
   theme: () => theme
 });
 module.exports = __toCommonJS(theme_exports);
@@ -1553,24 +1549,6 @@ var citrineWhite = {
   "800": "#894d23",
   "900": "#6f411f"
 };
-var primary = {
-  lightest: electricViolet[50],
-  lighter: electricViolet[100],
-  light: electricViolet[200],
-  base: electricViolet[600],
-  dark: electricViolet[700],
-  darker: electricViolet[800],
-  darkest: electricViolet[900]
-};
-var secondary = {
-  lightest: citrineWhite[50],
-  lighter: citrineWhite[100],
-  light: citrineWhite[200],
-  base: citrineWhite[600],
-  dark: citrineWhite[700],
-  darker: citrineWhite[800],
-  darkest: citrineWhite[900]
-};
 var theme = {
   extend: {
     boxShadow: {
@@ -1582,8 +1560,24 @@ var theme = {
     },
     colors: {
       current: "currentColor",
-      primary,
-      secondary,
+      primary: {
+        lightest: electricViolet[50],
+        lighter: electricViolet[100],
+        light: electricViolet[200],
+        base: electricViolet[600],
+        dark: electricViolet[700],
+        darker: electricViolet[800],
+        darkest: electricViolet[900]
+      },
+      secondary: {
+        lightest: citrineWhite[50],
+        lighter: citrineWhite[100],
+        light: citrineWhite[200],
+        base: citrineWhite[600],
+        dark: citrineWhite[700],
+        darker: citrineWhite[800],
+        darkest: citrineWhite[900]
+      },
       success: {
         base: import_colors.default.green[600],
         light: import_colors.default.green[100]
@@ -1604,9 +1598,5 @@ var theme = {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  citrineWhite,
-  electricViolet,
-  primary,
-  secondary,
   theme
 });

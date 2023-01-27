@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
+    "@hookform/resolvers": "^2.9.10",
     "@next/font": "^13.1.5",
     "next": "^13.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.42.1",
-    "ui": "*"
+    "schemas": "*",
+    "ui": "*",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

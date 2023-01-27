@@ -1,10 +1,52 @@
+enum EUserType {
+  ADMIN
+  USER
+}
+
+enum EUserRole {
+  LENDER_BORROWER
+  VISITOR
+}
+
+enum EAdminRole {
+  SUPER
+  BILLING
+}
+
+enum ECountryCode {
+  CO
+  us_en
+}
+
 type User {
   id: String!
-  firstName: String
-  lastName: String
-  initial: String
+  countryCode: ECountryCode
+  email: String!
+  firstName: String!
+  isEmailValidated: Boolean!
+  lastName: String!
+  role: EUserRole!
+  type: EUserType!
+  username: String!
+  initial: String!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  username: String!
+}
+
+type CreateUserPayload {
+  user: User
 }
 
 type Query {
   user(id: String!): User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserPayload
 }

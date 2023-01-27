@@ -7,6 +7,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"]
+    "types": ["node"],
+    "strict": true
   }
 }

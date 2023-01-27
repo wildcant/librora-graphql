@@ -29,3 +29,7 @@ Split resolvers and types to have type safe resolvers and avoid names collision.
 [] Try tests with [vitest](https://vitest.dev/guide/) https://www.hubburu.com/articles/testing_apollo_server_with_vitest
 [] Add generator script to create a new modules.
 [] Add reservations module, try xstate to have more complex logic and learn about event driven architectures.
+
+## Known problems
+
+- typescript-resolvers plugin won't generate native typescript enums :( See https://github.com/dotansimha/graphql-code-generator/issues/8296

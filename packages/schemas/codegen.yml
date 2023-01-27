@@ -1,0 +1,21 @@
+overwrite: true
+schema: http://localhost:4000/graphql
+
+definitions:
+  add: &top-comment
+    content: >
+      /*
+       * -------------------------------------------------------
+       * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+       * -------------------------------------------------------
+       */
+
+      /* eslint-disable */
+
+generates:
+  enums.ts:
+    plugins:
+      - add: *top-comment
+      - 'typescript'
+    config:
+      onlyEnums: true

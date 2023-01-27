@@ -10,7 +10,7 @@ type Editorial {
 
 type Author {
   id: String!
-  name: String
+  name: String!
 }
 
 type Query {
@@ -20,23 +20,78 @@ type Query {
   user(id: String!): User
 }
 
+enum EFormat {
+  EPUB
+  PDF
+  BOOK
+}
+
+enum ELanguage {
+  ENGLISH
+}
+
 type Book {
   id: String!
   author: Author
-  editorial: Editorial
-  title: String
-  subtitle: String
   description: String
+  editorial: Editorial
+  format: EFormat
+  language: ELanguage
+  subtitle: String
+  title: String
   user: User
+}
+
+enum EUserType {
+  ADMIN
+  USER
+}
+
+enum EUserRole {
+  LENDER_BORROWER
+  VISITOR
+}
+
+enum EAdminRole {
+  SUPER
+  BILLING
+}
+
+enum ECountryCode {
+  CO
+  us_en
 }
 
 type User {
   id: String!
-  firstName: String
-  lastName: String
-  initial: String
+  countryCode: ECountryCode
+  email: String!
+  firstName: String!
+  isEmailValidated: Boolean!
+  lastName: String!
+  role: EUserRole!
+  type: EUserType!
+  username: String!
+  initial: String!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  username: String!
+}
+
+type CreateUserPayload {
+  user: User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserPayload
 }
 
 schema {
   query: Query
+  mutation: Mutation
 }

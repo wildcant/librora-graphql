@@ -9,10 +9,17 @@
 import * as Types from "../graphql-types";
 export namespace BookModule {
   interface DefinedFields {
-    Book: 'id' | 'author' | 'editorial' | 'title' | 'subtitle' | 'description' | 'user';
+    Book: 'id' | 'author' | 'description' | 'editorial' | 'format' | 'language' | 'subtitle' | 'title' | 'user';
     Query: 'books' | 'book';
   };
   
+  interface DefinedEnumValues {
+    EFormat: 'EPUB' | 'PDF' | 'BOOK';
+    ELanguage: 'ENGLISH';
+  };
+  
+  export type EFormat = DefinedEnumValues['EFormat'];
+  export type ELanguage = DefinedEnumValues['ELanguage'];
   export type Book = Pick<Types.Book, DefinedFields['Book']>;
   export type Author = Types.Author;
   export type Editorial = Types.Editorial;

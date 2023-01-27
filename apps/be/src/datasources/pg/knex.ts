@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 import knexBuilder, { Knex } from 'knex'
 
 const config = {
@@ -12,7 +13,7 @@ const config = {
   },
 }
 
-let knexInstance: Knex
+let knexInstance: Knex | undefined
 
 if (!knexInstance) {
   knexInstance = knexBuilder({

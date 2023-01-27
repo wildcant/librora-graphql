@@ -15,15 +15,24 @@ definitions:
       /* eslint-disable */
 
 generates:
-  operations/client.ts:
+  operations/schema.ts:
     plugins:
       - add: *top-comment
       - 'typescript'
       - 'typescript-operations'
-      - 'typescript-react-apollo'
+    config:
+      enumValues: schemas/enums
 
+  operations/client.ts:
+    plugins:
+      - add: *top-comment
+      - 'typescript-react-apollo'
     config:
       withHooks: true
+    preset: import-types
+    presetConfig:
+      typesPath: ./schema
+
   operations/server.ts:
     config:
       documentMode: external
@@ -36,7 +45,7 @@ generates:
       # apolloStateKey: '__APOLLO_STATE__'
     preset: import-types
     presetConfig:
-      typesPath: ./client
+      typesPath: ./schema
     plugins:
       - add: *top-comment
       - codegen/custom-plugins/next-apollo-server-operations/index.js

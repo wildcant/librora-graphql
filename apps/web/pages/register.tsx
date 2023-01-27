@@ -1,20 +1,26 @@
-import { CheckboxField, TextField, Logo, Button } from 'ui'
-import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+import { useForm } from 'react-hook-form'
+import { UserSchema } from 'schemas'
+import { Button, CheckboxField, Logo, TextField } from 'ui'
+import z from 'zod'
 import registrationPic from '../public/registration.png'
 
-type RegistrationForm = {
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  password: string
-  confirm: string
-  acceptTerms: boolean
-}
+const RegistrationForm = UserSchema.pick({
+  email: true,
+  firstName: true,
+  lastName: true,
+  password: true,
+  username: true,
+}).extend({
+  acceptTerms: z.boolean({ required_error: 'You must accept the terms and conditions' }),
+  confirm: z.string({ required_error: 'Confirm your password' }),
+})
 
 export default function Register() {
-  const { control, handleSubmit } = useForm<RegistrationForm>()
+  const { control, handleSubmit } = useForm<z.infer<typeof RegistrationForm>>({
+    resolver: zodResolver(RegistrationForm),
+  })
 
   const displayError = () => {}
   return (
@@ -33,7 +39,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="firstName"
-                  rules={{ required: 'Enter your first name' }}
                   label="First name"
                   colorScheme="bg-secondary-lightest"
                   className="mb-6 md:mb-0"
@@ -41,7 +46,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="lastName"
-                  rules={{ required: 'Enter your last name' }}
                   label="Last name"
                   colorScheme="bg-secondary-lightest"
                   className="mb-6 md:mb-0"
@@ -49,7 +53,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="username"
-                  rules={{ required: 'Enter a username' }}
                   label="Username"
                   colorScheme="bg-secondary-lightest"
                   className="mb-6 md:mb-0"
@@ -57,7 +60,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="email"
-                  rules={{ required: 'Enter your email' }}
                   label="Email"
                   colorScheme="bg-secondary-lightest"
                   className="mb-6 md:mb-0"
@@ -65,7 +67,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="password"
-                  rules={{ required: 'Enter a password' }}
                   label="Password"
                   type="password"
                   colorScheme="bg-secondary-lightest"
@@ -74,7 +75,6 @@ export default function Register() {
                 <TextField
                   control={control}
                   name="confirm"
-                  rules={{ required: 'Confirm your password' }}
                   label="Confirm"
                   type="password"
                   colorScheme="bg-secondary-lightest"

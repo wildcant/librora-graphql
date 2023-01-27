@@ -3,6 +3,7 @@
  */
 
 export interface PgDataSource<T> {
-  findUnique: (id: string) => Promise<T>
-  findMany: (ids: string[]) => Promise<(T | Error)[]>
+  findUnique: (id: string) => Promise<T | null>
+  findMany: (ids: string[]) => Promise<(T | Error | null)[]>
+  create: (data: T) => Promise<T>
 }

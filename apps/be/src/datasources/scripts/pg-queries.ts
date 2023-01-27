@@ -2,7 +2,7 @@
 
 import { knex } from '../pg/knex'
 import { faker } from '@faker-js/faker'
-import { ECountryCode, EFormat, EUserRole, EUserType, ELanguage } from '../pg'
+import { ECountryCode, EFormat, EUserRole, EUserType, ELanguage } from 'schemas/enums'
 
 export async function seed(args: string[]) {
   if (args.includes('insert')) {
@@ -27,13 +27,13 @@ export async function seed(args: string[]) {
 
     const [user] = await knex('users')
       .insert({
-        countryCode: ECountryCode.CO,
+        countryCode: ECountryCode.Co,
         email: faker.internet.email(),
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         password: faker.internet.password(),
-        role: EUserRole.LENDER_BORROWER,
-        type: EUserType.USER,
+        role: EUserRole.LenderBorrower,
+        type: EUserType.User,
       })
       .returning('id')
 
@@ -49,12 +49,12 @@ export async function seed(args: string[]) {
             date: faker.date.past().toISOString(),
             description,
             editionNumber: faker.datatype.number({ min: 0, max: 10 }),
-            format: EFormat.BOOK,
+            format: EFormat.Book,
             isbn: faker.phone.number('#############'),
             isDisabled: false,
             isRestricted: false,
             isWithdrawn: false,
-            language: ELanguage.ENG,
+            language: ELanguage.English,
             numPages: faker.datatype.number({ min: 1, max: 10000 }),
             publicationCity: faker.address.cityName(),
             publicationCountry: faker.address.country(),

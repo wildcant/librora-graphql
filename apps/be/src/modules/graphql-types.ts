@@ -7,13 +7,14 @@
 /* eslint-disable */
 
 import { GraphQLResolveInfo } from 'graphql';
-import { BookModel, AuthorModel, UserModel } from '../datasources';
+import { BookModel, AuthorModel, UserModel } from 'schemas';
 import { IContext } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -27,7 +28,7 @@ export type Scalars = {
 export type Author = {
   __typename?: 'Author';
   id: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type Book = {
@@ -35,15 +36,64 @@ export type Book = {
   author?: Maybe<Author>;
   description?: Maybe<Scalars['String']>;
   editorial?: Maybe<Editorial>;
+  format?: Maybe<EFormat>;
   id: Scalars['String'];
+  language?: Maybe<ELanguage>;
   subtitle?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
 };
 
+export type CreateUserInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type CreateUserPayload = {
+  __typename?: 'CreateUserPayload';
+  user?: Maybe<User>;
+};
+
+export type EAdminRole =
+  | 'BILLING'
+  | 'SUPER';
+
+export type ECountryCode =
+  | 'CO'
+  | 'us_en';
+
+export type EFormat =
+  | 'BOOK'
+  | 'EPUB'
+  | 'PDF';
+
+export type ELanguage =
+  | 'ENGLISH';
+
+export type EUserRole =
+  | 'LENDER_BORROWER'
+  | 'VISITOR';
+
+export type EUserType =
+  | 'ADMIN'
+  | 'USER';
+
 export type Editorial = {
   __typename?: 'Editorial';
   name?: Maybe<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createUser?: Maybe<CreateUserPayload>;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
 export type Query = {
@@ -71,10 +121,16 @@ export type QueryUserArgs = {
 
 export type User = {
   __typename?: 'User';
-  firstName?: Maybe<Scalars['String']>;
+  countryCode?: Maybe<ECountryCode>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
   id: Scalars['String'];
-  initial?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
+  initial: Scalars['String'];
+  isEmailValidated: Scalars['Boolean'];
+  lastName: Scalars['String'];
+  role: EUserRole;
+  type: EUserType;
+  username: Scalars['String'];
 };
 
 
@@ -149,7 +205,16 @@ export type ResolversTypes = {
   Author: ResolverTypeWrapper<AuthorModel>;
   Book: ResolverTypeWrapper<BookModel>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateUserInput: CreateUserInput;
+  CreateUserPayload: ResolverTypeWrapper<Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
+  EAdminRole: EAdminRole;
+  ECountryCode: ECountryCode;
+  EFormat: EFormat;
+  ELanguage: ELanguage;
+  EUserRole: EUserRole;
+  EUserType: EUserType;
   Editorial: ResolverTypeWrapper<Editorial>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<UserModel>;
@@ -160,7 +225,10 @@ export type ResolversParentTypes = {
   Author: AuthorModel;
   Book: BookModel;
   Boolean: Scalars['Boolean'];
+  CreateUserInput: CreateUserInput;
+  CreateUserPayload: Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   Editorial: Editorial;
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
   User: UserModel;
@@ -168,7 +236,7 @@ export type ResolversParentTypes = {
 
 export type AuthorResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -176,9 +244,16 @@ export type BookResolvers<ContextType = IContext, ParentType extends ResolversPa
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   editorial?: Resolver<Maybe<ResolversTypes['Editorial']>, ParentType, ContextType>;
+  format?: Resolver<Maybe<ResolversTypes['EFormat']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  language?: Resolver<Maybe<ResolversTypes['ELanguage']>, ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateUserPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = {
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -186,6 +261,10 @@ export type BookResolvers<ContextType = IContext, ParentType extends ResolversPa
 export type EditorialResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Editorial'] = ResolversParentTypes['Editorial']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -196,17 +275,25 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
 };
 
 export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countryCode?: Resolver<Maybe<ResolversTypes['ECountryCode']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  initial?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  initial?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  isEmailValidated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['EUserRole'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['EUserType'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = IContext> = {
   Author?: AuthorResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
+  CreateUserPayload?: CreateUserPayloadResolvers<ContextType>;
   Editorial?: EditorialResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

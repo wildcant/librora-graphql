@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "compile": "tsc",
-    "start": "pnpm generate:schema && pnpm compile && node ./dist/src/index.js",
-    "dev": "concurrently \"pnpm generate:schema watch\" \"pnpm generate:types --watch\" \"tsx watch src/index.ts\"",
+    "start": "yarn generate:schema && yarn compile && node ./dist/src/index.js",
+    "dev": "concurrently \"yarn generate:schema watch\" \"yarn generate:types --watch\" \"tsx watch src/index.ts\"",
     "db:init": "docker compose up -d",
     "db:seed": "tsx src/datasources/scripts/pg-init.ts",
     "generate:types": "graphql-codegen",
@@ -16,8 +16,11 @@
     "@apollo/server": "^4.3.1",
     "dataloader": "^2.1.0",
     "graphql": "^16.6.0",
+    "jose": "^4.11.2",
     "knex": "^2.4.1",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "schemas": "*",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
