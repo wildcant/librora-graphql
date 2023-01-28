@@ -80,10 +80,20 @@ export type Editorial = {
 export type Mutation = {
   __typename?: 'Mutation'
   createUser?: Maybe<CreateUserPayload>
+  resetPassword?: Maybe<ResetPasswordPayload>
+  signIn?: Maybe<SignInPayload>
 }
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput
+}
+
+export type MutationResetPasswordArgs = {
+  input: ResetPasswordInput
+}
+
+export type MutationSignInArgs = {
+  input: SignInInput
 }
 
 export type Query = {
@@ -104,6 +114,28 @@ export type QueryBookArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String']
+}
+
+export type ResetPasswordInput = {
+  email: Scalars['String']
+}
+
+export type ResetPasswordPayload = {
+  __typename?: 'ResetPasswordPayload'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
+}
+
+export type SignInInput = {
+  account: Scalars['String']
+  password: Scalars['String']
+}
+
+export type SignInPayload = {
+  __typename?: 'SignInPayload'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
+  user?: Maybe<User>
 }
 
 export type User = {
@@ -131,6 +163,33 @@ export type CreateUserMutation = {
     success?: boolean | null
     message?: string | null
     user?: { __typename?: 'User'; id: string; firstName: string; lastName: string; username: string } | null
+  } | null
+}
+
+export type ResetPasswordMutationVariables = Exact<{
+  input: ResetPasswordInput
+}>
+
+export type ResetPasswordMutation = {
+  __typename?: 'Mutation'
+  resetPassword?: {
+    __typename?: 'ResetPasswordPayload'
+    success?: boolean | null
+    message?: string | null
+  } | null
+}
+
+export type SignInMutationVariables = Exact<{
+  input: SignInInput
+}>
+
+export type SignInMutation = {
+  __typename?: 'Mutation'
+  signIn?: {
+    __typename?: 'SignInPayload'
+    success?: boolean | null
+    message?: string | null
+    user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
   } | null
 }
 

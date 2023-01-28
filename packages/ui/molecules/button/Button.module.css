@@ -10,7 +10,7 @@
       @apply disabled:bg-primary-base;
     }
     &.outline {
-      @apply text-primary-dark border-4 border-blue-500;
+      @apply text-primary-dark border-primary-base border-4 font-semibold;
       @apply hover:bg-primary-lighter;
       @apply active:bg-primary-light;
       @apply disabled:bg-white;
@@ -55,7 +55,7 @@
   }
 
   &.xs {
-    @apply px-4 py-2 text-xs;
+    @apply px-4 py-2 text-xs font-semibold;
     &.icon-only {
       @apply px-2 py-2;
     }

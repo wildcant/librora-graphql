@@ -14,6 +14,7 @@ import {
   menu,
   warning,
   close,
+  google,
 } from './icons'
 
 const dimension = {
@@ -38,6 +39,7 @@ export enum EIconName {
   menu = 'menu',
   warning = 'warning',
   close = 'close',
+  google = 'google',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -55,6 +57,7 @@ const icon: { [key in EIconName]: ReactElement } = {
   menu,
   warning,
   close,
+  google,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {

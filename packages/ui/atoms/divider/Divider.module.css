@@ -1,0 +1,16 @@
+.Divider {
+  @apply flex w-full items-center text-center;
+
+  &::before,
+  &::after {
+    @apply flex-1 border-b-[1px] border-solid border-neutral-200;
+    content: '';
+  }
+
+  &:not(:empty)::before {
+    @apply mr-4;
+  }
+  &:not(:empty)::after {
+    @apply ml-4;
+  }
+}

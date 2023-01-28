@@ -5,7 +5,7 @@
 #
 
 input SignInInput {
-  username: String!
+  account: String!
   password: String!
 }
 
@@ -15,8 +15,18 @@ type SignInPayload {
   message: String
 }
 
+input ResetPasswordInput {
+  email: String!
+}
+
+type ResetPasswordPayload {
+  success: Boolean
+  message: String
+}
+
 type Mutation {
   signIn(input: SignInInput!): SignInPayload
+  resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
   createUser(input: CreateUserInput!): CreateUserPayload
 }
 

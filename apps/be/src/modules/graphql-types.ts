@@ -91,12 +91,18 @@ export type Editorial = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<CreateUserPayload>;
+  resetPassword?: Maybe<ResetPasswordPayload>;
   signIn?: Maybe<SignInPayload>;
 };
 
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationResetPasswordArgs = {
+  input: ResetPasswordInput;
 };
 
 
@@ -127,9 +133,19 @@ export type QueryUserArgs = {
   id: Scalars['String'];
 };
 
+export type ResetPasswordInput = {
+  email: Scalars['String'];
+};
+
+export type ResetPasswordPayload = {
+  __typename?: 'ResetPasswordPayload';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type SignInInput = {
+  account: Scalars['String'];
   password: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type SignInPayload = {
@@ -236,6 +252,8 @@ export type ResolversTypes = {
   Editorial: ResolverTypeWrapper<Editorial>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordPayload: ResolverTypeWrapper<ResetPasswordPayload>;
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -252,6 +270,8 @@ export type ResolversParentTypes = {
   Editorial: Editorial;
   Mutation: {};
   Query: {};
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordPayload: ResetPasswordPayload;
   SignInInput: SignInInput;
   SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
@@ -291,6 +311,7 @@ export type EditorialResolvers<ContextType = IContext, ParentType extends Resolv
 
 export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  resetPassword?: Resolver<Maybe<ResolversTypes['ResetPasswordPayload']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
   signIn?: Resolver<Maybe<ResolversTypes['SignInPayload']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
 };
 
@@ -299,6 +320,12 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'id'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+};
+
+export type ResetPasswordPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ResetPasswordPayload'] = ResolversParentTypes['ResetPasswordPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SignInPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
@@ -329,6 +356,7 @@ export type Resolvers<ContextType = IContext> = {
   Editorial?: EditorialResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

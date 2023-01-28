@@ -15,15 +15,15 @@ function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserT
 export const UserSchema = z.object({
   id: z.string().optional(),
   countryCode: z.nativeEnum(ECountryCode).optional(),
-  email: z.string({ required_error: 'Enter your email' }),
-  firstName: z.string({ required_error: 'Enter your first name' }),
+  email: z.string({ required_error: 'Enter your email' }).email(),
+  firstName: z.string({ required_error: 'Enter your first name' }).min(2).max(50),
   isEmailValidated: z.boolean().optional().default(false).nullish(),
-  lastName: z.string({ required_error: 'Enter your last name' }),
-  password: z.string({ required_error: 'Enter a password' }),
+  lastName: z.string({ required_error: 'Enter your last name' }).min(2).max(50),
+  password: z.string({ required_error: 'Enter a password' }).min(5).max(50),
   requiresCookieConsent: z.boolean().default(true).nullish(),
   role: z.union([z.nativeEnum(EUserRole), z.nativeEnum(EAdminRole)]),
   type: z.nativeEnum(EUserType),
-  username: z.string({ required_error: 'Enter a username' }),
+  username: z.string({ required_error: 'Enter a username' }).min(2).max(50),
 })
 // .refine(validateRoleMatchType)
 // UserSchema.pick doesn't work with refine :(
