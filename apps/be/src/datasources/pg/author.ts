@@ -6,7 +6,7 @@ import { PgDataSource } from './types'
 export interface IAuthorDataSource extends PgDataSource<AuthorModel> {}
 
 export const authorsDataSource: IAuthorDataSource = {
-  findUnique: (id) => loaders.authorById.load(id),
+  findUnique: (query) => loaders.authorById.load(query.where.id),
 
   findMany: (ids) => loaders.authorById.loadMany(ids),
 
