@@ -1,0 +1,62 @@
+.Toast {
+  @apply relative mb-2 flex min-h-min cursor-pointer justify-between overflow-hidden rounded-md p-1;
+
+  &.default {
+    @apply bg-indigo-500;
+  }
+
+  &.error {
+    @apply bg-red-500;
+  }
+
+  &.info {
+    @apply bg-blue-500;
+  }
+
+  &.success {
+    @apply bg-primary-base;
+  }
+
+  &.warning {
+    @apply bg-orange-400;
+  }
+}
+
+.ToastBody {
+  @apply flex flex-row p-3 font-sans text-sm font-medium text-white;
+}
+
+.Progress {
+  @apply absolute bottom-0 left-0 right-0 z-[9999] h-1 w-full origin-left opacity-70;
+  animation: TrackProgress linear 1 forwards;
+  transition: transform 0.2s;
+
+  &.default {
+    @apply bg-indigo-600;
+  }
+
+  &.error {
+    @apply bg-red-700;
+  }
+
+  &.info {
+    @apply bg-blue-600;
+  }
+
+  &.success {
+    @apply bg-primary-darkest;
+  }
+
+  &.warning {
+    @apply bg-orange-500;
+  }
+}
+
+@keyframes TrackProgress {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}

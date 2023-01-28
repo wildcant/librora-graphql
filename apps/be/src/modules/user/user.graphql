@@ -41,6 +41,8 @@ input CreateUserInput {
 
 type CreateUserPayload {
   user: User
+  success: Boolean
+  message: String
 }
 
 type Query {

@@ -1,11 +1,10 @@
-// import { UserModel } from '../../datasources'
 import { EUserRole, EUserType, UserModel } from 'schemas'
 import { UserModule } from './types'
 
 export const resolvers: UserModule.Resolvers = {
   Query: {
     user: async (_, args, context) => {
-      const user = await context.dataSources.users.findUnique(args.id)
+      const user = await context.dataSources.users.findUnique({ where: { id: args.id } })
 
       if (!user) {
         return null
@@ -23,8 +22,10 @@ export const resolvers: UserModule.Resolvers = {
         role: EUserRole.LenderBorrower,
       }
       const user = await context.dataSources.users.create(data)
+      // await new Promise((res) => setTimeout(() => res('ok'), 1000)) // simulate slow response.
+
       if (!user) return null
-      return { user }
+      return { user, success: true, message: 'User was created successfully.' }
     },
   },
 

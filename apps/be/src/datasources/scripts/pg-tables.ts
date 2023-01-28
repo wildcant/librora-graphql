@@ -16,6 +16,7 @@ export async function createTables() {
     table.boolean('requiresCookieConsent')
     table.enum('role', Object.values(EUserRole))
     table.enum('type', Object.values(EUserType))
+    table.string('username')
 
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })

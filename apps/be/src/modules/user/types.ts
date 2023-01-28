@@ -10,7 +10,7 @@ import * as Types from "../graphql-types";
 export namespace UserModule {
   interface DefinedFields {
     User: 'id' | 'countryCode' | 'email' | 'firstName' | 'isEmailValidated' | 'lastName' | 'role' | 'type' | 'username' | 'initial';
-    CreateUserPayload: 'user';
+    CreateUserPayload: 'user' | 'success' | 'message';
     Query: 'user';
     Mutation: 'createUser';
   };

@@ -6,9 +6,14 @@ import {
   arrowUp,
   check,
   checkboxBlank,
+  checkboxCircle,
   circleFilled,
+  error,
   fallback,
+  info,
   menu,
+  warning,
+  close,
 } from './icons'
 
 const dimension = {
@@ -24,25 +29,35 @@ export enum EIconName {
   arrowRight = 'arrow-right',
   arrowUp = 'arrow-up',
   check = 'check',
-  circleFilled = 'circle-filled',
-  fallback = 'fallback',
-  menu = 'menu',
   checkboxBlank = 'checkbox-blank',
+  checkboxCircle = 'checkbox-circle',
+  circleFilled = 'circle-filled',
+  error = 'error',
+  fallback = 'fallback',
+  info = 'info',
+  menu = 'menu',
+  warning = 'warning',
+  close = 'close',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
-  fallback,
-  check,
   'arrow-down': arrowDown,
   'arrow-left': arrowLeft,
   'arrow-right': arrowRight,
   'arrow-up': arrowUp,
-  'circle-filled': circleFilled,
-  menu,
   'checkbox-blank': checkboxBlank,
+  'checkbox-circle': checkboxCircle,
+  'circle-filled': circleFilled,
+  check,
+  error,
+  fallback,
+  info,
+  menu,
+  warning,
+  close,
 }
 
-interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
+export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
   size?: 'xs' | 'sm' | 'md' | 'lg'
   name: `${EIconName}`
 }

@@ -1,0 +1,14 @@
+input SignInInput {
+  username: String!
+  password: String!
+}
+
+type SignInPayload {
+  user: User
+  success: Boolean
+  message: String
+}
+
+type Mutation {
+  signIn(input: SignInInput!): SignInPayload
+}

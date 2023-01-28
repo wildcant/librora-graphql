@@ -19,10 +19,23 @@ export const loaders = {
       .select()
       .then((rows) => mapTo(rows, keys, (x) => x.id))
   ),
+
   userById: new DataLoader<string, UserModel | null>((keys) =>
     knex('users')
       .whereIn('id', keys)
       .select()
       .then((rows) => mapTo(rows, keys, (x) => x.id))
+  ),
+  userByEmail: new DataLoader<string, UserModel | null>((keys) =>
+    knex('users')
+      .whereIn('email', keys)
+      .select()
+      .then((rows) => mapTo(rows, keys, (x) => x.email))
+  ),
+  userByUsername: new DataLoader<string, UserModel | null>((keys) =>
+    knex('users')
+      .whereIn('username', keys)
+      .select()
+      .then((rows) => mapTo(rows, keys, (x) => x.username))
   ),
 }

@@ -48,7 +48,7 @@ export const Button = ({
       [s.outline]: variant === 'outline',
       [s.ghost]: variant === 'ghost',
       [s.link]: variant === 'link',
-      [s.animated]: variant !== 'link' && !unstyled,
+      [s.animated]: variant !== 'link' && !unstyled && !isLoading,
       [s.xs]: size === 'xs' && !unstyled,
       [s.sm]: size === 'sm' && !unstyled,
       [s.md]: size === 'md' && !unstyled,
@@ -62,7 +62,8 @@ export const Button = ({
   return (
     <button type="button" className={buttonClassName} disabled={disabled || isLoading} {...props}>
       {iconPosition === 'left' && iconElement}
-      {isLoading ? loadingText || children : children}
+      {isLoading && loadingText ? loadingText : children}
+      {/* <span className={s.Loading}>{}</span> // Elipsis animation, just in case I needed in the future. */}
       {iconPosition === 'right' && iconElement}
     </button>
   )

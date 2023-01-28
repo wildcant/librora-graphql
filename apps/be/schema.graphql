@@ -4,6 +4,22 @@
 # -------------------------------------------------------
 #
 
+input SignInInput {
+  username: String!
+  password: String!
+}
+
+type SignInPayload {
+  user: User
+  success: Boolean
+  message: String
+}
+
+type Mutation {
+  signIn(input: SignInInput!): SignInPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+}
+
 type Editorial {
   name: String
 }
@@ -85,10 +101,8 @@ input CreateUserInput {
 
 type CreateUserPayload {
   user: User
-}
-
-type Mutation {
-  createUser(input: CreateUserInput!): CreateUserPayload
+  success: Boolean
+  message: String
 }
 
 schema {

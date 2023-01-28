@@ -54,6 +54,8 @@ export type CreateUserInput = {
 
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
   user?: Maybe<User>;
 };
 
@@ -89,11 +91,17 @@ export type Editorial = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<CreateUserPayload>;
+  signIn?: Maybe<SignInPayload>;
 };
 
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationSignInArgs = {
+  input: SignInInput;
 };
 
 export type Query = {
@@ -117,6 +125,18 @@ export type QueryBookArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String'];
+};
+
+export type SignInInput = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type SignInPayload = {
+  __typename?: 'SignInPayload';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<User>;
 };
 
 export type User = {
@@ -216,6 +236,8 @@ export type ResolversTypes = {
   Editorial: ResolverTypeWrapper<Editorial>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SignInInput: SignInInput;
+  SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<UserModel>;
 };
@@ -230,6 +252,8 @@ export type ResolversParentTypes = {
   Editorial: Editorial;
   Mutation: {};
   Query: {};
+  SignInInput: SignInInput;
+  SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
   User: UserModel;
 };
@@ -254,6 +278,8 @@ export type BookResolvers<ContextType = IContext, ParentType extends ResolversPa
 };
 
 export type CreateUserPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -265,6 +291,7 @@ export type EditorialResolvers<ContextType = IContext, ParentType extends Resolv
 
 export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  signIn?: Resolver<Maybe<ResolversTypes['SignInPayload']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -272,6 +299,13 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'id'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+};
+
+export type SignInPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -295,6 +329,7 @@ export type Resolvers<ContextType = IContext> = {
   Editorial?: EditorialResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SignInPayload?: SignInPayloadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

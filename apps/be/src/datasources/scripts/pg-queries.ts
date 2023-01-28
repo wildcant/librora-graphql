@@ -34,6 +34,7 @@ export async function seed(args: string[]) {
         password: faker.internet.password(),
         role: EUserRole.LenderBorrower,
         type: EUserType.User,
+        username: faker.internet.userName(),
       })
       .returning('id')
 

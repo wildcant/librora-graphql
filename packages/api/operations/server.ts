@@ -12,6 +12,7 @@ import * as Operations from './client'
 import * as Apollo from '@apollo/client'
 import type React from 'react'
 import { getApolloClient, ApolloClientContext } from '../../../apps/web/lib/apollo'
+
 export async function fetchBook(
   options?: Omit<Apollo.QueryOptions<Types.BookQueryVariables>, 'query'>,
   ctx?: ApolloClientContext

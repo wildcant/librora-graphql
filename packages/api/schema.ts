@@ -55,6 +55,8 @@ export type CreateUserInput = {
 
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
   user?: Maybe<User>
 }
 
@@ -116,6 +118,20 @@ export type User = {
   role: EUserRole
   type: EUserType
   username: Scalars['String']
+}
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput
+}>
+
+export type CreateUserMutation = {
+  __typename?: 'Mutation'
+  createUser?: {
+    __typename?: 'CreateUserPayload'
+    success?: boolean | null
+    message?: string | null
+    user?: { __typename?: 'User'; id: string; firstName: string; lastName: string; username: string } | null
+  } | null
 }
 
 export type BookQueryVariables = Exact<{
