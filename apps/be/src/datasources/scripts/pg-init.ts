@@ -3,4 +3,6 @@
 import { seed } from './pg-queries'
 import { createTables } from './pg-tables'
 
-createTables().then(() => seed(['insert']))
+createTables()
+  .then(() => seed(['insert']))
+  .catch(console.error)

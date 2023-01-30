@@ -98,6 +98,10 @@
       transform: translateY(0);
     }
   }
+
+  &.link {
+    @apply p-0;
+  }
 }
 
 .Loading:after {

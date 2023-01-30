@@ -15,7 +15,6 @@ enum EAdminRole {
 
 enum ECountryCode {
   CO
-  us_en
 }
 
 type User {
@@ -45,10 +44,20 @@ type CreateUserPayload {
   message: String
 }
 
+input VerifyEmailInput {
+  token: String!
+}
+
+type VerifyEmailPayload {
+  success: Boolean
+  message: String
+}
+
 type Query {
   user(id: String!): User
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): CreateUserPayload
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailPayload
 }

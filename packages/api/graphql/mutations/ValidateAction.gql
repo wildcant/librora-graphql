@@ -1,0 +1,6 @@
+mutation ValidateAction($id: String!) {
+  validateAction(id: $id) {
+    message
+    valid
+  }
+}

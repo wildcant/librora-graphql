@@ -3,51 +3,53 @@ import { useCreateUserMutation } from 'api/operations/client'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { UserSchema } from 'schemas'
 import { Button, CheckboxField, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { DefaultLayout } from '../components/Layout'
 import signUpPic from '../public/sign-up.png'
 
-const SignUpForm = UserSchema.pick({
-  email: true,
-  firstName: true,
-  lastName: true,
-  password: true,
-  username: true,
-}).extend({
+const FormSchema = z.object({
   acceptTerms: z.boolean({ required_error: 'You must accept the terms and conditions' }),
   confirm: z.string({ required_error: 'Confirm your password' }),
+  email: z.string({ required_error: 'Enter your email' }).email(),
+  firstName: z
+    .string({ required_error: 'Enter your first name' })
+    .min(1, { message: 'Your first name is too small.' })
+    .max(50, { message: 'Your first name is too long.' }),
+  lastName: z
+    .string({ required_error: 'Enter your last name' })
+    .min(1, { message: 'Your last name is too small.' })
+    .max(50, { message: 'Your last name is too long.' }),
+  password: z.string({ required_error: 'Enter a password' }).min(5).max(50),
+  username: z.string({ required_error: 'Enter a username' }).min(2).max(50),
 })
-
-type SignUpFormData = z.infer<typeof SignUpForm>
+type FromData = z.infer<typeof FormSchema>
 
 function SignUp() {
-  const [createUser, { loading, error, data }] = useCreateUserMutation()
+  const [createUser, { loading, data }] = useCreateUserMutation()
   const { notify } = useToast()
-  const { control, handleSubmit } = useForm<SignUpFormData>({
-    resolver: zodResolver(SignUpForm),
+  const { control, handleSubmit } = useForm<FromData>({
+    resolver: zodResolver(FormSchema),
     // defaultValues: {
     //   firstName: 'Willy',
     //   lastName: 'Wonka',
     //   username: 'willo',
-    //   email: 'willo@mail.com',
+    //   email: 'will.canti2697@gmail.com',
     //   password: '12345',
     //   confirm: '12345',
     //   acceptTerms: true,
     // },
   })
 
-  const submitRegistration = (data: SignUpFormData) => {
+  const submit = (data: FromData) => {
     const { email, firstName, lastName, password, username } = data
     createUser({ variables: { input: { email, firstName, lastName, password, username } } })
   }
 
+  const { message, success } = data?.createUser ?? {}
   useEffect(() => {
-    if (data?.createUser?.success) {
-      notify(data?.createUser?.message ?? 'Success')
-    }
-  }, [data?.createUser?.message, data?.createUser?.success, notify])
+    success && notify(message ?? 'Success', { type: 'success' })
+  }, [message, success, notify])
 
   return (
     <div className="bg-secondary-lightest flex h-full min-h-screen w-full items-center justify-center bg-[url('../public/noise.png')]">
@@ -76,7 +78,7 @@ function SignUp() {
 
           <Divider className="my-4 text-xs">Or</Divider>
 
-          <form onSubmit={handleSubmit(submitRegistration)}>
+          <form onSubmit={handleSubmit(submit)}>
             <div className="md:grid md:grid-cols-2 md:gap-x-1 md:gap-y-4">
               <TextField
                 control={control}

@@ -1,13 +1,23 @@
 #!/usr/bin/env tsx
 
-import { ECountryCode, EFormat, ELanguage, EUserRole, EUserType } from 'schemas/enums'
+import {
+  ACTION_NAMES,
+  EActionNamespace,
+  ECountryCode,
+  EFormat,
+  ELanguage,
+  EUserRole,
+  EUserType,
+} from 'schemas'
 import { knex } from '../pg/knex'
 
 export async function createTables() {
+  await knex.raw(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
+
   await knex.schema.createTable('users', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-    table.enum('countryCode', Object.values(ECountryCode))
-    table.string('email')
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
+    table.enum('countryCode', Object.values(ECountryCode)).nullable()
+    table.string('email').index()
     table.string('firstName')
     table.boolean('hasConversations')
     table.boolean('isEmailValidated').defaultTo(false)
@@ -16,27 +26,36 @@ export async function createTables() {
     table.boolean('requiresCookieConsent')
     table.enum('role', Object.values(EUserRole))
     table.enum('type', Object.values(EUserType))
-    table.string('username')
+    table.string('username').index()
 
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })
 
+  await knex.schema.createTable('actions', function (table) {
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
+    table.uuid('userId').notNullable().references('users.id').onDelete('CASCADE').onUpdate('CASCADE').index()
+    table.enum('namespace', Object.values(EActionNamespace))
+    table.enum('name', ACTION_NAMES)
+    table.jsonb('metadata').notNullable().defaultTo('{}')
+    table.timestamps({ useCamelCase: true, useTimestamps: true })
+  })
+
   await knex.schema.createTable('authors', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
     table.string('name')
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })
 
   await knex.schema.createTable('publishers', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
     table.string('name').notNullable()
     table.string('url')
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })
 
   await knex.schema.createTable('books', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
     table.boolean('activated')
 
@@ -79,7 +98,7 @@ export async function createTables() {
   })
 
   await knex.schema.createTable('topics', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
     table.string('name').notNullable()
     table.string('colorCode')
     table.string('uniqueUrl')
@@ -87,7 +106,7 @@ export async function createTables() {
   })
 
   await knex.schema.createTable('booksTopics', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
     table.uuid('bookId')
     table.foreign('bookId').references('id').inTable('books')
@@ -99,7 +118,7 @@ export async function createTables() {
   })
 
   await knex.schema.createTable('subtopics', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
     table.string('name').notNullable()
     table.string('colorCode')
     table.string('uniqueUrl')
@@ -107,7 +126,7 @@ export async function createTables() {
   })
 
   await knex.schema.createTable('booksSubtopics', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
     table.uuid('bookId')
     table.foreign('bookId').references('id').inTable('books')

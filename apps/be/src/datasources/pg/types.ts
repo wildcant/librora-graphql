@@ -2,6 +2,18 @@ export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>
 }[keyof T]
 
+export type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends object
+    ? RecursivePartial<T[P]>
+    : T[P]
+}
+
+export type OmitId<T> = Omit<T, 'id'>
+export type RequiredId<T> = OmitId<T> & { id: string }
+export type OptionalId<T> = OmitId<T> & { id?: string }
+
 /**
  * Contract for all data sources.
  */
@@ -17,14 +29,13 @@ export interface PgDataSource<T, TUniqueProperties = { id: string }> {
   findMany: (ids: string[]) => Promise<(T | Error | null)[]>
 
   /** Creates a new database record. */
-  create: (data: T) => Promise<T | null>
-
-  /*
-  TODO: Implement the following methods:
+  create: (data: OptionalId<T>) => Promise<T | null>
 
   // updates an existing database record.
-  update
-
+  update: (query: { where: Partial<T>; data: Partial<T> }) => Promise<T | null>
+  /*
+  TODO: Implement the following methods:
+  
   // upsert does the following:
   // If an existing database record satisfies the where condition, it updates that record
   // If no database record satisfies the where condition, it creates a new database record

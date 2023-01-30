@@ -1,39 +1,27 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useDeepCompareEffect } from '@librora/utils/hooks'
-import { useResetPasswordMutation } from 'api/operations/client'
+import { useForgotPasswordMutation } from 'api/operations/client'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
-import { UserSchema } from 'schemas'
 import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { DefaultLayout } from '../components/Layout'
 import signInPic from '../public/sign-in.png'
 
-const ResetPassword = UserSchema.pick({
-  email: true,
-})
+const FormSchema = z.object({ email: z.string({ required_error: 'Enter your email' }).email() })
+type FormData = z.infer<typeof FormSchema>
 
-type ResetPasswordData = z.infer<typeof ResetPassword>
-
-function PasswordReset() {
-  const [resetPassword, { loading, data, error }] = useResetPasswordMutation()
+function ForgotPassword() {
+  const [forgotPassword, { loading, data, error }] = useForgotPasswordMutation()
 
   const { notify } = useToast()
-  const { control, handleSubmit } = useForm<ResetPasswordData>({
-    resolver: zodResolver(ResetPassword),
-    // defaultValues: {
-    //   email: 'willo@mail.com',
-    // },
+  const { control, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+    // defaultValues: { email: 'willo@mail.com' },
   })
 
-  const submitSignIn = (input: ResetPasswordData) => {
-    resetPassword({ variables: { input } })
-  }
-
   useDeepCompareEffect(() => {
-    if (error) {
-      notify(error.message, { type: 'error' })
-    }
+    error && notify(error.message, { type: 'error' })
   }, [error])
 
   return (
@@ -49,7 +37,7 @@ function PasswordReset() {
         <div className="py-16 px-6 md:px-12 lg:col-span-4 lg:py-10 lg:px-0">
           <Logo />
 
-          {data?.resetPassword?.success ? (
+          {data?.forgotPassword?.success ? (
             <>
               <p className="mb-6 text-xl">Forgot Password</p>
               <p className="mb-8 text-sm">
@@ -71,7 +59,7 @@ function PasswordReset() {
                 Enter the email address you used when you joined and we&apos;ll send you instructions to reset
                 your password.
               </p>
-              <form onSubmit={handleSubmit(submitSignIn)}>
+              <form onSubmit={handleSubmit((input) => forgotPassword({ variables: { input } }))}>
                 <div className="mb-8">
                   <TextField
                     control={control}
@@ -118,6 +106,6 @@ function PasswordReset() {
   )
 }
 
-PasswordReset.Layout = DefaultLayout
+ForgotPassword.Layout = DefaultLayout
 
-export default PasswordReset
+export default ForgotPassword

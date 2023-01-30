@@ -1,0 +1,14 @@
+type ValidateActionPayload {
+  message: String
+  valid: Boolean!
+}
+
+type ResendVerificationEmail {
+  success: Boolean
+  message: String
+}
+
+type Mutation {
+  validateAction(id: String!): ValidateActionPayload
+  resendVerificationEmail(token: String!): ResendVerificationEmail
+}

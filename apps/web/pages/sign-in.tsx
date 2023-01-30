@@ -9,28 +9,23 @@ import z from 'zod'
 import { DefaultLayout } from '../components/Layout'
 import signInPic from '../public/sign-in.png'
 
-const SignInForm = z.object({
-  // account can be the username or email
-  account: z.string({ required_error: 'Enter your username' }),
+const FormSchema = z.object({
+  account: z.string({ required_error: 'Enter your username or email.' }),
   password: z.string({ required_error: 'Enter your password' }),
 })
 
-type SignInFormData = z.infer<typeof SignInForm>
+type FormData = z.infer<typeof FormSchema>
 
 function SignUp() {
   const [signIn, { loading, data, called, error }] = useSignInMutation()
 
   const { notify } = useToast()
-  const { control, handleSubmit } = useForm<SignInFormData>({
-    resolver: zodResolver(SignInForm),
-    // defaultValues: {
-    //   // account: 'willo@mail.com',
-    //   account: 'willo',
-    //   password: '12345',
-    // },
+  const { control, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+    // defaultValues: { account: 'willo@mail.com', account: 'willo', password: '12345' },
   })
 
-  const submitSignIn = (input: SignInFormData) => {
+  const submit = (input: FormData) => {
     signIn({ variables: { input } })
   }
 
@@ -62,6 +57,7 @@ function SignUp() {
           <Logo />
           <p className="text-xl">Welcome Back</p>
           <p className="mb-4 text-base">To continue</p>
+          {/* Verify the email address of your account by logging in. */}
           <div className="flex justify-center">
             <Button
               size="xs"
@@ -75,7 +71,7 @@ function SignUp() {
 
           <Divider className="my-4 text-xs">Or</Divider>
 
-          <form onSubmit={handleSubmit(submitSignIn)} className="mb-6">
+          <form onSubmit={handleSubmit(submit)} className="mb-6">
             <div className="mb-8">
               <TextField
                 control={control}
@@ -92,7 +88,7 @@ function SignUp() {
                 colorScheme="bg-secondary-lightest"
               />
               <div className="flex justify-end">
-                <Link href="password-reset" size="xs">
+                <Link href="/forgot-password" size="xs">
                   Forgot password?
                 </Link>
               </div>

@@ -24,8 +24,14 @@ export const usersDataSource: IUserDataSource = {
   findMany: (ids) => loaders.userById.loadMany(ids),
 
   create: async (data) => {
-    UserSchema.parse(data)
+    UserSchema.partial({ id: true }).parse(data)
     const [user] = await knex('users').insert(data).returning('*')
+    return user
+  },
+
+  update: async ({ where, data }) => {
+    // TODO: Investigate how to validate updates.
+    const [user] = await knex('users').where(where).update(data).returning('*')
     return user
   },
 }

@@ -7,7 +7,7 @@
 /* eslint-disable */
 
 import { GraphQLResolveInfo } from 'graphql';
-import { BookModel, AuthorModel, UserModel } from 'schemas';
+import { BookModel, AuthorModel, UserModel, ActionModel } from 'schemas';
 import { IContext } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -64,8 +64,7 @@ export type EAdminRole =
   | 'SUPER';
 
 export type ECountryCode =
-  | 'CO'
-  | 'us_en';
+  | 'CO';
 
 export type EFormat =
   | 'BOOK'
@@ -88,16 +87,40 @@ export type Editorial = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type ForgotPasswordInput = {
+  email: Scalars['String'];
+};
+
+export type ForgotPasswordPayload = {
+  __typename?: 'ForgotPasswordPayload';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<CreateUserPayload>;
+  forgotPassword?: Maybe<ForgotPasswordPayload>;
+  resendVerificationEmail?: Maybe<ResendVerificationEmail>;
   resetPassword?: Maybe<ResetPasswordPayload>;
   signIn?: Maybe<SignInPayload>;
+  validateAction?: Maybe<ValidateActionPayload>;
+  verifyEmail?: Maybe<VerifyEmailPayload>;
 };
 
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationForgotPasswordArgs = {
+  input: ForgotPasswordInput;
+};
+
+
+export type MutationResendVerificationEmailArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -108,6 +131,16 @@ export type MutationResetPasswordArgs = {
 
 export type MutationSignInArgs = {
   input: SignInInput;
+};
+
+
+export type MutationValidateActionArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationVerifyEmailArgs = {
+  input: VerifyEmailInput;
 };
 
 export type Query = {
@@ -133,14 +166,22 @@ export type QueryUserArgs = {
   id: Scalars['String'];
 };
 
+export type ResendVerificationEmail = {
+  __typename?: 'ResendVerificationEmail';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type ResetPasswordInput = {
-  email: Scalars['String'];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type ResetPasswordPayload = {
   __typename?: 'ResetPasswordPayload';
   message?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<User>;
 };
 
 export type SignInInput = {
@@ -167,6 +208,22 @@ export type User = {
   role: EUserRole;
   type: EUserType;
   username: Scalars['String'];
+};
+
+export type ValidateActionPayload = {
+  __typename?: 'ValidateActionPayload';
+  message?: Maybe<Scalars['String']>;
+  valid: Scalars['Boolean'];
+};
+
+export type VerifyEmailInput = {
+  token: Scalars['String'];
+};
+
+export type VerifyEmailPayload = {
+  __typename?: 'VerifyEmailPayload';
+  message?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -250,14 +307,20 @@ export type ResolversTypes = {
   EUserRole: EUserRole;
   EUserType: EUserType;
   Editorial: ResolverTypeWrapper<Editorial>;
+  ForgotPasswordInput: ForgotPasswordInput;
+  ForgotPasswordPayload: ResolverTypeWrapper<ForgotPasswordPayload>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  ResendVerificationEmail: ResolverTypeWrapper<ResendVerificationEmail>;
   ResetPasswordInput: ResetPasswordInput;
-  ResetPasswordPayload: ResolverTypeWrapper<ResetPasswordPayload>;
+  ResetPasswordPayload: ResolverTypeWrapper<Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<UserModel>;
+  ValidateActionPayload: ResolverTypeWrapper<ValidateActionPayload>;
+  VerifyEmailInput: VerifyEmailInput;
+  VerifyEmailPayload: ResolverTypeWrapper<VerifyEmailPayload>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -268,14 +331,20 @@ export type ResolversParentTypes = {
   CreateUserInput: CreateUserInput;
   CreateUserPayload: Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   Editorial: Editorial;
+  ForgotPasswordInput: ForgotPasswordInput;
+  ForgotPasswordPayload: ForgotPasswordPayload;
   Mutation: {};
   Query: {};
+  ResendVerificationEmail: ResendVerificationEmail;
   ResetPasswordInput: ResetPasswordInput;
-  ResetPasswordPayload: ResetPasswordPayload;
+  ResetPasswordPayload: Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   SignInInput: SignInInput;
   SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
   User: UserModel;
+  ValidateActionPayload: ValidateActionPayload;
+  VerifyEmailInput: VerifyEmailInput;
+  VerifyEmailPayload: VerifyEmailPayload;
 };
 
 export type AuthorResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
@@ -309,10 +378,20 @@ export type EditorialResolvers<ContextType = IContext, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ForgotPasswordPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ForgotPasswordPayload'] = ResolversParentTypes['ForgotPasswordPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  forgotPassword?: Resolver<Maybe<ResolversTypes['ForgotPasswordPayload']>, ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
+  resendVerificationEmail?: Resolver<Maybe<ResolversTypes['ResendVerificationEmail']>, ParentType, ContextType, RequireFields<MutationResendVerificationEmailArgs, 'token'>>;
   resetPassword?: Resolver<Maybe<ResolversTypes['ResetPasswordPayload']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
   signIn?: Resolver<Maybe<ResolversTypes['SignInPayload']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
+  validateAction?: Resolver<Maybe<ResolversTypes['ValidateActionPayload']>, ParentType, ContextType, RequireFields<MutationValidateActionArgs, 'id'>>;
+  verifyEmail?: Resolver<Maybe<ResolversTypes['VerifyEmailPayload']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -322,9 +401,16 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
+export type ResendVerificationEmailResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ResendVerificationEmail'] = ResolversParentTypes['ResendVerificationEmail']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ResetPasswordPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ResetPasswordPayload'] = ResolversParentTypes['ResetPasswordPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -349,15 +435,31 @@ export type UserResolvers<ContextType = IContext, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ValidateActionPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ValidateActionPayload'] = ResolversParentTypes['ValidateActionPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  valid?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VerifyEmailPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['VerifyEmailPayload'] = ResolversParentTypes['VerifyEmailPayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = IContext> = {
   Author?: AuthorResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
   CreateUserPayload?: CreateUserPayloadResolvers<ContextType>;
   Editorial?: EditorialResolvers<ContextType>;
+  ForgotPasswordPayload?: ForgotPasswordPayloadResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResendVerificationEmail?: ResendVerificationEmailResolvers<ContextType>;
   ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  ValidateActionPayload?: ValidateActionPayloadResolvers<ContextType>;
+  VerifyEmailPayload?: VerifyEmailPayloadResolvers<ContextType>;
 };
 

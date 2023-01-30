@@ -26,4 +26,5 @@ generates:
             Book: schemas#BookModel
             Author: schemas#AuthorModel
             User: schemas#UserModel
+            Action: schemas#ActionModel
           contextType: ../context#IContext

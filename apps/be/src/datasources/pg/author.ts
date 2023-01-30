@@ -11,8 +11,13 @@ export const authorsDataSource: IAuthorDataSource = {
   findMany: (ids) => loaders.authorById.loadMany(ids),
 
   create: async (data) => {
-    AuthorSchema.parse(data)
-    const [author] = await knex('authors').insert(data).select('*')
-    return author
+    AuthorSchema.partial({ id: true }).parse(data)
+    const [record] = await knex('authors').insert(data).select('*')
+    return record
+  },
+
+  update: async ({ where, data }) => {
+    const [record] = await knex('authors').where(where).update(data).returning('*')
+    return record
   },
 }

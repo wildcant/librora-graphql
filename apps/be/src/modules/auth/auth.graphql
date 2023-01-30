@@ -9,16 +9,28 @@ type SignInPayload {
   message: String
 }
 
-input ResetPasswordInput {
+input ForgotPasswordInput {
   email: String!
+}
+
+type ForgotPasswordPayload {
+  success: Boolean
+  message: String
+}
+
+input ResetPasswordInput {
+  token: String!
+  newPassword: String!
 }
 
 type ResetPasswordPayload {
   success: Boolean
   message: String
+  user: User
 }
 
 type Mutation {
   signIn(input: SignInInput!): SignInPayload
+  forgotPassword(input: ForgotPasswordInput!): ForgotPasswordPayload
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
 }

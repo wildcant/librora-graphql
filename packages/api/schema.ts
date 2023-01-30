@@ -6,12 +6,12 @@
 
 /* eslint-disable */
 
-import { EAdminRole } from 'schemas/enums'
-import { ECountryCode } from 'schemas/enums'
-import { EFormat } from 'schemas/enums'
-import { ELanguage } from 'schemas/enums'
-import { EUserRole } from 'schemas/enums'
-import { EUserType } from 'schemas/enums'
+import { EAdminRole } from 'schemas'
+import { ECountryCode } from 'schemas'
+import { EFormat } from 'schemas'
+import { ELanguage } from 'schemas'
+import { EUserRole } from 'schemas'
+import { EUserType } from 'schemas'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -77,15 +77,37 @@ export type Editorial = {
   name?: Maybe<Scalars['String']>
 }
 
+export type ForgotPasswordInput = {
+  email: Scalars['String']
+}
+
+export type ForgotPasswordPayload = {
+  __typename?: 'ForgotPasswordPayload'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   createUser?: Maybe<CreateUserPayload>
+  forgotPassword?: Maybe<ForgotPasswordPayload>
+  resendVerificationEmail?: Maybe<ResendVerificationEmail>
   resetPassword?: Maybe<ResetPasswordPayload>
   signIn?: Maybe<SignInPayload>
+  validateAction?: Maybe<ValidateActionPayload>
+  verifyEmail?: Maybe<VerifyEmailPayload>
 }
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput
+}
+
+export type MutationForgotPasswordArgs = {
+  input: ForgotPasswordInput
+}
+
+export type MutationResendVerificationEmailArgs = {
+  token: Scalars['String']
 }
 
 export type MutationResetPasswordArgs = {
@@ -94,6 +116,14 @@ export type MutationResetPasswordArgs = {
 
 export type MutationSignInArgs = {
   input: SignInInput
+}
+
+export type MutationValidateActionArgs = {
+  id: Scalars['String']
+}
+
+export type MutationVerifyEmailArgs = {
+  input: VerifyEmailInput
 }
 
 export type Query = {
@@ -116,14 +146,22 @@ export type QueryUserArgs = {
   id: Scalars['String']
 }
 
+export type ResendVerificationEmail = {
+  __typename?: 'ResendVerificationEmail'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
+}
+
 export type ResetPasswordInput = {
-  email: Scalars['String']
+  newPassword: Scalars['String']
+  token: Scalars['String']
 }
 
 export type ResetPasswordPayload = {
   __typename?: 'ResetPasswordPayload'
   message?: Maybe<Scalars['String']>
   success?: Maybe<Scalars['Boolean']>
+  user?: Maybe<User>
 }
 
 export type SignInInput = {
@@ -152,6 +190,22 @@ export type User = {
   username: Scalars['String']
 }
 
+export type ValidateActionPayload = {
+  __typename?: 'ValidateActionPayload'
+  message?: Maybe<Scalars['String']>
+  valid: Scalars['Boolean']
+}
+
+export type VerifyEmailInput = {
+  token: Scalars['String']
+}
+
+export type VerifyEmailPayload = {
+  __typename?: 'VerifyEmailPayload'
+  message?: Maybe<Scalars['String']>
+  success?: Maybe<Scalars['Boolean']>
+}
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput
 }>
@@ -163,6 +217,32 @@ export type CreateUserMutation = {
     success?: boolean | null
     message?: string | null
     user?: { __typename?: 'User'; id: string; firstName: string; lastName: string; username: string } | null
+  } | null
+}
+
+export type ForgotPasswordMutationVariables = Exact<{
+  input: ForgotPasswordInput
+}>
+
+export type ForgotPasswordMutation = {
+  __typename?: 'Mutation'
+  forgotPassword?: {
+    __typename?: 'ForgotPasswordPayload'
+    success?: boolean | null
+    message?: string | null
+  } | null
+}
+
+export type ResendVerificationEmailMutationVariables = Exact<{
+  token: Scalars['String']
+}>
+
+export type ResendVerificationEmailMutation = {
+  __typename?: 'Mutation'
+  resendVerificationEmail?: {
+    __typename?: 'ResendVerificationEmail'
+    message?: string | null
+    success?: boolean | null
   } | null
 }
 
@@ -190,6 +270,28 @@ export type SignInMutation = {
     success?: boolean | null
     message?: string | null
     user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
+  } | null
+}
+
+export type ValidateActionMutationVariables = Exact<{
+  id: Scalars['String']
+}>
+
+export type ValidateActionMutation = {
+  __typename?: 'Mutation'
+  validateAction?: { __typename?: 'ValidateActionPayload'; message?: string | null; valid: boolean } | null
+}
+
+export type VerifyEmailMutationVariables = Exact<{
+  input: VerifyEmailInput
+}>
+
+export type VerifyEmailMutation = {
+  __typename?: 'Mutation'
+  verifyEmail?: {
+    __typename?: 'VerifyEmailPayload'
+    success?: boolean | null
+    message?: string | null
   } | null
 }
 

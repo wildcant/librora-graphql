@@ -2,14 +2,22 @@
 
 import { knex } from '../pg/knex'
 import { faker } from '@faker-js/faker'
-import { ECountryCode, EFormat, EUserRole, EUserType, ELanguage } from 'schemas/enums'
+import {
+  ECountryCode,
+  EFormat,
+  EUserRole,
+  EUserType,
+  ELanguage,
+  EUserActionName,
+  EActionNamespace,
+} from 'schemas'
+import addHours from 'date-fns/addHours'
 
 export async function seed(args: string[]) {
   if (args.includes('insert')) {
     const [author] = await knex('authors').insert({ name: 'Marcus Aurelius' }).returning('id')
     const [topic] = await knex('topics').insert({ name: 'History' }).returning('id')
     const [subtopic] = await knex('subtopics').insert({ name: 'History of the world' }).returning('id')
-
     const booksData = [
       {
         title: 'The emperor handbook',
@@ -24,7 +32,6 @@ export async function seed(args: string[]) {
           'Meditations is a series of personal writings by Marcus Aurelius, Roman Emperor from AD 161 to 180, recording his private notes to himself and ideas on Stoic philosophy.',
       },
     ]
-
     const [user] = await knex('users')
       .insert({
         countryCode: ECountryCode.Co,
@@ -37,7 +44,6 @@ export async function seed(args: string[]) {
         username: faker.internet.userName(),
       })
       .returning('id')
-
     const [books] = await Promise.all(
       booksData.map(({ title, cover, description }) =>
         knex('books')
@@ -66,17 +72,24 @@ export async function seed(args: string[]) {
           .returning('id')
       )
     )
-
     await Promise.all(
       books.map((book) => {
         knex('bookTopics').insert({ bookId: book.id, topicId: topic.id })
         knex('bookSubtopics').insert({ bookId: book.id, subtopicId: subtopic.id })
       })
     )
+
+    await knex('actions').insert({
+      namespace: EActionNamespace.UserFlow,
+      name: EUserActionName.ResetPassword,
+      userId: user.id,
+      metadata: { expiresAt: addHours(new Date(), 3), redeemed: false },
+    })
   }
 
   console.log(await knex('authors'))
   console.log(await knex('books'))
+  console.log(await knex('actions'))
 }
 
 if (process.argv.slice(2).length) {

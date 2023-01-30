@@ -11,8 +11,13 @@ export const booksDataSource: IBookDataSource = {
   findMany: async (ids) => loaders.bookById.loadMany(ids),
 
   create: async (data) => {
-    BookSchema.parse(data)
-    const [book] = await knex('books').insert(data).select('*')
-    return book
+    BookSchema.partial({ id: true }).parse(data)
+    const [record] = await knex('books').insert(data).select('*')
+    return record
+  },
+
+  update: async ({ where, data }) => {
+    const [record] = await knex('books').where(where).update(data).returning('*')
+    return record
   },
 }

@@ -1,5 +1,6 @@
 import { Knex } from 'knex'
-import { AuthorModel, BookModel, UserModel } from 'schemas'
+import { AuthorModel, BookModel, ActionModel, UserModel } from 'schemas'
+import { RequiredId } from './pg/types'
 
 interface BooksTopicsModel {
   id: string
@@ -18,7 +19,8 @@ declare module 'knex/types/tables' {
     // This is same as specifying `knex<BookModel>('books')`
     books: BookModel
     authors: AuthorModel
-    users: UserModel
+    users: RequiredId<UserModel>
+    actions: ActionModel
     // publishers: PublisherModel
     // topics: TopicModel
     // subtopics: SubTopicModel

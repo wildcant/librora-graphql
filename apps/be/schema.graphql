@@ -4,6 +4,26 @@
 # -------------------------------------------------------
 #
 
+type ValidateActionPayload {
+  message: String
+  valid: Boolean!
+}
+
+type ResendVerificationEmail {
+  success: Boolean
+  message: String
+}
+
+type Mutation {
+  validateAction(id: String!): ValidateActionPayload
+  resendVerificationEmail(token: String!): ResendVerificationEmail
+  signIn(input: SignInInput!): SignInPayload
+  forgotPassword(input: ForgotPasswordInput!): ForgotPasswordPayload
+  resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailPayload
+}
+
 input SignInInput {
   account: String!
   password: String!
@@ -15,19 +35,24 @@ type SignInPayload {
   message: String
 }
 
-input ResetPasswordInput {
+input ForgotPasswordInput {
   email: String!
+}
+
+type ForgotPasswordPayload {
+  success: Boolean
+  message: String
+}
+
+input ResetPasswordInput {
+  token: String!
+  newPassword: String!
 }
 
 type ResetPasswordPayload {
   success: Boolean
   message: String
-}
-
-type Mutation {
-  signIn(input: SignInInput!): SignInPayload
-  resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
-  createUser(input: CreateUserInput!): CreateUserPayload
+  user: User
 }
 
 type Editorial {
@@ -85,7 +110,6 @@ enum EAdminRole {
 
 enum ECountryCode {
   CO
-  us_en
 }
 
 type User {
@@ -111,6 +135,15 @@ input CreateUserInput {
 
 type CreateUserPayload {
   user: User
+  success: Boolean
+  message: String
+}
+
+input VerifyEmailInput {
+  token: String!
+}
+
+type VerifyEmailPayload {
   success: Boolean
   message: String
 }

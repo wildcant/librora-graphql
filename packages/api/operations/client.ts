@@ -63,6 +63,103 @@ export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
   Types.CreateUserMutation,
   Types.CreateUserMutationVariables
 >
+export const ForgotPasswordDocument = gql`
+  mutation ForgotPassword($input: ForgotPasswordInput!) {
+    forgotPassword(input: $input) {
+      success
+      message
+    }
+  }
+`
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+  Types.ForgotPasswordMutation,
+  Types.ForgotPasswordMutationVariables
+>
+
+/**
+ * __useForgotPasswordMutation__
+ *
+ * To run a mutation, you first call `useForgotPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForgotPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [forgotPasswordMutation, { data, loading, error }] = useForgotPasswordMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useForgotPasswordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.ForgotPasswordMutation,
+    Types.ForgotPasswordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<Types.ForgotPasswordMutation, Types.ForgotPasswordMutationVariables>(
+    ForgotPasswordDocument,
+    options
+  )
+}
+export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>
+export type ForgotPasswordMutationResult = Apollo.MutationResult<Types.ForgotPasswordMutation>
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+  Types.ForgotPasswordMutation,
+  Types.ForgotPasswordMutationVariables
+>
+export const ResendVerificationEmailDocument = gql`
+  mutation ResendVerificationEmail($token: String!) {
+    resendVerificationEmail(token: $token) {
+      message
+      success
+    }
+  }
+`
+export type ResendVerificationEmailMutationFn = Apollo.MutationFunction<
+  Types.ResendVerificationEmailMutation,
+  Types.ResendVerificationEmailMutationVariables
+>
+
+/**
+ * __useResendVerificationEmailMutation__
+ *
+ * To run a mutation, you first call `useResendVerificationEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResendVerificationEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resendVerificationEmailMutation, { data, loading, error }] = useResendVerificationEmailMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useResendVerificationEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.ResendVerificationEmailMutation,
+    Types.ResendVerificationEmailMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.ResendVerificationEmailMutation,
+    Types.ResendVerificationEmailMutationVariables
+  >(ResendVerificationEmailDocument, options)
+}
+export type ResendVerificationEmailMutationHookResult = ReturnType<typeof useResendVerificationEmailMutation>
+export type ResendVerificationEmailMutationResult =
+  Apollo.MutationResult<Types.ResendVerificationEmailMutation>
+export type ResendVerificationEmailMutationOptions = Apollo.BaseMutationOptions<
+  Types.ResendVerificationEmailMutation,
+  Types.ResendVerificationEmailMutationVariables
+>
 export const ResetPasswordDocument = gql`
   mutation ResetPassword($input: ResetPasswordInput!) {
     resetPassword(input: $input) {
@@ -151,6 +248,99 @@ export type SignInMutationResult = Apollo.MutationResult<Types.SignInMutation>
 export type SignInMutationOptions = Apollo.BaseMutationOptions<
   Types.SignInMutation,
   Types.SignInMutationVariables
+>
+export const ValidateActionDocument = gql`
+  mutation ValidateAction($id: String!) {
+    validateAction(id: $id) {
+      message
+      valid
+    }
+  }
+`
+export type ValidateActionMutationFn = Apollo.MutationFunction<
+  Types.ValidateActionMutation,
+  Types.ValidateActionMutationVariables
+>
+
+/**
+ * __useValidateActionMutation__
+ *
+ * To run a mutation, you first call `useValidateActionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateActionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [validateActionMutation, { data, loading, error }] = useValidateActionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useValidateActionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.ValidateActionMutation,
+    Types.ValidateActionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<Types.ValidateActionMutation, Types.ValidateActionMutationVariables>(
+    ValidateActionDocument,
+    options
+  )
+}
+export type ValidateActionMutationHookResult = ReturnType<typeof useValidateActionMutation>
+export type ValidateActionMutationResult = Apollo.MutationResult<Types.ValidateActionMutation>
+export type ValidateActionMutationOptions = Apollo.BaseMutationOptions<
+  Types.ValidateActionMutation,
+  Types.ValidateActionMutationVariables
+>
+export const VerifyEmailDocument = gql`
+  mutation VerifyEmail($input: VerifyEmailInput!) {
+    verifyEmail(input: $input) {
+      success
+      message
+    }
+  }
+`
+export type VerifyEmailMutationFn = Apollo.MutationFunction<
+  Types.VerifyEmailMutation,
+  Types.VerifyEmailMutationVariables
+>
+
+/**
+ * __useVerifyEmailMutation__
+ *
+ * To run a mutation, you first call `useVerifyEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyEmailMutation, { data, loading, error }] = useVerifyEmailMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useVerifyEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<Types.VerifyEmailMutation, Types.VerifyEmailMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<Types.VerifyEmailMutation, Types.VerifyEmailMutationVariables>(
+    VerifyEmailDocument,
+    options
+  )
+}
+export type VerifyEmailMutationHookResult = ReturnType<typeof useVerifyEmailMutation>
+export type VerifyEmailMutationResult = Apollo.MutationResult<Types.VerifyEmailMutation>
+export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<
+  Types.VerifyEmailMutation,
+  Types.VerifyEmailMutationVariables
 >
 export const BookDocument = gql`
   query Book($id: String!) {
