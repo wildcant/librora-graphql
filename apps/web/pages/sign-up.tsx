@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Button, CheckboxField, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { DefaultLayout } from '../components/Layout'
-import signUpPic from '../public/sign-up.png'
+import signUpPic from '../public/sign-uo.webp'
 
 const FormSchema = z.object({
   acceptTerms: z.boolean({ required_error: 'You must accept the terms and conditions' }),

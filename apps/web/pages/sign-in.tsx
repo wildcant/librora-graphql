@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { Button, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { DefaultLayout } from '../components/Layout'
-import signInPic from '../public/sign-in.png'
+import signInPic from '../public/sign-in.webp'
 
 const FormSchema = z.object({
   account: z.string({ required_error: 'Enter your username or email.' }),
