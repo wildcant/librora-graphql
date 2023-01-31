@@ -1,7 +1,7 @@
 # nixpacks.toml
 
 [phases.setup]
-nixPkgs = ['nodejs-18_x']
+nixPkgs = ['nodejs-18_x', 'yarn']
 
 [phases.install]
 cmds = ['yarn install']
