@@ -26,7 +26,7 @@ if (!knexInstance) {
       password: config.connection.password,
       database: config.connection.database,
     },
-    debug: true,
+    debug: process.env.NODE_ENV === 'development',
   })
 }
 

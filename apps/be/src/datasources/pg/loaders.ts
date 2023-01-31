@@ -1,5 +1,5 @@
 import DataLoader from 'dataloader'
-import { ActionModel, AuthorModel, BookModel, UserModel } from 'schemas'
+import { ActionModel, AuthorModel, BookModel, UserModel } from '@librora/schemas'
 import { mapTo } from '../utils'
 import { knex } from './knex'
 

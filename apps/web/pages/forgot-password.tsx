@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useDeepCompareEffect } from '@librora/utils/hooks'
-import { useForgotPasswordMutation } from 'api/operations/client'
+import { useForgotPasswordMutation } from '@librora/api/operations/client'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'

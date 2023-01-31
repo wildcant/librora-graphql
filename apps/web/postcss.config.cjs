@@ -1,1 +1,1 @@
-module.exports = require('config/postcss.config.cjs')
+module.exports = require('@librora/theme/postcss.config.cjs')

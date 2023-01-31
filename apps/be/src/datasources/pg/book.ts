@@ -1,4 +1,4 @@
-import { BookModel, BookSchema } from 'schemas'
+import { BookModel, BookSchema } from '@librora/schemas'
 import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'

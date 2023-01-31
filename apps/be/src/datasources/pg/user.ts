@@ -1,4 +1,4 @@
-import { UserModel, UserSchema } from 'schemas'
+import { UserModel, UserSchema } from '@librora/schemas'
 import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'

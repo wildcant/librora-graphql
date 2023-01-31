@@ -23,8 +23,8 @@ generates:
       - typescript
       - typescript-resolvers:
           mappers:
-            Book: schemas#BookModel
-            Author: schemas#AuthorModel
-            User: schemas#UserModel
-            Action: schemas#ActionModel
+            Book: @librora/schemas#BookModel
+            Author: @librora/schemas#AuthorModel
+            User: @librora/schemas#UserModel
+            Action: @librora/schemas#ActionModel
           contextType: ../context#IContext

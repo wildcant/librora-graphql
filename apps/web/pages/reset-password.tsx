@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useDeepCompareEffect } from '@librora/utils/hooks'
-import { useResetPasswordMutation, useValidateActionMutation } from 'api/operations/client'
+import { useResetPasswordMutation, useValidateActionMutation } from '@librora/api/operations/client'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'

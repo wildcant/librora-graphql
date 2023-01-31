@@ -6,12 +6,12 @@
 
 /* eslint-disable */
 
-import { EAdminRole } from 'schemas'
-import { ECountryCode } from 'schemas'
-import { EFormat } from 'schemas'
-import { ELanguage } from 'schemas'
-import { EUserRole } from 'schemas'
-import { EUserType } from 'schemas'
+import { EAdminRole } from '@librora/schemas'
+import { ECountryCode } from '@librora/schemas'
+import { EFormat } from '@librora/schemas'
+import { ELanguage } from '@librora/schemas'
+import { EUserRole } from '@librora/schemas'
+import { EUserType } from '@librora/schemas'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }

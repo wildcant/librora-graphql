@@ -1,5 +1,5 @@
 import addHours from 'date-fns/addHours'
-import { ActionModel, EActionNamespace, EUserActionName } from 'schemas'
+import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
 import z from 'zod'
 import { validateResetPasswordAction } from '../action/utils'
 import { MutationResolvers } from '../graphql-types'

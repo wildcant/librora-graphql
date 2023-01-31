@@ -8,7 +8,7 @@ import {
   ELanguage,
   EUserRole,
   EUserType,
-} from 'schemas'
+} from '@librora/schemas'
 import { knex } from '../pg/knex'
 
 export async function createTables() {

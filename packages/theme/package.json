@@ -1,15 +1,16 @@
 {
-  "name": "config",
+  "name": "@librora/theme",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./index.ts",
   "files": [],
   "scripts": {
-    "dev": "yarn update-theme",
-    "update-theme": "tsup theme.ts theme.js"
+    "build": "tsc",
+    "dev": "yarn build --watch"
   },
   "dependencies": {},
   "devDependencies": {
-    "tsup": "^6.5.0"
+    "@librora/tsconfig": "*",
+    "typescript": "^4.5.3"
   }
 }

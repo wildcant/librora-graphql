@@ -1,6 +1,6 @@
 import addHours from 'date-fns/addHours'
 import isAfter from 'date-fns/isAfter'
-import { ActionModel, EActionNamespace, EUserActionName } from 'schemas'
+import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
 import { IContext } from '../../context'
 
 export function validateResetPasswordAction(metadata: { redeemed: boolean; expiresAt: Date }): {

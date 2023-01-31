@@ -1,4 +1,4 @@
-import { EUserActionName } from 'schemas'
+import { EUserActionName } from '@librora/schemas'
 import z from 'zod'
 import { ActionModule } from './types'
 import { sendVerificationEmail, validateResetPasswordAction } from './utils'

@@ -1,4 +1,4 @@
-import { ECountryCode, EUserRole, EUserType } from 'schemas/enums'
+import { ECountryCode, EUserRole, EUserType } from './enums'
 import z from 'zod'
 
 export const BaseUserSchema = z.object({

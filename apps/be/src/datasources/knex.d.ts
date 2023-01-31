@@ -1,5 +1,5 @@
 import { Knex } from 'knex'
-import { AuthorModel, BookModel, ActionModel, UserModel } from 'schemas'
+import { AuthorModel, BookModel, ActionModel, UserModel } from '@librora/schemas'
 import { RequiredId } from './pg/types'
 
 interface BooksTopicsModel {

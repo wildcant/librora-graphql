@@ -1,4 +1,4 @@
-import { useResendVerificationEmailMutation } from 'api/operations/client'
+import { useResendVerificationEmailMutation } from '@librora/api/operations/client'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Button, useToast } from 'ui'

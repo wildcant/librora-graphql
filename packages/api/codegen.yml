@@ -21,7 +21,7 @@ generates:
       - 'typescript'
       - 'typescript-operations'
     config:
-      enumValues: schemas
+      enumValues: '@librora/schemas'
 
   operations/client.ts:
     plugins:

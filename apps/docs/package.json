@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider build-storybook"
+    "build": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006"
   },
   "dependencies": {
     "@storybook/addon-postcss": "^2.0.0",
@@ -26,7 +26,7 @@
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^3.0.0",
     "babel-loader": "^8.3.0",
-    "config": "*",
+    "@librora/theme": "*",
     "typescript": "^4.9.3",
     "ui": "*",
     "vite": "^4.0.0"

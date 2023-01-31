@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
-    "start": "yarn generate:schema && yarn compile && node ./dist/src/index.js",
+    "build": "tsc",
+    "start": "yarn generate:schema && node ./dist/src/index.js",
     "dev": "concurrently \"yarn generate:schema watch\" \"yarn generate:types --watch\" \"tsx watch src/index.ts\"",
     "db:init": "docker compose up -d",
     "db:seed": "tsx src/datasources/scripts/pg-init.ts",
@@ -23,7 +23,7 @@
     "jose": "^4.11.2",
     "knex": "^2.4.1",
     "pg": "^8.8.0",
-    "schemas": "*",
+    "@librora/schemas": "*",
     "zod": "^3.20.2"
   },
   "devDependencies": {
@@ -39,9 +39,9 @@
     "chokidar": "^3.5.3",
     "concurrently": "^7.6.0",
     "eslint": "7.32.0",
-    "eslint-config-custom": "*",
+    "@librora/eslint-config-custom": "*",
     "ts-node": "^10.9.1",
-    "tsconfig": "*",
+    "@librora/tsconfig": "*",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4"
   }

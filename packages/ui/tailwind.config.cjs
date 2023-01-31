@@ -1,1 +1,1 @@
-module.exports = require('config/tailwind.config.cjs')
+module.exports = require('@librora/theme/tailwind.config.cjs')

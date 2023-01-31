@@ -1,5 +1,5 @@
 import { useDeepCompareEffect } from '@librora/utils/hooks'
-import { useVerifyEmailMutation } from 'api/operations/client'
+import { useVerifyEmailMutation } from '@librora/api/operations/client'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useToast } from 'ui'

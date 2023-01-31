@@ -3,7 +3,7 @@ import { Link } from 'ui'
 import { BaseLayout } from './BaseLayout'
 import cn from 'classnames'
 import Image from 'next/image'
-import signUpPic from '../../public/sign-uo.webp'
+import signUpPic from '../../public/sign-up.webp'
 
 interface IAuthLayoutProps {
   children: ReactNode

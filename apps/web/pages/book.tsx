@@ -1,4 +1,4 @@
-import { useBookQuery } from 'api/operations/client'
+import { useBookQuery } from '@librora/api/operations/client'
 
 export default function Home() {
   const { loading, data } = useBookQuery({ variables: { id: '3ce10880-c6a0-44a9-a143-eb1ba64def05' } })

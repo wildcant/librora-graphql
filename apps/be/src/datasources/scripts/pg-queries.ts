@@ -10,7 +10,7 @@ import {
   ELanguage,
   EUserActionName,
   EActionNamespace,
-} from 'schemas'
+} from '@librora/schemas'
 import addHours from 'date-fns/addHours'
 
 export async function seed(args: string[]) {

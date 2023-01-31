@@ -1,5 +1,5 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ['ui', 'api'],
+  transpilePackages: ['ui', '@librora/api'],
   // reactStrictMode: false,
 }

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCreateUserMutation } from 'api/operations/client'
+import { useCreateUserMutation } from '@librora/api/operations/client'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, CheckboxField, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'

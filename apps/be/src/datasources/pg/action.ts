@@ -1,4 +1,4 @@
-import { ActionModel } from 'schemas'
+import { ActionModel } from '@librora/schemas'
 import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'

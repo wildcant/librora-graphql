@@ -1,10 +1,11 @@
 {
-  "name": "schemas",
+  "name": "@librora/schemas",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "generate": "graphql-codegen -r dotenv/config --config codegen.yml"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "@graphql-codegen/add": "^3.2.3",
     "@graphql-codegen/cli": "^2.16.1",
     "@graphql-codegen/typescript": "^2.8.5",
-    "tsx": "^3.12.2"
+    "tsx": "^3.12.2",
+    "@librora/tsconfig": "*"
   }
 }

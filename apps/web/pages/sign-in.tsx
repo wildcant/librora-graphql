@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useDeepCompareEffect } from '@librora/utils/hooks'
-import { useSignInMutation } from 'api/operations/client'
+import { useSignInMutation } from '@librora/api/operations/client'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'

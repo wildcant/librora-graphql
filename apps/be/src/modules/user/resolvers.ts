@@ -1,6 +1,6 @@
 import addHours from 'date-fns/addHours'
 import isAfter from 'date-fns/isAfter'
-import { ActionModel, EActionNamespace, EUserActionName, EUserRole, EUserType } from 'schemas'
+import { ActionModel, EActionNamespace, EUserActionName, EUserRole, EUserType } from '@librora/schemas'
 import { sendVerificationEmail, validateResetPasswordAction } from '../action/utils'
 import { UserModule } from './types'
 
