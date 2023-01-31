@@ -1,0 +1,16 @@
+# nixpacks.toml
+
+[phases.setup]
+nixPkgs = ['nodejs-18_x']
+
+[phases.install]
+cmds = ['yarn install']
+
+[phases.build]
+cmds = ['yarn compile']
+
+[start]
+cmd = 'yarn start'
+
+[variables]
+NODE_ENV = 'production'

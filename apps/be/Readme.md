@@ -33,3 +33,7 @@ Split resolvers and types to have type safe resolvers and avoid names collision.
 ## Known problems
 
 - typescript-resolvers plugin won't generate native typescript enums :( See https://github.com/dotansimha/graphql-code-generator/issues/8296
+
+## Resources
+
+- Free postgres (20MB) at elephantsql.com

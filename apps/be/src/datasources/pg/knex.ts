@@ -1,15 +1,16 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 import knexBuilder, { Knex } from 'knex'
+import { env } from '../../env'
 
 const config = {
   client: 'postgres',
   connection: {
-    host: process.env.DATABASE_HOST ?? '127.0.0.1',
-    port: process.env.DATABASE_PORT ? parseInt(process.env.DATABASE_PORT) : 5434,
-    database: process.env.DATABASE_NAME ?? 'librora',
-    user: process.env.DATABASE_USERNAME ?? 'postgres',
-    password: process.env.DATABASE_PASSWORD ?? '12345',
-    ssl: process.env.DATABASE_SSL ?? false,
+    host: env.DATABASE_HOST ?? '127.0.0.1',
+    port: env.DATABASE_PORT ?? 5434,
+    database: env.DATABASE_NAME ?? 'librora',
+    user: env.DATABASE_USERNAME ?? 'postgres',
+    password: env.DATABASE_PASSWORD ?? '12345',
+    ssl: env.DATABASE_SSL ?? false,
   },
 }
 
