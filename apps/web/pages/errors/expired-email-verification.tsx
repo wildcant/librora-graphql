@@ -2,7 +2,7 @@ import { useResendVerificationEmailMutation } from 'api/operations/client'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Button, useToast } from 'ui'
-import { DefaultLayout } from '../../components/Layout'
+import { BaseLayout } from '../../components/layouts/BaseLayout'
 
 function ExpiredResetPassword() {
   const router = useRouter()
@@ -52,6 +52,6 @@ function ExpiredResetPassword() {
   )
 }
 
-ExpiredResetPassword.Layout = DefaultLayout
+ExpiredResetPassword.Layout = BaseLayout
 
 export default ExpiredResetPassword

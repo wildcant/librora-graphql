@@ -4,7 +4,7 @@ export interface LayoutProps {
   children?: React.ReactNode
 }
 
-export function DefaultLayout({ children }: LayoutProps) {
+export function BaseLayout({ children }: LayoutProps) {
   return (
     <>
       {children}

@@ -13,5 +13,6 @@ const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />
 export const Default = Template.bind({})
 Default.args = {
   children: 'Label',
-  variant: 'button',
+  variant: 'default',
+  href: '#',
 }

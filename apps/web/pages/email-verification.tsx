@@ -1,10 +1,10 @@
 import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { useVerifyEmailMutation } from 'api/operations/client'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useToast } from 'ui'
 
-function EmailVerification() {
+export default function EmailVerification() {
   const router = useRouter()
   const [verifyEmail, { error }] = useVerifyEmailMutation()
 
@@ -38,5 +38,3 @@ function EmailVerification() {
 
   return <div>Loading..</div>
 }
-
-export default EmailVerification
