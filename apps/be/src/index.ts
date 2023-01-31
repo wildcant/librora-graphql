@@ -17,6 +17,6 @@ const server = new ApolloServer<IContext>({
 })
 
 startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: env.PORT ?? 4000 },
   context,
 }).then(({ url }) => console.log(`🚀  Server ready at: ${url}`))
