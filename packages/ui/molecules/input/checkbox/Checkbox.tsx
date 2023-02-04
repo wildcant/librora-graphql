@@ -1,8 +1,8 @@
 import { Icon } from '@atoms'
-import { ComponentPropsWithoutRef, useState } from 'react'
+import cn from 'classnames'
+import { ComponentPropsWithoutRef } from 'react'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 import s from './Checkbox.module.css'
-import cn from 'classnames'
 
 export interface ICheckboxFieldProps<TValues extends FieldValues>
   extends UseControllerProps<TValues>,

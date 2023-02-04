@@ -1,21 +1,5 @@
 import { ComponentPropsWithoutRef, ReactElement } from 'react'
-import {
-  arrowDown,
-  arrowLeft,
-  arrowRight,
-  arrowUp,
-  check,
-  checkboxBlank,
-  checkboxCircle,
-  circleFilled,
-  error,
-  fallback,
-  info,
-  menu,
-  warning,
-  close,
-  google,
-} from './icons'
+import * as Icons from './icons'
 
 const dimension = {
   xs: 12,
@@ -43,21 +27,21 @@ export enum EIconName {
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
-  'arrow-down': arrowDown,
-  'arrow-left': arrowLeft,
-  'arrow-right': arrowRight,
-  'arrow-up': arrowUp,
-  'checkbox-blank': checkboxBlank,
-  'checkbox-circle': checkboxCircle,
-  'circle-filled': circleFilled,
-  check,
-  error,
-  fallback,
-  info,
-  menu,
-  warning,
-  close,
-  google,
+  'arrow-down': Icons.arrowDown,
+  'arrow-left': Icons.arrowLeft,
+  'arrow-right': Icons.arrowRight,
+  'arrow-up': Icons.arrowUp,
+  'checkbox-blank': Icons.checkboxBlank,
+  'checkbox-circle': Icons.checkboxCircle,
+  'circle-filled': Icons.circleFilled,
+  check: Icons.check,
+  error: Icons.error,
+  fallback: Icons.fallback,
+  info: Icons.info,
+  menu: Icons.menu,
+  warning: Icons.warning,
+  close: Icons.close,
+  google: Icons.google,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
@@ -70,7 +54,7 @@ export function Icon({ size = 'lg', name, ...props }: IIconProps) {
 
   return (
     <svg viewBox="0 0 24 24" width={d} height={d} {...props}>
-      {icon[name] ?? fallback}
+      {icon[name] ?? Icons.fallback}
     </svg>
   )
 }

@@ -1,4 +1,4 @@
-import { ECountryCode, EUserRole, EUserType } from './enums'
+import { EAdminRole, ECountryCode, EUserRole, EUserType } from './enums'
 import z from 'zod'
 
 export const BaseUserSchema = z.object({
@@ -29,3 +29,18 @@ export const AdminSchema = BaseUserSchema.omit({
 })
 
 export type UserModel = z.infer<typeof UserSchema>
+
+function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserType }) {
+  switch (val.type) {
+    case EUserType.Admin:
+      return z.nativeEnum(EAdminRole).parse(val.role)
+    case EUserType.User:
+      return z.nativeEnum(EUserRole).parse(val.role)
+    default:
+      return false
+  }
+}
+
+export const UserSchemaValidators = {
+  role: UserSchema.refine(validateRoleMatchType),
+}

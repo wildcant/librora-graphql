@@ -1,4 +1,7 @@
 {
   "extends": "@librora/tsconfig/react-library.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"]
+  }
 }

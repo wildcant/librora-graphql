@@ -50,12 +50,12 @@ export function Select({ options, value, error, ...props }: ISelectProps) {
             <Listbox.Button
               className={cn(s.Button, { [s.focus]: open, [s.valid]: !error, [s.error]: error })}
             >
-              {(props) => (
+              {(buttonProps) => (
                 <>
-                  <span className={s.ButtonLabel}>{props.value?.label}</span>
+                  <span className={s.ButtonLabel}>{buttonProps.value?.label}</span>
                   <span className={s.ArrowContainer}>
                     <Icon
-                      name={props.open ? 'arrow-up' : 'arrow-down'}
+                      name={buttonProps.open ? 'arrow-up' : 'arrow-down'}
                       className={s.Arrow}
                       aria-hidden="true"
                     />

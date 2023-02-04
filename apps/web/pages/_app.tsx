@@ -14,6 +14,7 @@ const roboto = Roboto({
 })
 
 type NextPageWithLayout = NextPage & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Layout?: any
 }
 

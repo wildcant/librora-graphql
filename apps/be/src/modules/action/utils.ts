@@ -1,6 +1,7 @@
+import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
 import addHours from 'date-fns/addHours'
 import isAfter from 'date-fns/isAfter'
-import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
+import { sendEmailConfirmation } from '../../comms/email'
 import { IContext } from '../../context'
 
 export function validateResetPasswordAction(metadata: { redeemed: boolean; expiresAt: Date }): {
@@ -26,14 +27,17 @@ export async function sendVerificationEmail(args: { userId: string; context: ICo
     metadata: { expiresAt: addHours(new Date(), 24), redeemed: false },
   }
 
-  args.context.dataSources.actions.create(emailConfirmationAction).then((action) => {
+  args.context.dataSources.actions.create(emailConfirmationAction).then(async (action) => {
     if (!action) {
       console.warn('It was not able to create the confirm email action.')
       return
     }
-    const confirmEmailUrl = `/email-verification?token=${action.id}`
-    console.log({ confirmEmailUrl })
 
-    // sendPasswordInstructions(email, { token: action.id, confirmEmailUrl })
+    const user = await args.context.dataSources.users.findUnique({ where: { id: action.userId } })
+    if (!user) {
+      console.warn(`User with id ${action.userId} not found. Not able to send verification email.`)
+      return
+    }
+    sendEmailConfirmation(user.email, { token: action.id! })
   })
 }

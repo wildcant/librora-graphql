@@ -25,7 +25,7 @@ export function useToast(args?: IUseToastArgs) {
       const options: ToastOptions = {
         position: toast.POSITION.BOTTOM_CENTER,
         type,
-        icon: ({ type }) => <Icon {...toastTypeToIcon[type]} className="fill-white" />,
+        icon: (iconProps) => <Icon {...toastTypeToIcon[iconProps.type]} className="fill-white" />,
         ...rest,
       }
 

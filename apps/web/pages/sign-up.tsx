@@ -39,8 +39,8 @@ export default function SignUp() {
     // },
   })
 
-  const submit = (data: FromData) => {
-    const { email, firstName, lastName, password, username } = data
+  const submit = (formData: FromData) => {
+    const { email, firstName, lastName, password, username } = formData
     createUser({ variables: { input: { email, firstName, lastName, password, username } } })
   }
 

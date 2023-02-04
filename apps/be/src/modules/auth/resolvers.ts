@@ -4,6 +4,7 @@ import z from 'zod'
 import { validateResetPasswordAction } from '../action/utils'
 import { MutationResolvers } from '../graphql-types'
 import { AuthModule } from './types'
+import { sendPasswordInstructions } from '../../comms/email'
 
 /**
  * Sign in mutation.
@@ -47,10 +48,8 @@ const forgotPassword: MutationResolvers['forgotPassword'] = async (_, args, cont
         console.warn('It was not able to create the reset password action.')
         return
       }
-      const resetPasswordUrl = `/reset-password?token=${action.id}`
-      console.log({ resetPasswordUrl })
 
-      // sendPasswordInstructions(email, { token: action.id, resetPasswordUrl })
+      sendPasswordInstructions(email, { token: action.id!, userFirstName: user.firstName })
     })
   }
 

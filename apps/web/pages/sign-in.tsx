@@ -1,18 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { useSignInMutation } from '@librora/api/operations/client'
+import { useDeepCompareEffect } from '@librora/utils/hooks'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import AuthLayout from '../components/layouts/AuthLayout'
-import { BaseLayout } from '../components/layouts/BaseLayout'
 import signInPic from '../public/sign-in.webp'
 
 const FormSchema = z.object({
-  account: z.string({ required_error: 'Enter your username or email.' }),
-  password: z.string({ required_error: 'Enter your password' }),
+  account: z
+    .string({ required_error: 'Enter your username or email.' })
+    .min(1, { message: 'Enter your username or email.' }),
+  password: z.string({ required_error: 'Enter your password' }).min(1, { message: 'Enter your password' }),
 })
 
 type FormData = z.infer<typeof FormSchema>

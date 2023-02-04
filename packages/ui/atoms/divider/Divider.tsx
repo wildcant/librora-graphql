@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 import s from './Divider.module.css'
 
 export interface IDividerProps extends ComponentPropsWithoutRef<'div'> {}

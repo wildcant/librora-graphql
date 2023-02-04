@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { useResetPasswordMutation, useValidateActionMutation } from '@librora/api/operations/client'
+import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -19,7 +19,7 @@ export default function ResetPassword() {
   const [validateAction] = useValidateActionMutation()
 
   const { notify } = useToast()
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, formState } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     // defaultValues: { newPassword: '12345', confirm: '12345' },
   })
@@ -58,7 +58,7 @@ export default function ResetPassword() {
   useEffect(() => {
     if (success) {
       notify(message, { type: 'success' })
-      router.replace('/sign-in')
+      setTimeout(() => router.replace('/sign-in'), 5000)
     }
   }, [success, message, notify, router])
 
@@ -91,7 +91,7 @@ export default function ResetPassword() {
         />
 
         <div className="flex justify-center">
-          <Button type="submit" size="sm" isLoading={loading}>
+          <Button type="submit" size="sm" isLoading={loading} disabled={!!formState.isSubmitted && !!success}>
             Reset
           </Button>
         </div>

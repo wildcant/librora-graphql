@@ -15,9 +15,7 @@ function useDeepCompareMemoize<T>(value: T) {
  * Note: Makes a deep comparison of the dependencies,so if you have dependencies
  * that are objects or arrays this will work just fine.
  */
-export function useDeepCompareEffect(
-  callback: EffectCallback,
-  dependencies: DependencyList
-) {
+export function useDeepCompareEffect(callback: EffectCallback, dependencies: DependencyList) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(callback, dependencies.map(useDeepCompareMemoize))
 }
