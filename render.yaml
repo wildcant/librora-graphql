@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: librora-backend
+    env: node
+    region: oregon
+    buildCommand: yarn build
+    startCommand: yarn workspace be start
+    buildFilter:
+      paths:
+        - apps/be/**/*.ts
+      ignoredPaths:
+        - apps/be/**/*.test.ts
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: WEB_APP_URL
+        value: https://librora.vercel.app
+      # Database
+      - key: DATABASE_HOST
+        sync: false
+      - key: DATABASE_PORT
+        sync: false
+      - key: DATABASE_NAME
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: DATABASE_SSL
+        sync: false
+      # SendGrid
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: EMAIL_REPLY_TO
+        value: librora.saas@gmail.com
+      - key: EMAIL_FROM
+        value: librora.saas@gmail.com

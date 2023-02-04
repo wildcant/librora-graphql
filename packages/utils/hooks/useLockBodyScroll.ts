@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable*/
 import { RefObject, useEffect, useRef } from 'react'
 import { isBrowser } from '../dom-utils/dom'
 
