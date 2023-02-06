@@ -28,5 +28,4 @@ export const IconButton = Template.bind({})
 IconButton.args = {
   color: 'secondary',
   icon: <Icon name="circle-filled" color="#fff" size="lg" />,
-  size: 'sm',
 }

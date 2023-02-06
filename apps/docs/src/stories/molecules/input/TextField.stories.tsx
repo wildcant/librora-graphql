@@ -77,9 +77,9 @@ WithLeftIcon.args = {
 
 export const InForm: ComponentStory<typeof TextField> = () => {
   const { control, handleSubmit } = useForm<{ [key: string]: string }>()
-  const displayError = () => {}
+
   return (
-    <form onSubmit={handleSubmit(displayError)}>
+    <form onSubmit={handleSubmit(console.log)}>
       <TextField
         control={control}
         name={'name'}

@@ -3,7 +3,7 @@ import NextLink, { LinkProps } from 'next/link'
 import { ReactNode } from 'react'
 import s from './Link.module.css'
 
-type ILinkProps = {
+export type ILinkProps = {
   // icon?: 'arrow' | 'chevron' // TODO
   children: ReactNode
   className?: string
@@ -27,7 +27,7 @@ export function Link({
   children,
   className,
   color = 'primary',
-  size = 'md',
+  size,
   target,
   variant = 'default',
   isExternal = false,
@@ -50,6 +50,7 @@ export function Link({
       [s.sm]: size === 'sm' && !unstyled,
       [s.md]: size === 'md' && !unstyled,
       [s.lg]: size === 'lg' && !unstyled,
+      [s.responsive]: !size,
       [s.underline]: underline,
     },
     className

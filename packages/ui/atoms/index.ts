@@ -1,3 +1,4 @@
+export * from './avatar/Avatar'
 export * from './badge/Badge'
 export * from './chip/Chip'
 export * from './divider/Divider'

@@ -27,7 +27,7 @@ export const Button = ({
   iconPosition = 'left',
   isLoading,
   loadingText,
-  size = 'md',
+  size,
   variant = 'solid',
   ...props
 }: IButtonProps) => {
@@ -53,6 +53,7 @@ export const Button = ({
       [s.sm]: size === 'sm' && !unstyled,
       [s.md]: size === 'md' && !unstyled,
       [s.lg]: size === 'lg' && !unstyled,
+      [s.responsive]: !size,
       [s['include-icon']]: iconElement && children,
       [s['icon-only']]: iconElement && !children,
     },

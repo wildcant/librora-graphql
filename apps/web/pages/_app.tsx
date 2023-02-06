@@ -1,4 +1,4 @@
-import { Merienda, Roboto } from '@next/font/google'
+import { Merienda, Roboto_Slab, Cormorant_Garamond } from '@next/font/google'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { PropsWithChildren } from 'react'
@@ -6,11 +6,19 @@ import { Providers } from '../providers'
 import '../styles/globals.css'
 
 const merienda = Merienda({ subsets: ['latin'], variable: '--font-merienda' })
-const roboto = Roboto({
+
+const robotoSlab = Roboto_Slab({
   subsets: ['latin'],
-  variable: '--font-roboto',
-  style: ['normal', 'italic'],
+  variable: '--font-roboto-slab',
+  style: ['normal'],
   weight: ['100', '300', '400', '500', '700', '900'],
+})
+
+const comrantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-comrant-garamond',
+  style: ['normal'],
+  weight: ['300', '400', '500', '600', '700'],
 })
 
 type NextPageWithLayout = NextPage & {
@@ -27,7 +35,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <Providers>
-      <main className={`${merienda.variable} ${roboto.variable} font-sans`}>
+      <main className={`${merienda.variable} ${robotoSlab.variable}  ${comrantGaramond.variable}`}>
         <Layout pageProps={pageProps}>
           <Component {...pageProps} />
         </Layout>

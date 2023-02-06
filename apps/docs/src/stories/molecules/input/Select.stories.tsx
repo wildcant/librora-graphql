@@ -35,9 +35,8 @@ Default.args = {
 
 export const InForm: ComponentStory<typeof Select> = () => {
   const { control, handleSubmit } = useForm<{ [key: string]: string }>()
-  const displayError = () => {}
   return (
-    <form onSubmit={handleSubmit(displayError)}>
+    <form onSubmit={handleSubmit(console.log)}>
       <SelectField
         options={people}
         label="Name"

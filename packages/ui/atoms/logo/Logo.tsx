@@ -1,3 +1,11 @@
-export function Logo() {
-  return <h5 className="font-merienda text-primary-darkest text-2xl font-semibold">Librora</h5>
+import cn from 'classnames'
+import { ComponentPropsWithoutRef } from 'react'
+
+interface ILogoProps extends ComponentPropsWithoutRef<'h5'> {}
+export function Logo({ className, ...props }: ILogoProps) {
+  return (
+    <h5 className={cn('font-merienda text-primary-darkest text-2xl font-semibold', className)} {...props}>
+      Librora
+    </h5>
+  )
 }

@@ -1,0 +1,25 @@
+.PopoverButton {
+  @apply inline-flex items-center gap-2 p-4 text-base hover:bg-neutral-100;
+  @apply focus-visible:ring-2 focus-visible:ring-neutral-50 focus-visible:ring-opacity-75;
+
+  &.open {
+    @apply text-opacity-90;
+  }
+}
+
+.PopoverPanel {
+  @apply absolute left-1/2 z-10 mt-3 w-screen max-w-xs -translate-x-1/2 transform px-4 sm:px-0;
+}
+
+.DesktopNavItemContainer {
+  @apply overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5;
+}
+
+.DesktopNavItem {
+  @apply relative grid gap-8 bg-white p-7;
+}
+
+.DesktopNavItemLink {
+  @apply -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50;
+  @apply focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50;
+}

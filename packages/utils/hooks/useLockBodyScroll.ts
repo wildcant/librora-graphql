@@ -33,7 +33,7 @@ export interface BodyInfoItem {
 }
 
 const isIosDevice =
-  isBrowser() &&
+  isBrowser &&
   window.navigator &&
   window.navigator.platform &&
   /iP(ad|hone|od)/.test(window.navigator.platform)

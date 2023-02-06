@@ -86,6 +86,26 @@
     @apply flex flex-row items-center gap-2;
   }
 
+  &.responsive {
+    @apply px-4 py-2 text-xs;
+    @apply sm:px-6 sm:py-2 sm:text-sm;
+    @apply lg:px-8 lg:py-4 lg:text-base;
+    @apply 2xl:px-12 2xl:py-4 2xl:text-lg;
+    &.icon-only {
+      @apply px-2 py-2;
+      @apply sm:px-4 sm:py-4;
+      @apply lg:px-6 lg:py-6;
+      @apply 2xl:px-8 2xl:py-8;
+    }
+  }
+
+  &.link {
+    @apply p-0;
+    &.responsive {
+      @apply text-xs sm:text-sm md:text-base lg:text-lg;
+    }
+  }
+
   &.animated {
     transform: translateY(-0.2em);
     transition: transform 0.1s ease;
@@ -97,10 +117,6 @@
     &:active {
       transform: translateY(0);
     }
-  }
-
-  &.link {
-    @apply p-0;
   }
 }
 

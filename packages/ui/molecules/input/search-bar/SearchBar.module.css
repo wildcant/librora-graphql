@@ -1,0 +1,5 @@
+.Input {
+  @apply border-none w-full px-8 rounded-lg;
+  @apply focus:outline-none focus:ring-primary-base focus:border-primary-base;
+  @apply placeholder:font-sans;
+}
