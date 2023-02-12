@@ -35,7 +35,7 @@ export const resolvers: ActionModule.Resolvers = {
         }
       }
 
-      sendVerificationEmail({ userId: action.userId, context })
+      sendVerificationEmail({ userId: action.user, context })
 
       return { success: true, message: 'Verification email sent' }
     },

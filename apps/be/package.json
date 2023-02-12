@@ -10,11 +10,14 @@
     "db:init": "docker compose up -d",
     "db:seed": "tsx src/datasources/scripts/pg-init.ts",
     "generate:types": "graphql-codegen",
-    "generate:schema": "tsx scripts/generate-schema.ts"
+    "generate:schema": "tsx scripts/generate-schema.ts",
+    "lint": "TIMING=1 eslint \"**/*.ts*\""
   },
   "dependencies": {
     "@apollo/server": "^4.3.1",
+    "@librora/schemas": "*",
     "@sendgrid/mail": "^7.7.0",
+    "@types/lodash": "^4.14.191",
     "dataloader": "^2.1.0",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
@@ -22,8 +25,8 @@
     "graphql": "^16.6.0",
     "jose": "^4.11.2",
     "knex": "^2.4.1",
+    "lodash": "^4.17.21",
     "pg": "^8.8.0",
-    "@librora/schemas": "*",
     "zod": "^3.20.2"
   },
   "devDependencies": {
@@ -35,13 +38,13 @@
     "@graphql-codegen/typescript-resolvers": "^2.7.12",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.15",
+    "@librora/eslint-config-custom": "*",
+    "@librora/tsconfig": "*",
     "@types/node": "^18.11.18",
     "chokidar": "^3.5.3",
     "concurrently": "^7.6.0",
     "eslint": "7.32.0",
-    "@librora/eslint-config-custom": "*",
     "ts-node": "^10.9.1",
-    "@librora/tsconfig": "*",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4"
   }

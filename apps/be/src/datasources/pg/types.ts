@@ -14,24 +14,29 @@ export type OmitId<T> = Omit<T, 'id'>
 export type RequiredId<T> = OmitId<T> & { id: string }
 export type OptionalId<T> = OmitId<T> & { id?: string }
 
+export type Enumerable<T> = T | Array<T>
+
 /**
  * Contract for all data sources.
  */
-
 export interface PgDataSource<T, TUniqueProperties = { id: string }> {
   /** Lets you retrieve a single database record by id or unique attribute */
-  findUnique: (query: { where: RequireAtLeastOne<TUniqueProperties> }) => Promise<T | null>
-
-  /** Returns the first record in a list that matches your criteria. */
-  // findFirst: (query: { where: Partial<T> }) => Promise<T | null>
+  findUnique: (query: {
+    where: RequireAtLeastOne<TUniqueProperties>
+    select?: (keyof T)[]
+  }) => Promise<T | null>
 
   /** Returns a list of records. */
-  findMany: (ids: string[]) => Promise<(T | Error | null)[]>
+  findMany: (query: {
+    where?: RequireAtLeastOne<T>
+    select?: (keyof T)[]
+    // include?: { [key in keyof Partial<T>]: boolean }
+  }) => Promise<(T | Error | null)[]>
 
   /** Creates a new database record. */
   create: (data: OptionalId<T>) => Promise<T | null>
 
-  // updates an existing database record.
+  /** Updates an existing database record. */
   update: (query: { where: Partial<T>; data: Partial<T> }) => Promise<T | null>
   /*
   TODO: Implement the following methods:

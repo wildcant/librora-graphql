@@ -4,14 +4,14 @@ import { RequiredId } from './pg/types'
 
 interface BooksTopicsModel {
   id: string
-  bookId: string
-  topicId: string
+  book: string
+  topic: string
 }
 
 interface BooksSubTopicsModel {
   id: string
-  bookId: string
-  subtopicId: string
+  book: string
+  subtopic: string
 }
 
 declare module 'knex/types/tables' {

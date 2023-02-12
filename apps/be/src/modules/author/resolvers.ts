@@ -1,11 +1,13 @@
+import { getFields } from '../../utils'
 import { AuthorModule } from './types'
 
 export const resolvers: AuthorModule.Resolvers = {
   Query: {
-    author: (_, args, context) => context.dataSources.authors.findUnique({ where: { id: args.id } }),
+    author: (_, args, context, info) =>
+      context.dataSources.authors.findUnique({ where: { id: args.id }, select: getFields(info) }),
   },
   Author: {
-    id: ({ id }) => id,
-    name: ({ name }) => name,
+    id: (author) => author.id,
+    name: (author) => author.name,
   },
 }

@@ -95,7 +95,7 @@
     @apply px-4 py-2 text-xs;
     @apply sm:px-4 sm:py-2 sm:text-sm;
     @apply lg:px-6 lg:py-2 lg:text-base;
-    @apply 2xl:px-8 2xl:py-4 2xl:text-lg;
+    @apply 2xl:px-8 2xl:py-3 2xl:text-lg;
     &.icon-only {
       @apply px-1 py-1;
       @apply sm:px-4 sm:py-4;

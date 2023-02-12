@@ -28,6 +28,8 @@ type User {
   type: EUserType!
   username: String!
   initial: String!
+  books: [Book]
+  name: String
 }
 
 input CreateUserInput {

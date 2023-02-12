@@ -1,10 +1,11 @@
-import addHours from 'date-fns/addHours'
 import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
+import addHours from 'date-fns/addHours'
+import omit from 'lodash/fp/omit'
 import z from 'zod'
+import { sendPasswordInstructions } from '../../comms/email'
 import { validateResetPasswordAction } from '../action/utils'
 import { MutationResolvers } from '../graphql-types'
 import { AuthModule } from './types'
-import { sendPasswordInstructions } from '../../comms/email'
 
 /**
  * Sign in mutation.
@@ -15,16 +16,16 @@ const signIn: MutationResolvers['signIn'] = async (_, args, context) => {
   // Check if account is the username or the email.
   const login: 'email' | 'username' = z.string().email().safeParse(account).success ? 'email' : 'username'
 
-  const user = await context.dataSources.users.findUnique({
+  const rawUser = await context.dataSources.users.findUnique({
     where: account === 'email' ? { email: account } : { username: account },
   })
 
-  // TODO: Encrypt password, improve security and update validation.
-  if (!user || password !== user?.password) {
+  // TODO: Encrypt password to improve security and update validation.
+  if (!rawUser || password !== rawUser?.password) {
     return { success: false, message: `Invalid ${login} or password.` }
   }
 
-  return { success: true, message: 'Logged in.', user }
+  return { success: true, message: 'Logged in.', user: omit(['password'], rawUser) }
 }
 
 /**
@@ -33,23 +34,23 @@ const signIn: MutationResolvers['signIn'] = async (_, args, context) => {
 const forgotPassword: MutationResolvers['forgotPassword'] = async (_, args, context) => {
   const { email } = args.input
 
-  const user = await context.dataSources.users.findUnique({ where: { email } })
+  const user = await context.dataSources.users.findUnique({ where: { email }, select: ['id', 'username'] })
 
   if (user) {
     const resetPasswordAction: ActionModel = {
       namespace: EActionNamespace.UserFlow,
       name: EUserActionName.ResetPassword,
-      userId: user.id,
+      user: user.id,
       metadata: { expiresAt: addHours(new Date(), 3), redeemed: false },
     }
 
     context.dataSources.actions.create(resetPasswordAction).then((action) => {
-      if (!action) {
+      if (!action || !action.id) {
         console.warn('It was not able to create the reset password action.')
         return
       }
 
-      sendPasswordInstructions(email, { token: action.id!, userFirstName: user.firstName })
+      sendPasswordInstructions(email, { token: action.id, userFirstName: user.firstName })
     })
   }
 
@@ -79,7 +80,7 @@ const resetPassword: MutationResolvers['resetPassword'] = async (_, args, contex
 
   // Update user password.
   const updatedUser = await context.dataSources.users.update({
-    where: { id: action.userId },
+    where: { id: action.user },
     data: { password: newPassword },
   })
 

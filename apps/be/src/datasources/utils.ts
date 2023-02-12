@@ -1,3 +1,6 @@
+/**
+ * Maps pg query response to dataloader response.
+ */
 export function mapTo<R, K>(
   records: ReadonlyArray<R>,
   keys: ReadonlyArray<K>,

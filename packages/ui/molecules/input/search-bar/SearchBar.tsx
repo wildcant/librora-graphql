@@ -34,6 +34,7 @@ export function SearchBar<TValues extends FieldValues>({
         variant="unstyled"
         icon={<Icon name="close-circle-fill" className="opacity-30 hover:opacity-70 active:opacity-100" />}
         className="absolute right-2"
+        size="sm"
         onClick={() => field.onChange()}
       />
     </div>

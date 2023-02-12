@@ -33,7 +33,7 @@ export async function createTables() {
 
   await knex.schema.createTable('actions', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
-    table.uuid('userId').notNullable().references('users.id').onDelete('CASCADE').onUpdate('CASCADE').index()
+    table.uuid('user').notNullable().references('users.id').onDelete('CASCADE').onUpdate('CASCADE').index()
     table.enum('namespace', Object.values(EActionNamespace))
     table.enum('name', ACTION_NAMES)
     table.jsonb('metadata').notNullable().defaultTo('{}')
@@ -108,11 +108,11 @@ export async function createTables() {
   await knex.schema.createTable('booksTopics', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
-    table.uuid('bookId')
-    table.foreign('bookId').references('id').inTable('books')
+    table.uuid('book')
+    table.foreign('book').references('id').inTable('books')
 
-    table.uuid('topicId')
-    table.foreign('topicId').references('id').inTable('topics')
+    table.uuid('topic')
+    table.foreign('topic').references('id').inTable('topics')
 
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })
@@ -128,11 +128,11 @@ export async function createTables() {
   await knex.schema.createTable('booksSubtopics', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
-    table.uuid('bookId')
-    table.foreign('bookId').references('id').inTable('books')
+    table.uuid('book')
+    table.foreign('book').references('id').inTable('books')
 
-    table.uuid('subtopicId')
-    table.foreign('subtopicId').references('id').inTable('subtopics')
+    table.uuid('subtopic')
+    table.foreign('subtopic').references('id').inTable('subtopics')
 
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })

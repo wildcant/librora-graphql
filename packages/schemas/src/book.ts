@@ -4,7 +4,7 @@ import z from 'zod'
 export const BookSchema = z.object({
   id: z.string().uuid(),
   activated: z.boolean(),
-  author: z.string(),
+  author: z.string().uuid(),
   cover: z.string(),
   coverThumbnail: z.string(),
   coverThumbnailMini: z.string(),
@@ -23,7 +23,7 @@ export const BookSchema = z.object({
   publisher: z.string(),
   subtitle: z.string(),
   title: z.string(),
-  user: z.string(),
+  user: z.string().uuid(),
 })
 
 /*

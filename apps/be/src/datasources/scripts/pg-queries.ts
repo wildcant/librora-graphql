@@ -44,6 +44,7 @@ export async function seed(args: string[]) {
         username: faker.internet.userName(),
       })
       .returning('id')
+
     const [books] = await Promise.all(
       booksData.map(({ title, cover, description }) =>
         knex('books')
@@ -74,22 +75,22 @@ export async function seed(args: string[]) {
     )
     await Promise.all(
       books.map((book) => {
-        knex('bookTopics').insert({ bookId: book.id, topicId: topic.id })
-        knex('bookSubtopics').insert({ bookId: book.id, subtopicId: subtopic.id })
+        knex('bookTopics').insert({ book: book.id, topic: topic.id })
+        knex('bookSubtopics').insert({ book: book.id, subtopic: subtopic.id })
       })
     )
 
     await knex('actions').insert({
       namespace: EActionNamespace.UserFlow,
       name: EUserActionName.ResetPassword,
-      userId: user.id,
+      user: user.id,
       metadata: { expiresAt: addHours(new Date(), 3), redeemed: false },
     })
   }
 
-  console.log(await knex('authors'))
-  console.log(await knex('books'))
-  console.log(await knex('actions'))
+  console.info(await knex('authors'))
+  console.info(await knex('books'))
+  console.info(await knex('actions'))
 }
 
 if (process.argv.slice(2).length) {

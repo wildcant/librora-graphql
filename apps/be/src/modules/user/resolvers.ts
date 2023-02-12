@@ -1,13 +1,16 @@
-import addHours from 'date-fns/addHours'
+import { EUserActionName, EUserRole, EUserType } from '@librora/schemas'
 import isAfter from 'date-fns/isAfter'
-import { ActionModel, EActionNamespace, EUserActionName, EUserRole, EUserType } from '@librora/schemas'
-import { sendVerificationEmail, validateResetPasswordAction } from '../action/utils'
+import { getFields } from '../../utils'
+import { sendVerificationEmail } from '../action/utils'
 import { UserModule } from './types'
 
 export const resolvers: UserModule.Resolvers = {
   Query: {
-    user: async (_, args, context) => {
-      const user = await context.dataSources.users.findUnique({ where: { id: args.id } })
+    user: async (_, args, context, info) => {
+      const user = await context.dataSources.users.findUnique({
+        where: { id: args.id },
+        select: getFields(info),
+      })
 
       if (!user) {
         return null
@@ -35,7 +38,10 @@ export const resolvers: UserModule.Resolvers = {
     verifyEmail: async (_, args, context) => {
       const { token } = args.input
       // Validate reset password action.
-      const action = await context.dataSources.actions.findUnique({ where: { id: token } })
+      const action = await context.dataSources.actions.findUnique({
+        where: { id: token },
+        select: ['id', 'name', 'namespace'],
+      })
 
       if (!action || action.name !== EUserActionName.EmailConfirmation) {
         return { success: false, message: 'Action not found.' }
@@ -59,7 +65,8 @@ export const resolvers: UserModule.Resolvers = {
   },
 
   User: {
-    id: (u) => u.id!,
-    initial: (u) => u.firstName.charAt(0),
+    // Resolvers for computed value.
+    initial: (user) => user.firstName.charAt(0),
+    name: async (user) => `${user.firstName} ${user.lastName}`,
   },
 }

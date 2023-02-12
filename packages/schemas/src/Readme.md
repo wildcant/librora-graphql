@@ -47,7 +47,7 @@ function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserT
 }
 ```
 
-3. As zod union, zod effect doesn't have the useful zod object methods. https://github.com/colinhacks/zod/issues/1245
+3. As zod union, zod effect doesn't have the useful zod object methods. https://github.com/colinhacks/zod/issues/1245 and https://github.com/colinhacks/zod/pull/1845
 
 ```ts
 // pick | omit | merge won't work with refine, it's returning a `zod effect`.

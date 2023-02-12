@@ -1,59 +1,36 @@
-import DataLoader from 'dataloader'
 import { ActionModel, AuthorModel, BookModel, UserModel } from '@librora/schemas'
+import DataLoader, { Options } from 'dataloader'
 import { mapTo } from '../utils'
 import { knex } from './knex'
 
-/**
- * Data Loaders.
- */
+type LoadFnKey<T> = { value: string; select?: (keyof T)[] }
+type CreateLoader<T> = { table: string; key: keyof T; options?: Options<LoadFnKey<T>, T> }
+
+function createLoader<T>({ table, key: keyName, options }: CreateLoader<T>) {
+  return new DataLoader<LoadFnKey<T>, T | null>((keys) => {
+    const keyValues = keys.map(({ value }) => value)
+    const selection = keys[0].select ?? ['*']
+
+    return knex(table)
+      .whereIn(keyName as string, keyValues)
+      .select(selection)
+      .then((rows) => mapTo(rows, keyValues, (x) => x[keyName]))
+  }, options)
+}
+
+/** Data Loaders. */
 export const loaders = {
-  /**
-   * Book
-   */
-  bookById: new DataLoader<string, BookModel | null>((keys) =>
-    knex('books')
-      .whereIn('id', keys)
-      .select()
-      .then((rows) => mapTo(rows, keys, (x) => x.id))
-  ),
-  authorById: new DataLoader<string, AuthorModel | null>((keys) =>
-    knex('authors')
-      .whereIn('id', keys)
-      .select()
-      .then((rows) => mapTo(rows, keys, (x) => x.id))
-  ),
+  /** Book */
+  bookById: createLoader<BookModel>({ table: 'books', key: 'id' }),
 
-  /**
-   * User
-   */
-  userById: new DataLoader<string, UserModel | null>((keys) =>
-    knex('users')
-      .whereIn('id', keys)
-      .select()
-      .then((rows) => mapTo(rows, keys, (x) => x.id))
-  ),
-  userByEmail: new DataLoader<string, UserModel | null>((keys) =>
-    knex('users')
-      .whereIn('email', keys)
-      .select()
-      .then((rows) => mapTo(rows, keys, (x) => x.email))
-  ),
-  userByUsername: new DataLoader<string, UserModel | null>((keys) =>
-    knex('users')
-      .whereIn('username', keys)
-      .select()
-      .then((rows) => mapTo(rows, keys, (x) => x.username))
-  ),
+  /** Author */
+  authorById: createLoader<AuthorModel>({ table: 'authors', key: 'id' }),
 
-  /**
-   * Action.
-   */
-  userActionById: new DataLoader<string, ActionModel | null>(
-    (keys) =>
-      knex('actions')
-        .whereIn('id', keys)
-        .select()
-        .then((rows) => mapTo(rows, keys, (x) => x.id)),
-    { cache: false }
-  ),
+  /** User */
+  userById: createLoader<UserModel>({ table: 'users', key: 'id' }),
+  userByEmail: createLoader<UserModel>({ table: 'users', key: 'email' }),
+  userByUsername: createLoader<UserModel>({ table: 'users', key: 'username' }),
+
+  /** Action. */
+  userActionById: createLoader<ActionModel>({ table: 'actions', key: 'id', options: { cache: false } }),
 }

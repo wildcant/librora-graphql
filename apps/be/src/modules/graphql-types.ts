@@ -7,7 +7,7 @@
 /* eslint-disable */
 
 import { GraphQLResolveInfo } from 'graphql';
-import { BookModel, AuthorModel, UserModel, ActionModel } from '@librora/schemas';
+import { BookModel, AuthorModel, PublicUserModel, ActionModel } from '@librora/schemas';
 import { IContext } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -198,6 +198,7 @@ export type SignInPayload = {
 
 export type User = {
   __typename?: 'User';
+  books?: Maybe<Array<Maybe<Book>>>;
   countryCode?: Maybe<ECountryCode>;
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -205,6 +206,7 @@ export type User = {
   initial: Scalars['String'];
   isEmailValidated: Scalars['Boolean'];
   lastName: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   role: EUserRole;
   type: EUserType;
   username: Scalars['String'];
@@ -317,7 +319,7 @@ export type ResolversTypes = {
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<UserModel>;
+  User: ResolverTypeWrapper<PublicUserModel>;
   ValidateActionPayload: ResolverTypeWrapper<ValidateActionPayload>;
   VerifyEmailInput: VerifyEmailInput;
   VerifyEmailPayload: ResolverTypeWrapper<VerifyEmailPayload>;
@@ -341,7 +343,7 @@ export type ResolversParentTypes = {
   SignInInput: SignInInput;
   SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
-  User: UserModel;
+  User: PublicUserModel;
   ValidateActionPayload: ValidateActionPayload;
   VerifyEmailInput: VerifyEmailInput;
   VerifyEmailPayload: VerifyEmailPayload;
@@ -422,6 +424,7 @@ export type SignInPayloadResolvers<ContextType = IContext, ParentType extends Re
 };
 
 export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
   countryCode?: Resolver<Maybe<ResolversTypes['ECountryCode']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -429,6 +432,7 @@ export type UserResolvers<ContextType = IContext, ParentType extends ResolversPa
   initial?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isEmailValidated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['EUserRole'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['EUserType'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

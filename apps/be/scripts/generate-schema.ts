@@ -21,7 +21,7 @@ function generateSchema() {
     const typeDefs = mergeTypeDefs(loadedFiles)
     const printedTypeDefs = print(typeDefs)
     writeFileSync('schema.graphql', `${prefix}\n${printedTypeDefs}`)
-    console.log('The definitions have been updated.')
+    console.info('The definitions have been updated.')
   } catch (error) {
     console.error('There was an error generating the new schema. ', error)
   }
@@ -31,9 +31,9 @@ const options = process.argv.slice(2)
 
 if (options.includes('watch')) {
   const watcher = chokidar.watch(dir)
-  console.log('Watching your graphql files...')
+  console.info('Watching your graphql files...')
   watcher.on('change', async (file) => {
-    console.log(`[${new Date().toLocaleTimeString()}] "${file}" has been changed.`)
+    console.info(`[${new Date().toLocaleTimeString()}] "${file}" has been changed.`)
     generateSchema()
   })
 } else {

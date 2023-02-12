@@ -4,6 +4,14 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   rules: {
+    'no-console': 'off',
+    'no-restricted-syntax': [
+      'warn',
+      {
+        selector: "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info)$/]",
+        message: 'Unexpected property on console object was called',
+      },
+    ],
     '@next/next/no-html-link-for-pages': 'off',
     'react/jsx-key': 'off',
     '@typescript-eslint/no-empty-interface': ['off'],

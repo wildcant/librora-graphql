@@ -1,9 +1,15 @@
+import { BookModel } from '@librora/schemas'
+import { getFields } from '../../utils'
+
 import { BookModule } from './types'
 
 export const resolvers: BookModule.Resolvers = {
   Query: {
-    book: async (_, args, context) => {
-      const book = await context.dataSources.books.findUnique({ where: { id: args.id } })
+    book: async (_, args, context, info) => {
+      const book = await context.dataSources.books.findUnique({
+        where: { id: args.id },
+        select: getFields(info),
+      })
 
       if (!book) {
         return null
@@ -11,12 +17,21 @@ export const resolvers: BookModule.Resolvers = {
 
       return book
     },
+
+    books: async (_, __, context, info) => {
+      const records = await context.dataSources.books.findMany({ select: getFields(info) })
+
+      return records as BookModel[]
+    },
   },
 
   Book: {
-    id: (b) => b.id,
-    author: async (b, _, c) =>
-      b.author ? c.dataSources.authors.findUnique({ where: { id: b.author } }) : null,
-    user: async (b, _, c) => c.dataSources.users.findUnique({ where: { id: b.user } }),
+    id: (book) => book.id,
+    author: async (book, __, context, info) =>
+      book.author
+        ? context.dataSources.authors.findUnique({ where: { id: book.author }, select: getFields(info) })
+        : null,
+    user: async (book, __, context, info) =>
+      context.dataSources.users.findUnique({ where: { id: book.user }, select: getFields(info) }),
   },
 }

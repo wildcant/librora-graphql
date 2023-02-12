@@ -6,9 +6,12 @@ import { PgDataSource } from './types'
 export interface IAuthorDataSource extends PgDataSource<AuthorModel> {}
 
 export const authorsDataSource: IAuthorDataSource = {
-  findUnique: (query) => loaders.authorById.load(query.where.id),
+  findUnique: ({ where, select }) => loaders.authorById.load({ value: where.id, select: select }),
 
-  findMany: (ids) => loaders.authorById.loadMany(ids),
+  findMany: async ({ where = {}, select }) => {
+    const ids = (await knex('authors').where(where).select('id')).map(({ id }) => id)
+    return loaders.authorById.loadMany(ids.map((id) => ({ value: id, select })))
+  },
 
   create: async (data) => {
     AuthorSchema.partial({ id: true }).parse(data)

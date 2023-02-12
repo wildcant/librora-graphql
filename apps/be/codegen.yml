@@ -25,6 +25,6 @@ generates:
           mappers:
             Book: '@librora/schemas#BookModel'
             Author: '@librora/schemas#AuthorModel'
-            User: '@librora/schemas#UserModel'
+            User: '@librora/schemas#PublicUserModel'
             Action: '@librora/schemas#ActionModel'
           contextType: ../context#IContext

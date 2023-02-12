@@ -10,20 +10,25 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      booksCount: 1,
       books: [],
       query,
     },
   }
 }
 
-export default function Search({ books, query }: InferGetStaticPropsType<typeof getServerSideProps>) {
+export default function Search({
+  booksCount,
+  books,
+  query,
+}: InferGetStaticPropsType<typeof getServerSideProps>) {
   const { control, handleSubmit } = useForm<{ search?: string }>({
     defaultValues: { search: query ?? undefined },
   })
   const { replace } = useRouter()
   return (
     <div className="bg-secondary-lightest min-h-screen w-full bg-[url('../public/noise.png')]">
-      <div className="container mx-auto flex h-full min-h-screen w-full flex-col items-center justify-around p-4 md:justify-between md:p-6">
+      <div className="wp-4 container mx-auto min-h-screen md:p-6">
         <Header />
 
         <form
@@ -31,6 +36,10 @@ export default function Search({ books, query }: InferGetStaticPropsType<typeof 
         >
           <SearchBar control={control} name="search" placeholder="Search" />
         </form>
+
+        <p>{query}</p>
+
+        <p>Explore {booksCount} books.</p>
 
         {/* TODO: Add books card list */}
         {books.map((book) => (

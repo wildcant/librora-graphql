@@ -50,7 +50,7 @@ const ActionNamespaceSchema = z.union([
 export const ActionSchema = z
   .object({
     id: z.string().uuid().optional(),
-    userId: z.string(),
+    user: z.string().uuid(),
   })
   .and(ActionNamespaceSchema)
 

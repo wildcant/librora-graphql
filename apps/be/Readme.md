@@ -3,6 +3,7 @@
 - Schema first with type safety.
 - Simplicity and good DX.
 - Scalable project structure following a few best practices.
+- Stablish boundaries between database access, business logic and resolvers (e.g. using eslint rules).
 
 references:
 
@@ -26,9 +27,10 @@ Split resolvers and types to have type safe resolvers and avoid names collision.
 
 ## TODOs
 
-[] Try tests with [vitest](https://vitest.dev/guide/) https://www.hubburu.com/articles/testing_apollo_server_with_vitest
-[] Add generator script to create a new modules.
-[] Add reservations module, try xstate to have more complex logic and learn about event driven architectures.
+[ ] Try tests with [vitest](https://vitest.dev/guide/) https://www.hubburu.com/articles/testing_apollo_server_with_vitest
+[ ] Add generator script to create a new modules.
+[ ] Add reservations module, try xstate to have more complex logic and learn about event driven architectures.
+[ ] Standardize the way to work with Computed Columns when mapping a graphql query to an sql query. see [join-monster](https://join-monster.readthedocs.io/en/latest/field-metadata/#computed-columns) for reference. See also an [article](https://productionreadygraphql.com/blog/2020-05-21-graphql-to-sql) about it this topic.
 
 ## Known problems
 

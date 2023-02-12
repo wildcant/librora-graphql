@@ -9,7 +9,7 @@
 import * as Types from "../graphql-types";
 export namespace UserModule {
   interface DefinedFields {
-    User: 'id' | 'countryCode' | 'email' | 'firstName' | 'isEmailValidated' | 'lastName' | 'role' | 'type' | 'username' | 'initial';
+    User: 'id' | 'countryCode' | 'email' | 'firstName' | 'isEmailValidated' | 'lastName' | 'role' | 'type' | 'username' | 'initial' | 'books' | 'name';
     CreateUserPayload: 'user' | 'success' | 'message';
     VerifyEmailPayload: 'success' | 'message';
     Query: 'user';
@@ -33,6 +33,7 @@ export namespace UserModule {
   export type EAdminRole = DefinedEnumValues['EAdminRole'];
   export type ECountryCode = DefinedEnumValues['ECountryCode'];
   export type User = Pick<Types.User, DefinedFields['User']>;
+  export type Book = Types.Book;
   export type CreateUserInput = Pick<Types.CreateUserInput, DefinedInputFields['CreateUserInput']>;
   export type CreateUserPayload = Pick<Types.CreateUserPayload, DefinedFields['CreateUserPayload']>;
   export type VerifyEmailInput = Pick<Types.VerifyEmailInput, DefinedInputFields['VerifyEmailInput']>;

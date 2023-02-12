@@ -21,14 +21,17 @@ export const UserSchema = BaseUserSchema.omit({
   role: z.nativeEnum(EUserRole),
 })
 
+export type UserModel = z.infer<typeof UserSchema>
+
+export const PublicUserSchema = UserSchema.omit({ password: true })
+export type PublicUserModel = z.infer<typeof PublicUserSchema>
+
 export const AdminSchema = BaseUserSchema.omit({
   type: true,
 }).extend({
   type: z.literal(EUserType.Admin),
   role: z.nativeEnum(EUserRole),
 })
-
-export type UserModel = z.infer<typeof UserSchema>
 
 function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserType }) {
   switch (val.type) {

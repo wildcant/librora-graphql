@@ -6,9 +6,12 @@ import { PgDataSource } from './types'
 export interface IActionDataSource extends PgDataSource<ActionModel> {}
 
 export const actionsDataSource: IActionDataSource = {
-  findUnique: (query) => loaders.userActionById.load(query.where.id),
+  findUnique: ({ where, select }) => loaders.userActionById.load({ value: where.id, select }),
 
-  findMany: (ids) => loaders.userActionById.loadMany(ids),
+  findMany: async ({ where = {}, select }) => {
+    const ids = (await knex('actions').where(where).select('id')).map(({ id }) => id) as string[]
+    return loaders.userActionById.loadMany(ids.map((id) => ({ value: id, select })))
+  },
 
   create: async (data) => {
     const [record] = await knex('actions')

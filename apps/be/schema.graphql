@@ -1,4 +1,4 @@
-# 
+#
 # -------------------------------------------------------
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # -------------------------------------------------------
@@ -114,15 +114,17 @@ enum ECountryCode {
 
 type User {
   id: String!
+  books: [Book]
   countryCode: ECountryCode
   email: String!
   firstName: String!
+  initial: String!
   isEmailValidated: Boolean!
   lastName: String!
+  name: String!
   role: EUserRole!
   type: EUserType!
   username: String!
-  initial: String!
 }
 
 input CreateUserInput {
