@@ -35,6 +35,7 @@ export type Author = {
 export type Book = {
   __typename?: 'Book'
   author?: Maybe<Author>
+  cover?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   editorial?: Maybe<Editorial>
   format?: Maybe<EFormat>
@@ -131,6 +132,7 @@ export type Query = {
   author?: Maybe<Author>
   book?: Maybe<Book>
   books?: Maybe<Array<Maybe<Book>>>
+  searchBooks?: Maybe<Array<Maybe<Book>>>
   user?: Maybe<User>
 }
 
@@ -140,6 +142,10 @@ export type QueryAuthorArgs = {
 
 export type QueryBookArgs = {
   id: Scalars['String']
+}
+
+export type QuerySearchBooksArgs = {
+  text: Scalars['String']
 }
 
 export type QueryUserArgs = {
@@ -178,6 +184,7 @@ export type SignInPayload = {
 
 export type User = {
   __typename?: 'User'
+  books?: Maybe<Array<Maybe<Book>>>
   countryCode?: Maybe<ECountryCode>
   email: Scalars['String']
   firstName: Scalars['String']
@@ -185,6 +192,7 @@ export type User = {
   initial: Scalars['String']
   isEmailValidated: Scalars['Boolean']
   lastName: Scalars['String']
+  name?: Maybe<Scalars['String']>
   role: EUserRole
   type: EUserType
   username: Scalars['String']
@@ -310,4 +318,21 @@ export type BookQuery = {
     author?: { __typename?: 'Author'; id: string; name: string } | null
     user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
   } | null
+}
+
+export type SearchBooksQueryVariables = Exact<{
+  text: Scalars['String']
+}>
+
+export type SearchBooksQuery = {
+  __typename?: 'Query'
+  searchBooks?: Array<{
+    __typename?: 'Book'
+    id: string
+    title?: string | null
+    subtitle?: string | null
+    description?: string | null
+    cover?: string | null
+    author?: { __typename?: 'Author'; name: string } | null
+  } | null> | null
 }

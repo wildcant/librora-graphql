@@ -21,13 +21,15 @@ export async function seed(args: string[]) {
     const booksData = [
       {
         title: 'The emperor handbook',
-        cover: 'https://d28hgpri8am2if.cloudfront.net/book_images/cvr9780743233835_9780743233835_hr.jpg',
+        cover:
+          'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/15daee74-7d2c-4682-932c-a3337369558c/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230213%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230213T035921Z&X-Amz-Expires=86400&X-Amz-Signature=1083ca5e8904ab2de5748cfea289465340ffdc6787d79b5d0c065f685bc9dcc8&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject',
         description:
           'Written in Greek, without any intention of publication, by the only Roman emperor who was also a philosopher, the Meditations of Marcus Aurelius (AD 121-180) offer a remarkable series of challenging spiritual reflections and exercises developed as the emperor struggled to understand himself and make sense of the universe. ',
       },
       {
         title: 'Meditations',
-        cover: 'https://images.cdn2.buscalibre.com/fit-in/360x360/6c/01/6c014941d896146d15a044484548b6d4.jpg',
+        cover:
+          'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d0ca545c-3fb6-4006-84f9-fb8057dac8dd/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230213%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230213T035939Z&X-Amz-Expires=86400&X-Amz-Signature=bd03b73b32c96be18501088b74cacf1de9d79604fdf9cd6182aa83e34d9b3858&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject',
         description:
           'Meditations is a series of personal writings by Marcus Aurelius, Roman Emperor from AD 161 to 180, recording his private notes to himself and ideas on Stoic philosophy.',
       },

@@ -1,0 +1,12 @@
+query SearchBooks($text: String!) {
+  searchBooks(text: $text) {
+    id
+    title
+    subtitle
+    description
+    cover
+    author {
+      name
+    }
+  }
+}

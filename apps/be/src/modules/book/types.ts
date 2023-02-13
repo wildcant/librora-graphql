@@ -9,8 +9,8 @@
 import * as Types from "../graphql-types";
 export namespace BookModule {
   interface DefinedFields {
-    Book: 'id' | 'author' | 'description' | 'editorial' | 'format' | 'language' | 'subtitle' | 'title' | 'user';
-    Query: 'books' | 'book';
+    Book: 'id' | 'author' | 'cover' | 'description' | 'editorial' | 'format' | 'language' | 'subtitle' | 'title' | 'user';
+    Query: 'books' | 'book' | 'searchBooks';
   };
   
   interface DefinedEnumValues {

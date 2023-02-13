@@ -1,4 +1,4 @@
-#
+# 
 # -------------------------------------------------------
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # -------------------------------------------------------
@@ -68,6 +68,7 @@ type Query {
   author(id: String!): Author
   books: [Book]
   book(id: String!): Book
+  searchBooks(text: String!): [Book]
   user(id: String!): User
 }
 
@@ -84,6 +85,7 @@ enum ELanguage {
 type Book {
   id: String!
   author: Author
+  cover: String
   description: String
   editorial: Editorial
   format: EFormat
@@ -114,17 +116,17 @@ enum ECountryCode {
 
 type User {
   id: String!
-  books: [Book]
   countryCode: ECountryCode
   email: String!
   firstName: String!
-  initial: String!
   isEmailValidated: Boolean!
   lastName: String!
-  name: String!
   role: EUserRole!
   type: EUserType!
   username: String!
+  initial: String!
+  books: [Book]
+  name: String
 }
 
 input CreateUserInput {

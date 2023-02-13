@@ -13,9 +13,9 @@ function SearchBarContainer({ className }: ISearchBarProps) {
 
   return (
     <form
-      onSubmit={handleSubmit(
-        (data) => data.search && push(`/search/${data.search.trim().split(' ').join('-')}`)
-      )}
+      onSubmit={handleSubmit((data) => {
+        data.search && push(`/search/${data.search.trim().split(' ').join('-')}`)
+      })}
       className={className}
     >
       <SearchBar control={control} name="search" placeholder="Search" />

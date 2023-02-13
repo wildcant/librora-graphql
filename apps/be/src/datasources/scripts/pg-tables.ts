@@ -62,9 +62,9 @@ export async function createTables() {
     table.uuid('author')
     table.foreign('author').references('id').inTable('authors')
 
-    table.string('cover')
-    table.string('coverThumbnail')
-    table.string('coverThumbnailMini')
+    table.string('cover', 500)
+    table.string('coverThumbnail', 500)
+    table.string('coverThumbnailMini', 500)
     table.string('date')
     table.string('description', 500)
     table.string('editionNumber')
@@ -96,6 +96,17 @@ export async function createTables() {
 
     table.timestamps({ useCamelCase: true, useTimestamps: true })
   })
+
+  await knex.raw(`
+    ALTER TABLE books
+    ADD COLUMN fullText tsvector GENERATED ALWAYS 
+    AS (
+      setweight(to_tsvector('english', coalesce(title,'')), 'A') ||
+      setweight(to_tsvector('english', coalesce(subtitle,'')), 'B') ||
+      setweight(to_tsvector('english', coalesce(description,'')), 'C')
+    ) STORED;
+    CREATE INDEX fullTextIndex ON books USING GIN (fullText);
+  `)
 
   await knex.schema.createTable('topics', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))

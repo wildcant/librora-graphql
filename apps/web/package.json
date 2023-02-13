@@ -11,7 +11,6 @@
   "dependencies": {
     "@apollo/client": "^3.7.4",
     "@hookform/resolvers": "^2.9.10",
-    "@librora/schemas": "*",
     "@librora/utils": "*",
     "@next/font": "^13.1.5",
     "@popperjs/core": "^2.11.6",

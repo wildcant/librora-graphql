@@ -11,6 +11,7 @@ enum ELanguage {
 type Book {
   id: String!
   author: Author
+  cover: String
   description: String
   editorial: Editorial
   format: EFormat
@@ -23,4 +24,5 @@ type Book {
 type Query {
   books: [Book]
   book(id: String!): Book
+  searchBooks(text: String!): [Book]
 }

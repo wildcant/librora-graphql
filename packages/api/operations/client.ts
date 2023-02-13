@@ -393,3 +393,58 @@ export function useBookLazyQuery(
 export type BookQueryHookResult = ReturnType<typeof useBookQuery>
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>
 export type BookQueryResult = Apollo.QueryResult<Types.BookQuery, Types.BookQueryVariables>
+export const SearchBooksDocument = gql`
+  query SearchBooks($text: String!) {
+    searchBooks(text: $text) {
+      id
+      title
+      subtitle
+      description
+      cover
+      author {
+        name
+      }
+    }
+  }
+`
+
+/**
+ * __useSearchBooksQuery__
+ *
+ * To run a query within a React component, call `useSearchBooksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchBooksQuery({
+ *   variables: {
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useSearchBooksQuery(
+  baseOptions: Apollo.QueryHookOptions<Types.SearchBooksQuery, Types.SearchBooksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Types.SearchBooksQuery, Types.SearchBooksQueryVariables>(
+    SearchBooksDocument,
+    options
+  )
+}
+export function useSearchBooksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<Types.SearchBooksQuery, Types.SearchBooksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<Types.SearchBooksQuery, Types.SearchBooksQueryVariables>(
+    SearchBooksDocument,
+    options
+  )
+}
+export type SearchBooksQueryHookResult = ReturnType<typeof useSearchBooksQuery>
+export type SearchBooksLazyQueryHookResult = ReturnType<typeof useSearchBooksLazyQuery>
+export type SearchBooksQueryResult = Apollo.QueryResult<
+  Types.SearchBooksQuery,
+  Types.SearchBooksQueryVariables
+>

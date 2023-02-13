@@ -34,6 +34,7 @@ export type Author = {
 export type Book = {
   __typename?: 'Book';
   author?: Maybe<Author>;
+  cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   editorial?: Maybe<Editorial>;
   format?: Maybe<EFormat>;
@@ -148,6 +149,7 @@ export type Query = {
   author?: Maybe<Author>;
   book?: Maybe<Book>;
   books?: Maybe<Array<Maybe<Book>>>;
+  searchBooks?: Maybe<Array<Maybe<Book>>>;
   user?: Maybe<User>;
 };
 
@@ -159,6 +161,11 @@ export type QueryAuthorArgs = {
 
 export type QueryBookArgs = {
   id: Scalars['String'];
+};
+
+
+export type QuerySearchBooksArgs = {
+  text: Scalars['String'];
 };
 
 
@@ -357,6 +364,7 @@ export type AuthorResolvers<ContextType = IContext, ParentType extends Resolvers
 
 export type BookResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType>;
+  cover?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   editorial?: Resolver<Maybe<ResolversTypes['Editorial']>, ParentType, ContextType>;
   format?: Resolver<Maybe<ResolversTypes['EFormat']>, ParentType, ContextType>;
@@ -400,6 +408,7 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QueryAuthorArgs, 'id'>>;
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'id'>>;
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
+  searchBooks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'text'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
