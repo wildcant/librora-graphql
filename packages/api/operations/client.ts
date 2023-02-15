@@ -394,18 +394,19 @@ export type BookQueryHookResult = ReturnType<typeof useBookQuery>
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>
 export type BookQueryResult = Apollo.QueryResult<Types.BookQuery, Types.BookQueryVariables>
 export const SearchBooksDocument = gql`
-  query SearchBooks($text: String!) {
-    searchBooks(text: $text) {
-      id
-      title
-      subtitle
-      description
-      cover
-      coverThumbnail
-      date
-      author {
-        name
+  query SearchBooks($input: SearchBooksInput!) {
+    searchBooks(input: $input) {
+      nodes {
+        id
+        title
+        cover
+        date
       }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+      totalCount
     }
   }
 `
@@ -422,7 +423,7 @@ export const SearchBooksDocument = gql`
  * @example
  * const { data, loading, error } = useSearchBooksQuery({
  *   variables: {
- *      text: // value for 'text'
+ *      input: // value for 'input'
  *   },
  * });
  */

@@ -1,0 +1,79 @@
+import { Icon, Link } from 'ui'
+
+interface IPaginationProps {
+  hasNextPage?: boolean
+  hasPreviousPage?: boolean
+  nextPageUrl: string
+  pageIndex: number
+  pageSize: number
+  previousPageUrl: string
+  totalCount: number
+}
+
+export function Pagination({
+  hasNextPage,
+  hasPreviousPage,
+  nextPageUrl,
+  pageIndex,
+  pageSize,
+  previousPageUrl,
+  totalCount,
+}: IPaginationProps) {
+  const firstItem = pageIndex * pageSize + 1
+  const lastItem = (pageIndex + 1) * pageSize
+
+  return (
+    <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+      <div className="flex flex-1 justify-between sm:hidden">
+        {hasPreviousPage ? (
+          <Link href={previousPageUrl} variant="button-outline">
+            Previous
+          </Link>
+        ) : (
+          <span />
+        )}
+        {hasNextPage ? (
+          <Link href={nextPageUrl} variant="button-outline">
+            Next
+          </Link>
+        ) : (
+          <span />
+        )}
+      </div>
+      <div className="hidden sm:flex sm:flex-col sm:flex-1 sm:items-center lg:justify-between lg:flex-row">
+        <div>
+          <p className="text-sm text-gray-700 font-roboto">
+            Showing <span className="font-medium">{firstItem}</span> to{' '}
+            <span className="font-medium">{lastItem > totalCount ? totalCount : lastItem}</span> of{' '}
+            <span className="font-medium">{totalCount}</span> results
+          </p>
+        </div>
+        <div>
+          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            {hasPreviousPage && (
+              <Link
+                variant="unstyled"
+                href={previousPageUrl}
+                className="relative inline-flex items-center rounded-l-md border border-gray-300 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+              >
+                <span className="sr-only">Previous</span>
+                <Icon className="h-5 w-5" aria-hidden="true" name="arrow-left" />
+              </Link>
+            )}
+
+            {hasNextPage && (
+              <Link
+                variant="unstyled"
+                href={nextPageUrl}
+                className="relative inline-flex items-center rounded-r-md border border-gray-300 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+              >
+                <span className="sr-only">Next</span>
+                <Icon className="h-5 w-5" aria-hidden="true" name="arrow-right" />
+              </Link>
+            )}
+          </nav>
+        </div>
+      </div>
+    </div>
+  )
+}

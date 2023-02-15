@@ -12,6 +12,7 @@ import { EFormat } from '@librora/schemas'
 import { ELanguage } from '@librora/schemas'
 import { EUserRole } from '@librora/schemas'
 import { EUserType } from '@librora/schemas'
+import { SORT } from '@librora/schemas'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -32,6 +33,13 @@ export type Author = {
   name: Scalars['String']
 }
 
+export type AuthorConnection = {
+  __typename?: 'AuthorConnection'
+  nodes: Array<Author>
+  pageInfo: PageInfo
+  totalCount: Scalars['Int']
+}
+
 export type Book = {
   __typename?: 'Book'
   author?: Maybe<Author>
@@ -45,7 +53,25 @@ export type Book = {
   language?: Maybe<ELanguage>
   subtitle?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  user?: Maybe<User>
+  user: User
+}
+
+export type BookConnection = {
+  __typename?: 'BookConnection'
+  nodes: Array<Book>
+  pageInfo: PageInfo
+  totalCount: Scalars['Int']
+}
+
+export type BookFilters = {
+  author?: InputMaybe<Scalars['ID']>
+  freeText: Scalars['String']
+  language?: InputMaybe<ELanguage>
+}
+
+export type BookSort = {
+  by?: InputMaybe<Scalars['String']>
+  order?: InputMaybe<SORT>
 }
 
 export type CreateUserInput = {
@@ -78,6 +104,13 @@ export { EUserType }
 export type Editorial = {
   __typename?: 'Editorial'
   name?: Maybe<Scalars['String']>
+}
+
+export type EditorialConnection = {
+  __typename?: 'EditorialConnection'
+  nodes: Array<Editorial>
+  pageInfo: PageInfo
+  totalCount: Scalars['Int']
 }
 
 export type ForgotPasswordInput = {
@@ -129,12 +162,22 @@ export type MutationVerifyEmailArgs = {
   input: VerifyEmailInput
 }
 
+export type PageInfo = {
+  __typename?: 'PageInfo'
+  hasNextPage: Scalars['Boolean']
+  hasPreviousPage: Scalars['Boolean']
+}
+
+export type Pagination = {
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+}
+
 export type Query = {
   __typename?: 'Query'
   author?: Maybe<Author>
   book?: Maybe<Book>
-  books?: Maybe<Array<Maybe<Book>>>
-  searchBooks?: Maybe<Array<Maybe<Book>>>
+  searchBooks: BookConnection
   user?: Maybe<User>
 }
 
@@ -147,7 +190,7 @@ export type QueryBookArgs = {
 }
 
 export type QuerySearchBooksArgs = {
-  text: Scalars['String']
+  input: SearchBooksInput
 }
 
 export type QueryUserArgs = {
@@ -172,6 +215,14 @@ export type ResetPasswordPayload = {
   user?: Maybe<User>
 }
 
+export { SORT }
+
+export type SearchBooksInput = {
+  filters: BookFilters
+  pagination: Pagination
+  sort?: InputMaybe<BookSort>
+}
+
 export type SignInInput = {
   account: Scalars['String']
   password: Scalars['String']
@@ -186,7 +237,7 @@ export type SignInPayload = {
 
 export type User = {
   __typename?: 'User'
-  books?: Maybe<Array<Maybe<Book>>>
+  books: BookConnection
   countryCode?: Maybe<ECountryCode>
   email: Scalars['String']
   firstName: Scalars['String']
@@ -198,6 +249,13 @@ export type User = {
   role: EUserRole
   type: EUserType
   username: Scalars['String']
+}
+
+export type UserConnection = {
+  __typename?: 'UserConnection'
+  nodes: Array<User>
+  pageInfo: PageInfo
+  totalCount: Scalars['Int']
 }
 
 export type ValidateActionPayload = {
@@ -318,25 +376,26 @@ export type BookQuery = {
     subtitle?: string | null
     description?: string | null
     author?: { __typename?: 'Author'; id: string; name: string } | null
-    user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
+    user: { __typename?: 'User'; id: string; firstName: string; lastName: string }
   } | null
 }
 
 export type SearchBooksQueryVariables = Exact<{
-  text: Scalars['String']
+  input: SearchBooksInput
 }>
 
 export type SearchBooksQuery = {
   __typename?: 'Query'
-  searchBooks?: Array<{
-    __typename?: 'Book'
-    id: string
-    title?: string | null
-    subtitle?: string | null
-    description?: string | null
-    cover?: string | null
-    coverThumbnail?: string | null
-    date: string
-    author?: { __typename?: 'Author'; name: string } | null
-  } | null> | null
+  searchBooks: {
+    __typename?: 'BookConnection'
+    totalCount: number
+    nodes: Array<{
+      __typename?: 'Book'
+      id: string
+      title?: string | null
+      cover?: string | null
+      date: string
+    }>
+    pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean; hasPreviousPage: boolean }
+  }
 }

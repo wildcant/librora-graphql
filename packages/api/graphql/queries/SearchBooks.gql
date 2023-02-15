@@ -1,14 +1,15 @@
-query SearchBooks($text: String!) {
-  searchBooks(text: $text) {
-    id
-    title
-    subtitle
-    description
-    cover
-    coverThumbnail
-    date
-    author {
-      name
+query SearchBooks($input: SearchBooksInput!) {
+  searchBooks(input: $input) {
+    nodes {
+      id
+      title
+      cover
+      date
     }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
   }
 }
