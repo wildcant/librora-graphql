@@ -9,19 +9,19 @@
 
   &.primary {
     &.solid {
-      @apply bg-primary-base text-white;
+      @apply bg-primary-600 text-white;
     }
     &.outline {
-      @apply border-primary-base text-primary-dark border;
+      @apply border-primary-600 text-primary-700 border;
     }
   }
 
   &.secondary {
     &.solid {
-      @apply bg-secondary-base text-white;
+      @apply bg-secondary-600 text-white;
     }
     &.outline {
-      @apply border-secondary-base text-secondary-dark border;
+      @apply border-secondary-600 text-secondary-700 border;
     }
   }
 }

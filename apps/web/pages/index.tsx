@@ -25,7 +25,7 @@ function SearchBarContainer({ className }: ISearchBarProps) {
 
 export default function Home() {
   return (
-    <div className="bg-secondary-lightest min-h-screen w-full bg-[url('../public/noise.png')]">
+    <div className="bg-secondary-50 min-h-screen w-full bg-[url('../public/noise.png')]">
       <div className="container mx-auto flex h-full min-h-screen w-full flex-col items-center justify-around p-4 md:justify-between md:p-6">
         <div className="hidden md:mb-16 md:block md:w-full">
           <Header />

@@ -48,7 +48,7 @@ export default function SignUp() {
   return (
     <AuthLayout
       image={<Image src={signInPic} alt="Registration image" className="w-full self-center" />}
-      imageContainerClassName="bg-secondary-light"
+      imageContainerClassName="bg-secondary-200"
     >
       <Logo />
       <p className="text-xl">Welcome Back</p>
@@ -58,7 +58,7 @@ export default function SignUp() {
         <Button
           size="xs"
           variant="outline"
-          icon={<Icon name="google" className="fill-primary-base" size="sm" />}
+          icon={<Icon name="google" className="fill-primary-600" size="sm" />}
           iconPosition="right"
         >
           Sign in with google
@@ -73,7 +73,7 @@ export default function SignUp() {
             control={control}
             name="account"
             label="Username"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6"
           />
           <TextField
@@ -81,7 +81,7 @@ export default function SignUp() {
             name="password"
             label="Password"
             type="password"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
           />
           <div className="flex justify-end">
             <Link href="/forgot-password" size="xs">

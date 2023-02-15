@@ -13,9 +13,7 @@ export function BookCard({ title, date, cover }: Book) {
 
       <div className="p-1 flex flex-1 flex-col justify-between lg:p-2">
         <h1 className="text-sm font-roboto font-semibold lg:text-md">{title}</h1>
-        <h5 className="text-sm font-roboto font-bold text-secondary-base">
-          {format(new Date(date), 'yyyy')}
-        </h5>
+        <h5 className="text-sm font-roboto font-bold text-secondary-600">{format(new Date(date), 'yyyy')}</h5>
       </div>
     </div>
   )

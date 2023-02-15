@@ -20,8 +20,8 @@ export function Loader({ size = 'lg', color = 'primary', className, ...props }: 
 
   const loaderClassName = cn(
     {
-      'text-primary-base': color === 'primary',
-      'text-secondary-base': color === 'secondary',
+      'text-primary-600': color === 'primary',
+      'text-secondary-600': color === 'secondary',
     },
     className
   )

@@ -54,7 +54,7 @@ export default function ForgotPassword() {
                 control={control}
                 name="email"
                 label="Email"
-                colorScheme="bg-secondary-lightest"
+                colorScheme="bg-secondary-50"
                 className="mb-12"
               />
             </div>

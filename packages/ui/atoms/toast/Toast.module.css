@@ -14,7 +14,7 @@
   }
 
   &.success {
-    @apply bg-primary-base;
+    @apply bg-primary-600;
   }
 
   &.warning {
@@ -44,7 +44,7 @@
   }
 
   &.success {
-    @apply bg-primary-darkest;
+    @apply bg-primary-900;
   }
 
   &.warning {

@@ -1,12 +1,12 @@
 .Link {
   @apply cursor-pointer hover:underline;
   &.primary {
-    @apply text-primary-base;
-    @apply hover:text-primary-dark;
+    @apply text-primary-600;
+    @apply hover:text-primary-700;
   }
   &.secondary {
-    @apply text-secondary-base;
-    @apply hover:text-secondary-dark;
+    @apply text-secondary-600;
+    @apply hover:text-secondary-700;
   }
 
   &.responsive {
@@ -36,29 +36,29 @@
 
   &.primary {
     &.solid {
-      @apply bg-primary-base text-white;
-      @apply hover:bg-primary-dark;
-      @apply active:bg-primary-darker;
-      @apply disabled:bg-primary-base;
+      @apply bg-primary-600 text-white;
+      @apply hover:bg-primary-700;
+      @apply active:bg-primary-800;
+      @apply disabled:bg-primary-600;
     }
     &.outline {
-      @apply border-primary-base text-primary-dark border;
-      @apply hover:bg-primary-lighter;
-      @apply active:bg-primary-light;
+      @apply border-primary-600 text-primary-700 border;
+      @apply hover:bg-primary-100;
+      @apply active:bg-primary-200;
       @apply disabled:bg-white;
     }
   }
   &.secondary {
     &.solid {
-      @apply bg-secondary-base text-white;
-      @apply hover:bg-secondary-dark;
-      @apply active:bg-secondary-darker;
-      @apply disabled:bg-secondary-base;
+      @apply bg-secondary-600 text-white;
+      @apply hover:bg-secondary-700;
+      @apply active:bg-secondary-800;
+      @apply disabled:bg-secondary-600;
     }
     &.outline {
-      @apply border-secondary-base text-secondary-dark border;
-      @apply hover:bg-secondary-lighter;
-      @apply active:bg-secondary-light;
+      @apply border-secondary-600 text-secondary-700 border;
+      @apply hover:bg-secondary-100;
+      @apply active:bg-secondary-200;
       @apply disabled:bg-white;
     }
   }

@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 import s from './TextField.module.css'
 
-type ColorScheme = 'white' | 'bg-secondary-lightest'
+type ColorScheme = 'white' | 'bg-secondary-50'
 export interface ITextFieldProps<TValues extends FieldValues>
   extends UseControllerProps<TValues>,
     Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> {
@@ -14,7 +14,7 @@ export interface ITextFieldProps<TValues extends FieldValues>
 }
 
 const colorSchemeMapping: { [key in ColorScheme]: string } = {
-  'bg-secondary-lightest': '#fdf9ef',
+  'bg-secondary-50': '#fdf9ef',
   white: 'white',
 }
 

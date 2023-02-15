@@ -10,7 +10,7 @@
 
   &.focus {
     &.valid {
-      @apply text-primary-base;
+      @apply text-primary-600;
     }
 
     &.error {
@@ -21,12 +21,12 @@
 
 .Button {
   @apply relative w-full cursor-default rounded-md border-2 border-gray-500 py-2 pl-4 pr-10 text-left shadow-sm sm:text-sm min-h-[48px];
-  @apply focus-visible:border-primary-base focus-visible:ring-2 focus-visible:ring-primary-base focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300;
+  @apply focus-visible:border-primary-600 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300;
   @apply disabled:opacity-50 disabled:cursor-not-allowed;
 
   &.focus {
     &.valid {
-      @apply border-primary-base ring-primary-base;
+      @apply border-primary-600 ring-primary-600;
     }
   }
   &.error {
@@ -54,7 +54,7 @@
   @apply relative cursor-default select-none py-2 pl-10 pr-4;
 
   &.active {
-    @apply bg-primary-lighter text-primary-darkest;
+    @apply bg-primary-100 text-primary-900;
   }
 
   &.inactive {
@@ -71,5 +71,5 @@
 }
 
 .CheckContainer {
-  @apply text-primary-dark absolute inset-y-0 left-0 flex items-center pl-3;
+  @apply text-primary-700 absolute inset-y-0 left-0 flex items-center pl-3;
 }

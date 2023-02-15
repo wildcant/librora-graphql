@@ -76,7 +76,7 @@ export default function ResetPassword() {
         <TextField
           control={control}
           className="mb-8"
-          colorScheme="bg-secondary-lightest"
+          colorScheme="bg-secondary-50"
           label="New Password"
           name="newPassword"
           type="password"
@@ -84,7 +84,7 @@ export default function ResetPassword() {
         <TextField
           control={control}
           className="mb-12"
-          colorScheme="bg-secondary-lightest"
+          colorScheme="bg-secondary-50"
           label="Confirm New Password"
           name="confirm"
           type="password"

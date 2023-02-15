@@ -14,18 +14,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const searchText = query.text instanceof Array ? query.text[0].split('-').join(' ') : ''
   const pageIndex = query.page ? parseInt(query.page, 10) - 1 : 0
 
-  const response = await fetchSearchBooks({
-    variables: {
-      input: {
-        filters: { freeText: searchText },
-        pagination: { limit: BOOK_LIST_PAGE_SIZE, offset: pageIndex * BOOK_LIST_PAGE_SIZE },
+  let response
+  try {
+    response = await fetchSearchBooks({
+      variables: {
+        input: {
+          filters: { freeText: searchText },
+          pagination: { limit: BOOK_LIST_PAGE_SIZE, offset: pageIndex * BOOK_LIST_PAGE_SIZE },
+        },
       },
-    },
-  })
+    })
+  } catch (error) {
+    console.error(error)
+  }
 
   return {
     props: {
-      booksList: response?.data.searchBooks,
+      booksList: response ? response.data.searchBooks : null,
       searchText,
       pageIndex,
     },
@@ -46,7 +51,7 @@ export default function Search({
 
   const newSearch = (data: { search?: string }) => router.push(`/search/${parseSearch(data?.search ?? '')}`)
 
-  const { nodes: books, totalCount, pageInfo } = booksList ?? {}
+  const { nodes: books, totalCount = 0, pageInfo } = booksList ?? {}
   const page = pageIndex + 1
 
   return (
@@ -57,9 +62,11 @@ export default function Search({
         <SearchBar control={control} name="search" placeholder="Search" />
       </form>
 
-      <p className="font-merienda my-2 text-sm">Explore {totalCount} books.</p>
+      <p className="font-merienda my-2 text-sm">
+        {totalCount < 1 ? 'No Products found.' : `Explore ${totalCount} books.`}
+      </p>
 
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-20 mb-4">
+      <div className="mb-4 grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-20">
         {books?.map((book) => (
           <BookCard {...(book as Book)} />
         ))}

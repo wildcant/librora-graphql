@@ -16,11 +16,11 @@
 
   &.checked {
     path:first-child {
-      @apply fill-primary-base;
+      @apply fill-primary-600;
     }
 
     path:nth-child(2) {
-      @apply fill-primary-base;
+      @apply fill-primary-600;
     }
   }
 }

@@ -60,7 +60,7 @@ export function Header() {
 
         {isAuthenticated && (
           <Popover>
-            <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-light rounded-full">
+            <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-200 rounded-full">
               <Avatar src="http://localhost:3000/avatar-placeholder.jpeg" />
             </Popover.Button>
             <Popover.Panel

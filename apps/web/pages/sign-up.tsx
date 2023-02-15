@@ -58,7 +58,7 @@ export default function SignUp() {
         <Button
           size="xs"
           variant="outline"
-          icon={<Icon name="google" className="fill-primary-base" size="sm" />}
+          icon={<Icon name="google" className="fill-primary-600" size="sm" />}
           iconPosition="right"
         >
           Sign up with google
@@ -73,28 +73,28 @@ export default function SignUp() {
             control={control}
             name="firstName"
             label="First name"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
           <TextField
             control={control}
             name="lastName"
             label="Last name"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
           <TextField
             control={control}
             name="username"
             label="Username"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
           <TextField
             control={control}
             name="email"
             label="Email"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
           <TextField
@@ -102,7 +102,7 @@ export default function SignUp() {
             name="password"
             label="Password"
             type="password"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
           <TextField
@@ -110,7 +110,7 @@ export default function SignUp() {
             name="confirm"
             label="Confirm"
             type="password"
-            colorScheme="bg-secondary-lightest"
+            colorScheme="bg-secondary-50"
             className="mb-6"
           />
         </div>

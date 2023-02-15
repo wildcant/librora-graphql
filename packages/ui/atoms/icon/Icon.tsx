@@ -26,6 +26,8 @@ export enum EIconName {
   google = 'google',
   search = 'search',
   closeCircleFill = 'close-circle-fill',
+  calendar = 'calendar',
+  errorWarning = 'error-warning',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -46,6 +48,8 @@ const icon: { [key in EIconName]: ReactElement } = {
   google: Icons.google,
   search: Icons.search,
   'close-circle-fill': Icons.closeCircleFill,
+  calendar: Icons.calendar,
+  'error-warning': Icons.errorWarning,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {

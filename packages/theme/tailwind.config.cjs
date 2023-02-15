@@ -43,25 +43,8 @@ module.exports = {
       },
       colors: {
         current: 'currentColor',
-        primary: {
-          lightest: electricViolet[50],
-          lighter: electricViolet[100],
-          light: electricViolet[200],
-          base: electricViolet[600],
-          dark: electricViolet[700],
-          darker: electricViolet[800],
-          darkest: electricViolet[900],
-        },
-
-        secondary: {
-          lightest: citrineWhite[50],
-          lighter: citrineWhite[100],
-          light: citrineWhite[200],
-          base: citrineWhite[600],
-          dark: citrineWhite[700],
-          darker: citrineWhite[800],
-          darkest: citrineWhite[900],
-        },
+        primary: electricViolet,
+        secondary: citrineWhite,
         success: {
           base: twColors.green[600],
           light: twColors.green[100],

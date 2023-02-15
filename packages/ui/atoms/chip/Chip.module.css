@@ -3,31 +3,31 @@
 
   &.primary {
     &.solid {
-      @apply bg-primary-base text-white;
+      @apply bg-primary-600 text-white;
     }
     &.outline {
-      @apply border-primary-base text-primary-dark border;
+      @apply border-primary-600 text-primary-700 border;
     }
     &.ghost {
-      @apply text-primary-dark shadow-primary-light shadow-sm;
+      @apply text-primary-700 shadow-primary-200 shadow-sm;
     }
     &.plain {
-      @apply text-primary-base;
+      @apply text-primary-600;
     }
   }
 
   &.secondary {
     &.solid {
-      @apply bg-secondary-base text-white;
+      @apply bg-secondary-600 text-white;
     }
     &.outline {
-      @apply border-secondary-base text-secondary-dark border;
+      @apply border-secondary-600 text-secondary-700 border;
     }
     &.ghost {
-      @apply text-secondary-dark shadow-secondary-light shadow-sm;
+      @apply text-secondary-700 shadow-secondary-200 shadow-sm;
     }
     &.plain {
-      @apply text-secondary-base;
+      @apply text-secondary-600;
     }
   }
 

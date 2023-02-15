@@ -18,7 +18,7 @@ export function AuthLayout({
 }: IAuthLayoutProps) {
   return (
     <BaseLayout>
-      <div className="bg-secondary-lightest flex h-full min-h-screen w-full items-center justify-center bg-[url('../public/noise.png')]">
+      <div className="bg-secondary-50 flex h-full min-h-screen w-full items-center justify-center bg-[url('../public/noise.png')]">
         <div
           className="container h-fit gap-4 md:rounded-md md:border md:border-neutral-200 md:p-12 lg:grid lg:min-h-[672px] lg:max-w-5xl lg:grid-cols-12"
           role="presentation"

@@ -22,6 +22,10 @@ export function Pagination({
   const firstItem = pageIndex * pageSize + 1
   const lastItem = (pageIndex + 1) * pageSize
 
+  if (totalCount < 1) {
+    return <></>
+  }
+
   return (
     <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
@@ -40,9 +44,9 @@ export function Pagination({
           <span />
         )}
       </div>
-      <div className="hidden sm:flex sm:flex-col sm:flex-1 sm:items-center lg:justify-between lg:flex-row">
+      <div className="hidden sm:flex sm:flex-1 sm:flex-col sm:items-center lg:flex-row lg:justify-between">
         <div>
-          <p className="text-sm text-gray-700 font-roboto">
+          <p className="font-roboto text-sm text-gray-700">
             Showing <span className="font-medium">{firstItem}</span> to{' '}
             <span className="font-medium">{lastItem > totalCount ? totalCount : lastItem}</span> of{' '}
             <span className="font-medium">{totalCount}</span> results
