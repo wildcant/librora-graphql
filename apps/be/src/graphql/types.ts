@@ -31,10 +31,19 @@ export type Author = {
   name: Scalars['String'];
 };
 
+export type AuthorConnection = {
+  __typename?: 'AuthorConnection';
+  nodes: Array<Author>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
 export type Book = {
   __typename?: 'Book';
   author?: Maybe<Author>;
   cover?: Maybe<Scalars['String']>;
+  coverThumbnail?: Maybe<Scalars['String']>;
+  date: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   editorial?: Maybe<Editorial>;
   format?: Maybe<EFormat>;
@@ -42,7 +51,25 @@ export type Book = {
   language?: Maybe<ELanguage>;
   subtitle?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  user?: Maybe<User>;
+  user: User;
+};
+
+export type BookConnection = {
+  __typename?: 'BookConnection';
+  nodes: Array<Book>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type BookFilters = {
+  author?: InputMaybe<Scalars['ID']>;
+  freeText: Scalars['String'];
+  language?: InputMaybe<ELanguage>;
+};
+
+export type BookSort = {
+  by?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Sort>;
 };
 
 export type CreateUserInput = {
@@ -86,6 +113,13 @@ export type EUserType =
 export type Editorial = {
   __typename?: 'Editorial';
   name?: Maybe<Scalars['String']>;
+};
+
+export type EditorialConnection = {
+  __typename?: 'EditorialConnection';
+  nodes: Array<Editorial>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
 };
 
 export type ForgotPasswordInput = {
@@ -144,12 +178,22 @@ export type MutationVerifyEmailArgs = {
   input: VerifyEmailInput;
 };
 
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+};
+
+export type Pagination = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   author?: Maybe<Author>;
   book?: Maybe<Book>;
-  books?: Maybe<Array<Maybe<Book>>>;
-  searchBooks?: Maybe<Array<Maybe<Book>>>;
+  searchBooks: BookConnection;
   user?: Maybe<User>;
 };
 
@@ -165,7 +209,7 @@ export type QueryBookArgs = {
 
 
 export type QuerySearchBooksArgs = {
-  text: Scalars['String'];
+  input: SearchBooksInput;
 };
 
 
@@ -191,6 +235,16 @@ export type ResetPasswordPayload = {
   user?: Maybe<User>;
 };
 
+export type Sort =
+  | 'ASC'
+  | 'DESC';
+
+export type SearchBooksInput = {
+  filters: BookFilters;
+  pagination: Pagination;
+  sort?: InputMaybe<BookSort>;
+};
+
 export type SignInInput = {
   account: Scalars['String'];
   password: Scalars['String'];
@@ -205,7 +259,7 @@ export type SignInPayload = {
 
 export type User = {
   __typename?: 'User';
-  books?: Maybe<Array<Maybe<Book>>>;
+  books: BookConnection;
   countryCode?: Maybe<ECountryCode>;
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -217,6 +271,13 @@ export type User = {
   role: EUserRole;
   type: EUserType;
   username: Scalars['String'];
+};
+
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  nodes: Array<User>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
 };
 
 export type ValidateActionPayload = {
@@ -305,7 +366,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Author: ResolverTypeWrapper<AuthorModel>;
+  AuthorConnection: ResolverTypeWrapper<Omit<AuthorConnection, 'nodes'> & { nodes: Array<ResolversTypes['Author']> }>;
   Book: ResolverTypeWrapper<BookModel>;
+  BookConnection: ResolverTypeWrapper<Omit<BookConnection, 'nodes'> & { nodes: Array<ResolversTypes['Book']> }>;
+  BookFilters: BookFilters;
+  BookSort: BookSort;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserInput: CreateUserInput;
   CreateUserPayload: ResolverTypeWrapper<Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
@@ -316,17 +381,25 @@ export type ResolversTypes = {
   EUserRole: EUserRole;
   EUserType: EUserType;
   Editorial: ResolverTypeWrapper<Editorial>;
+  EditorialConnection: ResolverTypeWrapper<EditorialConnection>;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordPayload: ResolverTypeWrapper<ForgotPasswordPayload>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  PageInfo: ResolverTypeWrapper<PageInfo>;
+  Pagination: Pagination;
   Query: ResolverTypeWrapper<{}>;
   ResendVerificationEmail: ResolverTypeWrapper<ResendVerificationEmail>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: ResolverTypeWrapper<Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
+  SORT: Sort;
+  SearchBooksInput: SearchBooksInput;
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<PublicUserModel>;
+  UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'nodes'> & { nodes: Array<ResolversTypes['User']> }>;
   ValidateActionPayload: ResolverTypeWrapper<ValidateActionPayload>;
   VerifyEmailInput: VerifyEmailInput;
   VerifyEmailPayload: ResolverTypeWrapper<VerifyEmailPayload>;
@@ -335,22 +408,33 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Author: AuthorModel;
+  AuthorConnection: Omit<AuthorConnection, 'nodes'> & { nodes: Array<ResolversParentTypes['Author']> };
   Book: BookModel;
+  BookConnection: Omit<BookConnection, 'nodes'> & { nodes: Array<ResolversParentTypes['Book']> };
+  BookFilters: BookFilters;
+  BookSort: BookSort;
   Boolean: Scalars['Boolean'];
   CreateUserInput: CreateUserInput;
   CreateUserPayload: Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   Editorial: Editorial;
+  EditorialConnection: EditorialConnection;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordPayload: ForgotPasswordPayload;
+  ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
+  PageInfo: PageInfo;
+  Pagination: Pagination;
   Query: {};
   ResendVerificationEmail: ResendVerificationEmail;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
+  SearchBooksInput: SearchBooksInput;
   SignInInput: SignInInput;
   SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
   User: PublicUserModel;
+  UserConnection: Omit<UserConnection, 'nodes'> & { nodes: Array<ResolversParentTypes['User']> };
   ValidateActionPayload: ValidateActionPayload;
   VerifyEmailInput: VerifyEmailInput;
   VerifyEmailPayload: VerifyEmailPayload;
@@ -362,9 +446,18 @@ export type AuthorResolvers<ContextType = IContext, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type AuthorConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['AuthorConnection'] = ResolversParentTypes['AuthorConnection']> = {
+  nodes?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type BookResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType>;
   cover?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  coverThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   editorial?: Resolver<Maybe<ResolversTypes['Editorial']>, ParentType, ContextType>;
   format?: Resolver<Maybe<ResolversTypes['EFormat']>, ParentType, ContextType>;
@@ -372,7 +465,14 @@ export type BookResolvers<ContextType = IContext, ParentType extends ResolversPa
   language?: Resolver<Maybe<ResolversTypes['ELanguage']>, ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BookConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['BookConnection'] = ResolversParentTypes['BookConnection']> = {
+  nodes?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -385,6 +485,13 @@ export type CreateUserPayloadResolvers<ContextType = IContext, ParentType extend
 
 export type EditorialResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Editorial'] = ResolversParentTypes['Editorial']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EditorialConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['EditorialConnection'] = ResolversParentTypes['EditorialConnection']> = {
+  nodes?: Resolver<Array<ResolversTypes['Editorial']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -404,11 +511,16 @@ export type MutationResolvers<ContextType = IContext, ParentType extends Resolve
   verifyEmail?: Resolver<Maybe<ResolversTypes['VerifyEmailPayload']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'input'>>;
 };
 
+export type PageInfoResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QueryAuthorArgs, 'id'>>;
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryBookArgs, 'id'>>;
-  books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
-  searchBooks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'text'>>;
+  searchBooks?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'input'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
@@ -433,7 +545,7 @@ export type SignInPayloadResolvers<ContextType = IContext, ParentType extends Re
 };
 
 export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
+  books?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType>;
   countryCode?: Resolver<Maybe<ResolversTypes['ECountryCode']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -445,6 +557,13 @@ export type UserResolvers<ContextType = IContext, ParentType extends ResolversPa
   role?: Resolver<ResolversTypes['EUserRole'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['EUserType'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
+  nodes?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -462,16 +581,21 @@ export type VerifyEmailPayloadResolvers<ContextType = IContext, ParentType exten
 
 export type Resolvers<ContextType = IContext> = {
   Author?: AuthorResolvers<ContextType>;
+  AuthorConnection?: AuthorConnectionResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
+  BookConnection?: BookConnectionResolvers<ContextType>;
   CreateUserPayload?: CreateUserPayloadResolvers<ContextType>;
   Editorial?: EditorialResolvers<ContextType>;
+  EditorialConnection?: EditorialConnectionResolvers<ContextType>;
   ForgotPasswordPayload?: ForgotPasswordPayloadResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResendVerificationEmail?: ResendVerificationEmailResolvers<ContextType>;
   ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserConnection?: UserConnectionResolvers<ContextType>;
   ValidateActionPayload?: ValidateActionPayloadResolvers<ContextType>;
   VerifyEmailPayload?: VerifyEmailPayloadResolvers<ContextType>;
 };

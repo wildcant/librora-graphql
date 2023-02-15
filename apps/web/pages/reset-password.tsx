@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
-import AuthLayout from '../components/layouts/AuthLayout'
+import { AuthLayout } from '../components/layouts/AuthLayout'
 
 const FormSchema = z
   .object({ newPassword: z.string({ required_error: '' }).min(5).max(50), confirm: z.string() })

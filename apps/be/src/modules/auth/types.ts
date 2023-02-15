@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 
-import * as Types from "../graphql-types";
+import * as Types from "../../graphql/types";
 export namespace AuthModule {
   interface DefinedFields {
     SignInPayload: 'user' | 'success' | 'message';

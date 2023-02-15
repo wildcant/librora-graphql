@@ -3,8 +3,8 @@ import addHours from 'date-fns/addHours'
 import omit from 'lodash/fp/omit'
 import z from 'zod'
 import { sendPasswordInstructions } from '../../comms/email'
+import { MutationResolvers } from '../../graphql/types'
 import { validateResetPasswordAction } from '../action/utils'
-import { MutationResolvers } from '../graphql-types'
 import { AuthModule } from './types'
 
 /**

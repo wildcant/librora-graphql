@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
-import AuthLayout from '../components/layouts/AuthLayout'
+import { AuthLayout } from '../components/layouts/AuthLayout'
 import signInPic from '../public/sign-in.webp'
 
 const FormSchema = z.object({

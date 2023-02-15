@@ -1,17 +1,34 @@
-import { BookModel, BookSchema } from '@librora/schemas'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
+import { BookModel, BookSchemaValidators } from '@librora/schemas'
+import { GraphQLError } from 'graphql'
+import { z } from 'zod'
 import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export interface IBookDataSource extends PgDataSource<BookModel> {
   search: (query: {
-    where: { fullText: string }
+    limit: number
+    offset: number
     select?: (keyof BookModel)[]
-  }) => Promise<(BookModel | Error | null)[]>
+    where: { freeText: string }
+  }) => Promise<{ count: number; nodes: BookModel[] }>
 }
 
 export const booksDataSource: IBookDataSource = {
-  findUnique: async ({ where, select }) => loaders.bookById.load({ value: where.id, select }),
+  findUnique: async ({ where, select }) => {
+    const { id } = where
+
+    if (id) {
+      z.string().uuid().parse(where.id)
+
+      return loaders.bookById.load({ value: where.id, select })
+    } else {
+      throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+        extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+      })
+    }
+  },
 
   findMany: async ({ where = {}, select }) => {
     const ids = await knex('books').where(where).select('id')
@@ -20,8 +37,8 @@ export const booksDataSource: IBookDataSource = {
   },
 
   create: async (data) => {
-    BookSchema.partial({ id: true }).parse(data)
-    const [record] = await knex('books').insert(data).select('*')
+    BookSchemaValidators.default.parse(data)
+    const [record] = await knex('books').insert(data).returning('*')
     return record
   },
 
@@ -30,13 +47,26 @@ export const booksDataSource: IBookDataSource = {
     return record
   },
 
-  search: async ({ where: { fullText = '' }, select }) => {
-    const ids = await knex('books')
-      .whereRaw(`fullText @@ to_tsquery('${fullText.replace(' ', ':* & ')}:*')`)
-      .orderByRaw(`ts_rank(fullText, plainto_tsquery('${fullText.replace(' ', ' & ')}:*')) DESC;`)
-      .select('id')
-    // .select(knex.raw(`ts_rank(fullText, plainto_tsquery('${text}'))`)) // For testing purposes.
+  search: async ({ where: { freeText = '' }, select, limit, offset }) => {
+    // TODO: Improve query to allow filtering by author and publication date.
+    const query = `fullText @@ to_tsquery('${freeText.replace(' ', ':* & ')}:*')`
 
-    return loaders.bookById.loadMany(ids.map(({ id }) => ({ value: id, select })))
+    const [ids, [{ count }]] = await Promise.all([
+      knex('books')
+        .limit(limit)
+        .offset(offset)
+        .orderByRaw(`ts_rank(fullText, plainto_tsquery('${freeText.replace(' ', ' & ')}:*')) DESC`)
+        .whereRaw(query)
+        // .select(knex.raw(`ts_rank(fullText, plainto_tsquery('${text}'))`)) // For testing purposes.
+        .select('id'),
+      knex('books').whereRaw(query).count(),
+    ])
+
+    // TODO: Double check error handling.
+    const nodes = (await loaders.bookById.loadMany(
+      ids.map(({ id }) => ({ value: id, select }))
+    )) as BookModel[]
+
+    return { count, nodes }
   },
 }

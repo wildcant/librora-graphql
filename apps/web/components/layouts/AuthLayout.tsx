@@ -11,7 +11,7 @@ interface IAuthLayoutProps {
   imageContainerClassName?: string
 }
 
-export default function AuthLayout({
+export function AuthLayout({
   children,
   image = <Image src={signUpPic} alt="Registration image" className="w-full self-center" />,
   imageContainerClassName = 'bg-[#8178B1]',
@@ -20,14 +20,14 @@ export default function AuthLayout({
     <BaseLayout>
       <div className="bg-secondary-lightest flex h-full min-h-screen w-full items-center justify-center bg-[url('../public/noise.png')]">
         <div
-          className="d:p-12 container h-fit gap-4 md:rounded-md md:border md:border-neutral-200 lg:grid lg:min-h-[672px] lg:max-w-5xl lg:grid-cols-12"
+          className="container h-fit gap-4 md:rounded-md md:border md:border-neutral-200 md:p-12 lg:grid lg:min-h-[672px] lg:max-w-5xl lg:grid-cols-12"
           role="presentation"
         >
           {/* 1 Col Gap */}
           <div className="hidden lg:col-span-1 lg:block" />
 
           {/* Form */}
-          <div className=" py-16 px-6 md:px-12 lg:col-span-4 lg:py-10 lg:px-0">{children}</div>
+          <div className="py-16 px-6 md:px-12 lg:col-span-4 lg:py-10 lg:px-0">{children}</div>
 
           {/* 1 Col Gap */}
           <div className="hidden lg:col-span-1 lg:block" />

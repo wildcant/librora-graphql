@@ -1,7 +1,11 @@
 import { AuthorSchema, BookModel, BookSchema, UserModel, UserSchema } from '@librora/schemas'
 import { GraphQLResolveInfo } from 'graphql'
-import { Author, Book, User } from './modules/graphql-types'
-import { parseResolveInfo, ResolveTree, simplifyParsedResolveInfoFragmentWithType } from './parse-info'
+import { Author, Book, User } from '../graphql/types'
+import {
+  parseResolveInfo,
+  ResolveTree,
+  simplifyParsedResolveInfoFragmentWithType,
+} from '../graphql/parse-info'
 
 // Remove undefined from T
 type NonUndefined<T> = Exclude<T, undefined>
@@ -89,27 +93,36 @@ export function getFields<T>(info?: GraphQLResolveInfo): (keyof T)[] | undefined
 
   const parsedResolveInfoFragment = parseResolveInfo(info)
 
-  const { fields } = simplifyParsedResolveInfoFragmentWithType(
+  const fields = simplifyParsedResolveInfoFragmentWithType(
     parsedResolveInfoFragment as ResolveTree,
     info.returnType
-  )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ).fields as any
 
   let fieldsList = Object.keys(fields)
+
+  if (parsedResolveInfoFragment?.fieldsByTypeName) {
+    // Resolve which types we are getting the fields for.
+    Object.keys(parsedResolveInfoFragment.fieldsByTypeName).forEach((type) => {
+      let typeName = type as TypeName
+      // In case this is a connection query we must get the fields form the nodes.
+      if (fieldsList.includes('nodes')) {
+        const [nodeType] = Object.keys(fields.nodes.fieldsByTypeName)
+        fieldsList = Object.keys(fields.nodes.fieldsByTypeName[nodeType])
+        typeName = nodeType as TypeName
+      }
+
+      // Resolve computed properties dependencies.
+      fieldsList = addDependencies(fieldsList, typeName)
+
+      // Remove properties that are not in the db schema.
+      fieldsList = sanitizeFields(fieldsList, typeName)
+    })
+  }
 
   // Include id by default.
   if (fieldsList.length && !fieldsList.includes('id')) {
     fieldsList.push('id')
-  }
-
-  if (parsedResolveInfoFragment?.fieldsByTypeName) {
-    // Resolve which type we are getting the fields for.
-    const [type] = Object.keys(parsedResolveInfoFragment.fieldsByTypeName)
-
-    // Resolve computed properties dependencies.
-    fieldsList = addDependencies(fieldsList, type as TypeName)
-
-    // Remove properties that are not in the db schema.
-    fieldsList = sanitizeFields(fieldsList, type as TypeName)
   }
 
   return fieldsList as (keyof T)[]

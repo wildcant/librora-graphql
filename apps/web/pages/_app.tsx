@@ -17,7 +17,7 @@ const robotoSlab = Roboto_Slab({
 const comrantGaramond = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-comrant-garamond',
-  style: ['normal'],
+  style: ['normal', 'italic'],
   weight: ['300', '400', '500', '600', '700'],
 })
 
@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <Providers>
-      <main className={`${merienda.variable} ${robotoSlab.variable}  ${comrantGaramond.variable}`}>
+      <main className={`${merienda.variable} ${robotoSlab.variable} ${comrantGaramond.variable}`}>
         <Layout pageProps={pageProps}>
           <Component {...pageProps} />
         </Layout>

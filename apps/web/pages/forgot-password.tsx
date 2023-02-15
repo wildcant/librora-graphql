@@ -4,7 +4,7 @@ import { useForgotPasswordMutation } from '@librora/api/operations/client'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
-import AuthLayout from '../components/layouts/AuthLayout'
+import { AuthLayout } from '../components/layouts/AuthLayout'
 
 const FormSchema = z.object({ email: z.string({ required_error: 'Enter your email' }).email() })
 type FormData = z.infer<typeof FormSchema>

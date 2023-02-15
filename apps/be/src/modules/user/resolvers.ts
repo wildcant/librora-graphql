@@ -1,6 +1,6 @@
 import { EUserActionName, EUserRole, EUserType } from '@librora/schemas'
 import isAfter from 'date-fns/isAfter'
-import { getFields } from '../../utils'
+import { getFields } from '../../core/graphql-to-sql'
 import { sendVerificationEmail } from '../action/utils'
 import { UserModule } from './types'
 

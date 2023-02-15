@@ -1,19 +1,29 @@
-import { BookModel } from '@librora/schemas'
+import { GraphQLError } from 'graphql'
 import z from 'zod'
-import { getFields } from '../../utils'
+import { CustomErrorCode, getFields } from '../../core'
+import { createTypeConnection, DEFAULT_PAGE_SIZE } from '../../graphql/pagination'
 import { BookModule } from './types'
 
 export const resolvers: BookModule.Resolvers = {
   Query: {
     searchBooks: async (_, args, context, info) => {
-      if (!z.string().min(1).safeParse(args.text).success) return []
+      // TODO: Add sorting.
+      const { filters, pagination } = args.input
 
-      const records = await context.dataSources.books.search({
-        where: { fullText: args.text },
+      // Validate free text is not empty.
+      z.string().min(1, { message: `Field "freeText" must not be empty.` }).parse(filters.freeText)
+
+      const limit = pagination.limit ?? DEFAULT_PAGE_SIZE
+      const offset = pagination.offset ?? 0
+
+      const { count, nodes } = await context.dataSources.books.search({
+        limit,
+        offset,
         select: getFields(info),
+        where: { freeText: filters.freeText },
       })
 
-      return records as BookModel[]
+      return createTypeConnection({ nodes, count, limit, offset })
     },
 
     book: async (_, args, context, info) => {
@@ -28,19 +38,28 @@ export const resolvers: BookModule.Resolvers = {
 
       return book
     },
-
-    books: async (_, __, context, info) => {
-      const records = await context.dataSources.books.findMany({ select: getFields(info) })
-
-      return records as BookModel[]
-    },
   },
 
   Book: {
     author: async (book, __, context, info) =>
-      context.dataSources.authors.findUnique({ where: { id: book.author }, select: getFields(info) }),
+      await context.dataSources.authors.findUnique({ where: { id: book.author }, select: getFields(info) }),
 
-    user: async (book, __, context, info) =>
-      context.dataSources.users.findUnique({ where: { id: book.user }, select: getFields(info) }),
+    user: async (book, __, context, info) => {
+      const user = await context.dataSources.users.findUnique({
+        where: { id: book.user },
+        select: getFields(info),
+      })
+
+      if (!user) {
+        throw new GraphQLError(`The user for this book doesn't exist.`, {
+          extensions: {
+            code: CustomErrorCode.DATA_INCONSISTENCY,
+            message: `User not found for book with ${book.id}`,
+          },
+        })
+      }
+
+      return user
+    },
   },
 }

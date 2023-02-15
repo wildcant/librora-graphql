@@ -87,3 +87,15 @@ declare module 'knex/types/tables' {
     // >
   }
 }
+
+/**
+ * Setup a one time declaration to make knex use number as result type for all
+ * count and countDistinct invocations (for any table)
+ * Note: This is convenient when working with tables without large amounts of rows, it could bring issues otherwise.
+ * @see https://knexjs.org/guide/query-builder.html#count
+ */
+declare module 'knex/types/result' {
+  interface Registry {
+    Count: number
+  }
+}

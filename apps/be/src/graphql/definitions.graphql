@@ -1,0 +1,9 @@
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+enum SORT {
+  ASC
+  DESC
+}

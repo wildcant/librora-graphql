@@ -1,4 +1,6 @@
+import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { UserModel, UserSchema } from '@librora/schemas'
+import { GraphQLError } from 'graphql'
 
 import { knex } from './knex'
 import { loaders } from './loaders'
@@ -18,7 +20,9 @@ export const usersDataSource: IUserDataSource = {
     } else if (username) {
       return loaders.userByUsername.load({ value: username, select })
     } else {
-      throw new Error(`Unexpected query params. No loader found for ${where}`)
+      throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+        extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+      })
     }
   },
 

@@ -36,6 +36,8 @@ export type Book = {
   __typename?: 'Book'
   author?: Maybe<Author>
   cover?: Maybe<Scalars['String']>
+  coverThumbnail?: Maybe<Scalars['String']>
+  date: Scalars['String']
   description?: Maybe<Scalars['String']>
   editorial?: Maybe<Editorial>
   format?: Maybe<EFormat>
@@ -333,6 +335,8 @@ export type SearchBooksQuery = {
     subtitle?: string | null
     description?: string | null
     cover?: string | null
+    coverThumbnail?: string | null
+    date: string
     author?: { __typename?: 'Author'; name: string } | null
   } | null> | null
 }

@@ -4,6 +4,16 @@
 # -------------------------------------------------------
 #
 
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+enum SORT {
+  ASC
+  DESC
+}
+
 type ValidateActionPayload {
   message: String
   valid: Boolean!
@@ -59,16 +69,27 @@ type Editorial {
   name: String
 }
 
+type EditorialConnection {
+  nodes: [Editorial!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type Author {
   id: String!
   name: String!
 }
 
+type AuthorConnection {
+  nodes: [Author!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type Query {
   author(id: String!): Author
-  books: [Book]
   book(id: String!): Book
-  searchBooks(text: String!): [Book]
+  searchBooks(input: SearchBooksInput!): BookConnection!
   user(id: String!): User
 }
 
@@ -86,13 +107,43 @@ type Book {
   id: String!
   author: Author
   cover: String
+  coverThumbnail: String
+  date: String!
   description: String
   editorial: Editorial
   format: EFormat
   language: ELanguage
   subtitle: String
   title: String
-  user: User
+  user: User!
+}
+
+type BookConnection {
+  nodes: [Book!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+input BookFilters {
+  freeText: String!
+  author: ID
+  language: ELanguage
+}
+
+input Pagination {
+  offset: Int = 0
+  limit: Int = 25
+}
+
+input BookSort {
+  by: String = "id"
+  order: SORT = ASC
+}
+
+input SearchBooksInput {
+  filters: BookFilters!
+  sort: BookSort
+  pagination: Pagination!
 }
 
 enum EUserType {
@@ -116,17 +167,23 @@ enum ECountryCode {
 
 type User {
   id: String!
+  books: BookConnection!
   countryCode: ECountryCode
   email: String!
   firstName: String!
+  initial: String!
   isEmailValidated: Boolean!
   lastName: String!
+  name: String
   role: EUserRole!
   type: EUserType!
   username: String!
-  initial: String!
-  books: [Book]
-  name: String
+}
+
+type UserConnection {
+  nodes: [User!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 input CreateUserInput {
@@ -138,9 +195,9 @@ input CreateUserInput {
 }
 
 type CreateUserPayload {
-  user: User
-  success: Boolean
   message: String
+  success: Boolean
+  user: User
 }
 
 input VerifyEmailInput {

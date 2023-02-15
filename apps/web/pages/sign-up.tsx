@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, CheckboxField, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
-import AuthLayout from '../components/layouts/AuthLayout'
+import { AuthLayout } from '../components/layouts/AuthLayout'
 
 const FormSchema = z.object({
   acceptTerms: z.boolean({ required_error: 'You must accept the terms and conditions' }),

@@ -401,6 +401,8 @@ export const SearchBooksDocument = gql`
       subtitle
       description
       cover
+      coverThumbnail
+      date
       author {
         name
       }

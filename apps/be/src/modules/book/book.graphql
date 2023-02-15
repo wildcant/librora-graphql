@@ -12,17 +12,46 @@ type Book {
   id: String!
   author: Author
   cover: String
+  coverThumbnail: String
+  date: String!
   description: String
   editorial: Editorial
   format: EFormat
   language: ELanguage
   subtitle: String
   title: String
-  user: User
+  user: User!
+}
+
+type BookConnection {
+  nodes: [Book!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+input BookFilters {
+  freeText: String!
+  author: ID
+  language: ELanguage
+}
+
+input Pagination {
+  offset: Int = 0
+  limit: Int = 25
+}
+
+input BookSort {
+  by: String = "id"
+  order: SORT = ASC
+}
+
+input SearchBooksInput {
+  filters: BookFilters!
+  sort: BookSort
+  pagination: Pagination!
 }
 
 type Query {
-  books: [Book]
   book(id: String!): Book
-  searchBooks(text: String!): [Book]
+  searchBooks(input: SearchBooksInput!): BookConnection!
 }

@@ -8,7 +8,8 @@ module.exports = {
     'no-restricted-syntax': [
       'warn',
       {
-        selector: "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info)$/]",
+        selector:
+          "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|debug)$/]",
         message: 'Unexpected property on console object was called',
       },
     ],

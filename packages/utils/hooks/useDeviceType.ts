@@ -11,7 +11,6 @@ enum Breakpoints {
 
 export function useDeviceType() {
   const breakpoints = theme?.extend?.screens as { [key in Breakpoints]: string }
-  console.log(breakpoints)
   const [isMobile] = useMediaQuery(`(max-width: ${breakpoints.sm})`)
   const [upToTablets] = useMediaQuery(`(max-width: ${breakpoints.lg})`)
   const [isTablet] = useMediaQuery(`(min-width: ${breakpoints.sm}) and (max-width: ${breakpoints.lg})`)

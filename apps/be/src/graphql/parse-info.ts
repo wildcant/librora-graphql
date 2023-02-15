@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
- * From: https://github.com/graphile/graphile-engine/tree/master/packages/graphql-parse-resolve-info
+ * Utility functions to parse graphql info object and extract requested fields from graphql query.
+ * Source: https://github.com/graphile/graphile-engine/tree/master/packages/graphql-parse-resolve-info
  */
+
+/* eslint-disable */
+
 import {
   getNamedType,
   isCompositeType,
@@ -335,11 +336,6 @@ export function simplifyParsedResolveInfoFragmentWithType(
   const { fieldsByTypeName } = parsedResolveInfoFragment
   const fields = {}
   const strippedType = getNamedType(type)
-  // console.log({
-  //   fieldsByTypeName,
-  //   strippedType,
-  //   isCompositeType: isCompositeType(strippedType),
-  // })
   if (isCompositeType(strippedType)) {
     Object.assign(fields, fieldsByTypeName[strippedType.name])
     if (strippedType instanceof GraphQLObjectType) {

@@ -1,4 +1,4 @@
-import { getFields } from '../../utils'
+import { getFields } from '../../core/graphql-to-sql'
 import { AuthorModule } from './types'
 
 export const resolvers: AuthorModule.Resolvers = {

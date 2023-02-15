@@ -45,5 +45,6 @@ function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserT
 }
 
 export const UserSchemaValidators = {
+  default: UserSchema.partial({ id: true }),
   role: UserSchema.refine(validateRoleMatchType),
 }

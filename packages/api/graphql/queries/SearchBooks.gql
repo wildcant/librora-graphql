@@ -5,6 +5,8 @@ query SearchBooks($text: String!) {
     subtitle
     description
     cover
+    coverThumbnail
+    date
     author {
       name
     }

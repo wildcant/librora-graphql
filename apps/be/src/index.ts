@@ -6,6 +6,7 @@ import SendGrid from '@sendgrid/mail'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { context, IContext } from './context'
+import { formatError } from './core'
 import { env } from './env'
 
 SendGrid.setApiKey(env.SENDGRID_API_KEY)
@@ -14,6 +15,7 @@ const resolversArray = loadFilesSync(path.join(`${__dirname}/modules/**/resolver
 const server = new ApolloServer<IContext>({
   typeDefs: readFileSync('schema.graphql', { encoding: 'utf-8' }),
   resolvers: mergeResolvers(resolversArray),
+  formatError,
 })
 
 startStandaloneServer(server, {

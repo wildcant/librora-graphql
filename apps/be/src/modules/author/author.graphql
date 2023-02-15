@@ -2,9 +2,21 @@ type Editorial {
   name: String
 }
 
+type EditorialConnection {
+  nodes: [Editorial!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type Author {
   id: String!
   name: String!
+}
+
+type AuthorConnection {
+  nodes: [Author!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 type Query {

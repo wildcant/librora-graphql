@@ -51,3 +51,7 @@ export interface SubTopicModel {
 */
 
 export type BookModel = z.infer<typeof BookSchema>
+
+export const BookSchemaValidators = {
+  default: BookSchema.partial({ id: true }),
+}
