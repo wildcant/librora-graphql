@@ -69,7 +69,7 @@ export type BookFilters = {
 
 export type BookSort = {
   by?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Sort>;
+  order?: InputMaybe<ESort>;
 };
 
 export type CreateUserInput = {
@@ -101,6 +101,10 @@ export type EFormat =
 
 export type ELanguage =
   | 'ENGLISH';
+
+export type ESort =
+  | 'ASC'
+  | 'DESC';
 
 export type EUserRole =
   | 'LENDER_BORROWER'
@@ -234,10 +238,6 @@ export type ResetPasswordPayload = {
   success?: Maybe<Scalars['Boolean']>;
   user?: Maybe<User>;
 };
-
-export type Sort =
-  | 'ASC'
-  | 'DESC';
 
 export type SearchBooksInput = {
   filters: BookFilters;
@@ -378,6 +378,7 @@ export type ResolversTypes = {
   ECountryCode: ECountryCode;
   EFormat: EFormat;
   ELanguage: ELanguage;
+  ESort: ESort;
   EUserRole: EUserRole;
   EUserType: EUserType;
   Editorial: ResolverTypeWrapper<Editorial>;
@@ -393,7 +394,6 @@ export type ResolversTypes = {
   ResendVerificationEmail: ResolverTypeWrapper<ResendVerificationEmail>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: ResolverTypeWrapper<Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
-  SORT: Sort;
   SearchBooksInput: SearchBooksInput;
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;

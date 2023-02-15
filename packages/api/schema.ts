@@ -10,9 +10,9 @@ import { EAdminRole } from '@librora/schemas'
 import { ECountryCode } from '@librora/schemas'
 import { EFormat } from '@librora/schemas'
 import { ELanguage } from '@librora/schemas'
+import { ESort } from '@librora/schemas'
 import { EUserRole } from '@librora/schemas'
 import { EUserType } from '@librora/schemas'
-import { SORT } from '@librora/schemas'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -71,7 +71,7 @@ export type BookFilters = {
 
 export type BookSort = {
   by?: InputMaybe<Scalars['String']>
-  order?: InputMaybe<SORT>
+  order?: InputMaybe<ESort>
 }
 
 export type CreateUserInput = {
@@ -96,6 +96,8 @@ export { ECountryCode }
 export { EFormat }
 
 export { ELanguage }
+
+export { ESort }
 
 export { EUserRole }
 
@@ -214,8 +216,6 @@ export type ResetPasswordPayload = {
   success?: Maybe<Scalars['Boolean']>
   user?: Maybe<User>
 }
-
-export { SORT }
 
 export type SearchBooksInput = {
   filters: BookFilters

@@ -13,7 +13,7 @@ definitions:
       /* eslint-disable */
 
 generates:
-  enums.ts:
+  src/enums.ts:
     plugins:
       - add: *top-comment
       - 'typescript'

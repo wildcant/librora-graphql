@@ -37,7 +37,7 @@ export namespace BookModule {
   export type BookFilters = Pick<Types.BookFilters, DefinedInputFields['BookFilters']>;
   export type Pagination = Pick<Types.Pagination, DefinedInputFields['Pagination']>;
   export type BookSort = Pick<Types.BookSort, DefinedInputFields['BookSort']>;
-  export type SORT = Types.Sort;
+  export type ESort = Types.ESort;
   export type SearchBooksInput = Pick<Types.SearchBooksInput, DefinedInputFields['SearchBooksInput']>;
   export type Query = Pick<Types.Query, DefinedFields['Query']>;
   

@@ -42,7 +42,7 @@ input Pagination {
 
 input BookSort {
   by: String = "id"
-  order: SORT = ASC
+  order: ESort = ASC
 }
 
 input SearchBooksInput {

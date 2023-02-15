@@ -12,8 +12,7 @@ export enum EAdminRole {
 }
 
 export enum ECountryCode {
-  Co = 'CO',
-  UsEn = 'us_en'
+  Co = 'CO'
 }
 
 export enum EFormat {
@@ -24,6 +23,11 @@ export enum EFormat {
 
 export enum ELanguage {
   English = 'ENGLISH'
+}
+
+export enum ESort {
+  Asc = 'ASC',
+  Desc = 'DESC'
 }
 
 export enum EUserRole {
