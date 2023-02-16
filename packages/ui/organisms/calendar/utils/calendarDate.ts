@@ -1,13 +1,16 @@
 import { CalendarDate } from './internationalized'
-import getDay from 'date-fns/getDay'
-import getMonth from 'date-fns/getMonth'
-import getYear from 'date-fns/getYear'
+import format from 'date-fns/format'
+
 import { RangeValue } from '../types'
 
 export const defaultTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 export function nativeDateToCalendarDate(date: Date): CalendarDate {
-  return new CalendarDate(getYear(date), getMonth(date), getDay(date))
+  return new CalendarDate(
+    parseInt(format(date, 'yyyy'), 10),
+    parseInt(format(date, 'MM'), 10),
+    parseInt(format(date, 'dd'), 10)
+  )
 }
 
 export function calendarDateToNativeDate(date: CalendarDate, timezone = defaultTimeZone): Date {

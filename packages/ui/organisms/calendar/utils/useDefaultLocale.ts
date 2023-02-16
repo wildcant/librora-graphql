@@ -1,3 +1,6 @@
+import { canUseDOM } from '@librora/utils'
+import { useEffect, useState } from 'react'
+
 export type Direction = 'ltr' | 'rtl'
 
 const RTL_SCRIPTS = new Set(['Arab', 'Syrc', 'Samr', 'Mand', 'Thaa', 'Mend', 'Nkoo', 'Adlm', 'Rohg', 'Hebr'])
@@ -38,10 +41,6 @@ export function isRTL(locale: string) {
   const lang = locale.split('-')[0]
   return RTL_LANGS.has(lang)
 }
-
-import { useEffect, useState } from 'react'
-
-const canUseDOM = Boolean(typeof window !== 'undefined' && window.document && window.document.createElement)
 
 export interface Locale {
   /** The [BCP47](https://www.ietf.org/rfc/bcp/bcp47.txt) language code for the locale. */
@@ -108,7 +107,7 @@ export function useDefaultLocale(): Locale {
 
   // We cannot determine the browser's language on the server, so default to
   // en-US. This will be updated after hydration on the client to the correct value.
-  if (!canUseDOM) {
+  if (!canUseDOM()) {
     return {
       locale: 'en-US',
       direction: 'ltr',

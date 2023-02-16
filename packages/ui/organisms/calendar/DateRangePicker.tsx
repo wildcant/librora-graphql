@@ -2,6 +2,7 @@ import { Icon } from '@atoms'
 import { Popover } from '@headlessui/react'
 import { AriaDateRangePickerProps, useDateRangePicker } from '@react-aria/datepicker'
 import { useDateRangePickerState } from '@react-stately/datepicker'
+import classNames from 'classnames'
 import { useRef, useState } from 'react'
 import { usePopper } from 'react-popper'
 import { DateField } from './DateField'
@@ -34,26 +35,31 @@ function AriaDateRangePicker(props: AriaDateRangePickerProps<DateValue>) {
         {props.label}
       </span>
       <div {...groupProps} ref={ref} className="flex group">
-        <div className="flex bg-white border border-gray-300 group-hover:border-gray-400 transition-colors rounded-l-md pr-10 group-focus-within:border-violet-600 group-focus-within:group-hover:border-violet-600 p-1 relative">
+        <div
+          className={classNames(
+            'flex bg-white border border-gray-300 group-hover:border-gray-400 transition-colors rounded-l-md group-focus-within:border-violet-600 group-focus-within:group-hover:border-violet-600 p-1',
+            { 'border-red-500 ring-red-500': state.validationState }
+          )}
+        >
           <DateField {...startFieldProps} />
-          <span aria-hidden="true" className="px-2">
+          <span aria-hidden="true" className="md:px-2">
             –
           </span>
           <DateField {...endFieldProps} />
-          {state.validationState === 'invalid' && (
-            <Icon name="error-warning" className="w-6 h-6 text-red-500 absolute right-1" />
-          )}
         </div>
         <Popover>
           {({ open, close }) => (
             <>
               <Popover.Button
                 ref={setReferenceElement}
-                className={`px-2 -ml-px border transition-colors rounded-r-md group-focus-within:border-violet-600 group-focus-within:group-hover:border-violet-600 outline-none h-full ${
-                  open
-                    ? 'bg-gray-200 border-gray-400'
-                    : 'bg-gray-50 border-gray-300 group-hover:border-gray-400'
-                }`}
+                className={classNames(
+                  'px-2 -ml-px border transition-colors rounded-r-md group-focus-within:border-violet-600 group-focus-within:group-hover:border-violet-600 outline-none h-full',
+                  {
+                    'bg-gray-200 border-gray-400': open,
+                    'bg-gray-50 border-gray-300 group-hover:border-gray-400': !open,
+                    'border-red-500 ring-red-500': state.validationState,
+                  }
+                )}
               >
                 <Icon name="calendar" className="w-5 h-5 text-gray-700 group-focus-within:text-violet-700" />
               </Popover.Button>
@@ -75,6 +81,7 @@ function AriaDateRangePicker(props: AriaDateRangePickerProps<DateValue>) {
           )}
         </Popover>
       </div>
+      {state.validationState && <span className="text-sm text-red-500 ">Invalid date rage.</span>}
     </div>
   )
 }

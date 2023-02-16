@@ -12,18 +12,28 @@ import {
   nativeRangeDateToCalendarRangeDate,
 } from './utils/calendarDate'
 import { useDefaultLocale } from './utils/useDefaultLocale'
+import { useDeviceType } from '@librora/utils/hooks'
 
 export function AriaRangeCalendar(props: AriaRangeCalendarProps<DateValue>) {
   const { locale } = useDefaultLocale()
+  const { isMobile } = useDeviceType()
+
+  const displayTwoMonths = !isMobile
+
   const state = useRangeCalendarState({
     ...props,
-    visibleDuration: { months: 2 },
+    visibleDuration: { months: displayTwoMonths ? 2 : 1 },
     locale,
     createCalendar,
   })
 
   const ref = useRef<HTMLDivElement>(null)
   const { calendarProps, prevButtonProps, nextButtonProps } = useRangeCalendar(props, state, ref)
+
+  // To avoid flickering.
+  if (typeof isMobile === 'undefined') {
+    return <></>
+  }
 
   return (
     <div {...calendarProps} ref={ref} className="inline-block text-gray-800">
@@ -32,10 +42,13 @@ export function AriaRangeCalendar(props: AriaRangeCalendarProps<DateValue>) {
         calendarProps={calendarProps}
         prevButtonProps={prevButtonProps}
         nextButtonProps={nextButtonProps}
+        displayTwoMonths={displayTwoMonths}
       />
       <div className="flex gap-8">
         <CalendarGrid variant="date-range-picker" state={state} />
-        <CalendarGrid variant="date-range-picker" state={state} offset={{ months: 1 }} />
+        {displayTwoMonths && (
+          <CalendarGrid variant="date-range-picker" state={state} offset={{ months: 1 }} />
+        )}
       </div>
     </div>
   )

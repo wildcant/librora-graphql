@@ -50,7 +50,7 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
         {...buttonProps}
         ref={ref}
         hidden={isOutsideMonth}
-        className={`group h-10 w-10 outline-none ${isRoundedLeft ? 'rounded-l-full' : ''} ${
+        className={`group h-8 w-8 lg:h-10 lg:w-10 outline-none ${isRoundedLeft ? 'rounded-l-full' : ''} ${
           isRoundedRight ? 'rounded-r-full' : ''
         } ${isSelected ? 'bg-primary-200' : ''} ${isDisabled ? 'disabled' : ''}`}
       >

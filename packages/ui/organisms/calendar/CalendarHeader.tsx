@@ -8,6 +8,7 @@ import { CalendarButton } from './CalendarButton'
 interface ICalendarHeaderProps
   extends Pick<CalendarAria, 'calendarProps' | 'prevButtonProps' | 'nextButtonProps'> {
   state: CalendarState | RangeCalendarState
+  displayTwoMonths?: boolean
 }
 
 export function CalendarHeader({
@@ -15,6 +16,7 @@ export function CalendarHeader({
   calendarProps,
   prevButtonProps,
   nextButtonProps,
+  displayTwoMonths,
 }: ICalendarHeaderProps) {
   const monthDateFormatter = useDateFormatter({
     month: 'long',
@@ -40,13 +42,15 @@ export function CalendarHeader({
         // and the calendar itself describes the individual month
         // so we don't need to repeat that here for screen reader users.
         aria-hidden
-        className="align-center flex-1 text-center text-xl font-bold"
+        className="align-center flex-1 text-center text-sm sm:text-md font-bold"
       >
         {monthDateFormatter.format(state.visibleRange.start.toDate(state.timeZone))}
       </h2>
-      <h2 aria-hidden className="align-center flex-1 text-center text-xl font-bold">
-        {monthDateFormatter.format(state.visibleRange.start.add({ months: 1 }).toDate(state.timeZone))}
-      </h2>
+      {displayTwoMonths && (
+        <h2 aria-hidden className="align-center flex-1 text-center text-sm sm:text-md font-bold">
+          {monthDateFormatter.format(state.visibleRange.start.add({ months: 1 }).toDate(state.timeZone))}
+        </h2>
+      )}
       <CalendarButton {...nextButtonProps}>
         <Icon className="h-6 w-6" name="arrow-right" />
       </CalendarButton>
