@@ -1,8 +1,10 @@
-import { CalendarDate, getDayOfWeek, isSameDay, isSameMonth } from './utils/internationalized'
 import { useCalendarCell } from '@react-aria/calendar'
+import { useFocusRing } from '@react-aria/focus'
+import { mergeProps } from '@react-aria/utils'
 import { CalendarState, RangeCalendarState } from '@react-stately/calendar'
 import { useRef } from 'react'
 import { CalendarVariant } from './types'
+import { CalendarDate, getDayOfWeek, isSameDay, isSameMonth } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 type ICalendarCellProps = {
@@ -44,10 +46,13 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
   const isRoundedRight =
     isSelected && (isSelectionEnd || dayOfWeek === 6 || date.day === date.calendar.getDaysInMonth(date))
 
+  const { focusProps, isFocusVisible } = useFocusRing()
+
   return (
     <td {...cellProps} className={`relative z-0 py-0.5 focus-visible:z-10`}>
       <div
         {...buttonProps}
+        {...mergeProps(buttonProps, focusProps)}
         ref={ref}
         hidden={isOutsideMonth}
         className={`group h-8 w-8 lg:h-10 lg:w-10 outline-none ${isRoundedLeft ? 'rounded-l-full' : ''} ${
@@ -58,7 +63,10 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
           className={`flex h-full w-full items-center justify-center rounded-full ${
             isDisabled ? 'text-gray-400' : ''
           }
-           
+          ${
+            // Focus ring, visible while the cell has keyboard focus.
+            isFocusVisible ? 'ring-2 group-focus:z-2 ring-violet-600 ring-offset-2' : ''
+          }
           ${
             // Darker selection background for the start and end.
             isSelectionStart || isSelectionEnd ? 'bg-primary-600 hover:bg-primary-700 text-white' : ''
@@ -68,7 +76,7 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
           } ${
             // Hover state for non-selected cells.
             !isSelected && !isDisabled ? 'hover:bg-primary-100' : ''
-          } focus-visible:group-focus:z-2  focus-visible:ring-primary-600 cursor-default focus-visible:ring-2 focus-visible:ring-offset-2`}
+          }  cursor-default`}
         >
           {formattedDate}
         </div>
