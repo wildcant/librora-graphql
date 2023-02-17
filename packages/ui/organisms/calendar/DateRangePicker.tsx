@@ -20,7 +20,7 @@ function AriaDateRangePicker(props: AriaDateRangePickerProps<DateValue>) {
   const ref = useRef<HTMLDivElement>(null)
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
-  const { styles, attributes } = usePopper(referenceElement, popperElement, { placement: 'bottom' })
+  const { styles, attributes } = usePopper(referenceElement, popperElement, { placement: 'bottom-end' })
 
   const state = useDateRangePickerState(props)
   const { groupProps, labelProps, startFieldProps, endFieldProps, calendarProps } = useDateRangePicker(
@@ -67,13 +67,13 @@ function AriaDateRangePicker(props: AriaDateRangePickerProps<DateValue>) {
                 ref={setPopperElement}
                 style={styles.popper}
                 {...attributes.popper}
-                className="mt-2 rounded-lg bg-white p-2 shadow-xl"
+                className="mt-2 rounded-lg bg-white p-2 shadow-xl absolute"
               >
                 <AriaRangeCalendar
                   {...calendarProps}
                   onChange={(e) => {
                     calendarProps.onChange?.(e)
-                    close()
+                    setTimeout(() => close(), 100)
                   }}
                 />
               </Popover.Panel>
@@ -120,15 +120,15 @@ interface IDateRangePickerProps
   /** The maximum allowed date that a user may select. */
   maxValue?: Date
   /** The maximum allowed date that a user may select. */
-  isDateUnavailable: (date: Date) => boolean
+  isDateUnavailable?: (date: Date) => boolean
   /** Callback that is called for each date of the calendar. If it returns true, then the date is unavailable. */
-  placeholderValue: Date
+  placeholderValue?: Date
   /** The element's unique identifier. See MDN. */
-  value: RangeValue<Date>
+  value?: RangeValue<Date>
   /** The current value (controlled). */
-  defaultValue: RangeValue<Date>
+  defaultValue?: RangeValue<Date>
   /** The default value (uncontrolled). */
-  onChange: (value: RangeValue<Date>) => void
+  onChange?: (value: RangeValue<Date>) => void
 }
 
 export function DateRangePicker(props: IDateRangePickerProps) {

@@ -1,5 +1,5 @@
 .Toast {
-  @apply relative mb-2 flex min-h-min cursor-pointer justify-between overflow-hidden rounded-md p-1;
+  @apply relative mb-2 flex min-h-5 cursor-pointer justify-between overflow-hidden rounded-md p-1;
 
   &.default {
     @apply bg-indigo-500;

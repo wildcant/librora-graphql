@@ -3,6 +3,7 @@ import { Popover, Transition } from '@headlessui/react'
 import { Button } from '@molecules'
 import { useState } from 'react'
 import { usePopper } from 'react-popper'
+import { Search } from './components/Search'
 
 type NavItems = {
   title: string
@@ -12,7 +13,7 @@ type NavItems = {
 const isAuthenticated = false
 
 export function Header() {
-  const [isShowing, setIsShowing] = useState(false)
+  const [_isShowing, setIsShowing] = useState(false)
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -28,57 +29,46 @@ export function Header() {
   const showNavigation = isAuthenticated
 
   return (
-    <header className="flex w-full flex-col">
-      <div className="container flex w-full flex-row justify-between self-center sm:px-0">
-        <div className="flex w-full flex-row">
-          {showNavigation && (
-            <Button
-              onClick={() => setIsShowing((showing) => !showing)}
-              icon="menu"
-              variant="unstyled"
-              className="mr-2 lg:hidden"
-            />
-          )}
-
-          <div className="flex w-full flex-row items-center justify-between">
-            <Link href="/">
-              <Logo />
-            </Link>
-
-            <div className="flex flex-row items-center gap-2">
-              <Link href="/sign-in" variant="button-outline">
-                Sign In
-              </Link>
-              <Link href="/sign-up" variant="button">
-                Sign Up
-              </Link>
-            </div>
-          </div>
-
-          {showNavigation && <DesktopNavigation navItems={navItems} />}
+    <header className="p-4">
+      <div className="">
+        <div hidden>
+          <Link href="/" variant="unstyled">
+            <Logo />
+          </Link>
         </div>
 
-        {isAuthenticated && (
-          <Popover>
-            <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-200 rounded-full">
-              <Avatar src="http://localhost:3000/avatar-placeholder.jpeg" />
-            </Popover.Button>
-            <Popover.Panel
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-              className="mt-2 rounded-lg bg-white p-2 shadow-xl"
-            >
-              <div className="grid w-40 grid-cols-1">
-                <a href="/analytics">Profile</a>
-                <a href="/integrations">Sign out</a>
-              </div>
-            </Popover.Panel>
-          </Popover>
+        <Search />
+
+        {showNavigation && (
+          <Button
+            onClick={() => setIsShowing((showing) => !showing)}
+            icon="menu"
+            variant="unstyled"
+            className="mr-2 lg:hidden"
+          />
         )}
+
+        {showNavigation && <DesktopNavigation navItems={navItems} />}
       </div>
 
-      {showNavigation && <MobileNavigation isShowing={isShowing} navItems={navItems} />}
+      {isAuthenticated && (
+        <Popover>
+          <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-200 rounded-full">
+            <Avatar src="http://localhost:3000/avatar-placeholder.jpeg" />
+          </Popover.Button>
+          <Popover.Panel
+            ref={setPopperElement}
+            style={styles.popper}
+            {...attributes.popper}
+            className="mt-2 rounded-lg bg-white p-2 shadow-xl"
+          >
+            <div className="grid w-40 grid-cols-1">
+              <a href="/analytics">Profile</a>
+              <a href="/integrations">Sign out</a>
+            </div>
+          </Popover.Panel>
+        </Popover>
+      )}
     </header>
   )
 }

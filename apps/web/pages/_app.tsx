@@ -1,7 +1,7 @@
 import { Merienda, Roboto_Slab, Cormorant_Garamond } from '@next/font/google'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useEffect } from 'react'
 import { Providers } from '../providers'
 import '../styles/globals.css'
 
@@ -32,6 +32,18 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? (({ children }: PropsWithChildren<{}>) => <>{children}</>)
+
+  useEffect(() => {
+    // TODO: Double check.
+    function setViewHeight() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    }
+    setViewHeight()
+    window.addEventListener('resize', () => {
+      setViewHeight()
+    })
+  }, [])
 
   return (
     <Providers>

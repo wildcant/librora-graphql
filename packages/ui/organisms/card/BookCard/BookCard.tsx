@@ -4,10 +4,10 @@ import Image from 'next/image'
 
 export function BookCard({ title, date, cover }: Book) {
   return (
-    <div className="border-neutral rounded-md border border-solid flex flex-col hover:shadow-2xl cursor-pointer">
+    <div className="flex flex-col cursor-pointer h-full">
       {cover && (
-        <div className="w-[100%] h-44 lg:h-64 relative rounded-t-sm">
-          <Image src={cover} alt="book" fill className="object-cover rounded-t-md" />
+        <div className="w-[100%] h-44 lg:h-64 relative">
+          <Image src={cover} alt="book" fill className="object-cover rounded-2xl" />
         </div>
       )}
 

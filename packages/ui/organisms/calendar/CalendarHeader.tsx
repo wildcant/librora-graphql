@@ -42,12 +42,12 @@ export function CalendarHeader({
         // and the calendar itself describes the individual month
         // so we don't need to repeat that here for screen reader users.
         aria-hidden
-        className="align-center flex-1 text-center text-sm sm:text-md font-bold"
+        className="align-center flex-1 text-center text-sm sm:text-md font-bold font-roboto"
       >
         {monthDateFormatter.format(state.visibleRange.start.toDate(state.timeZone))}
       </h2>
       {displayTwoMonths && (
-        <h2 aria-hidden className="align-center flex-1 text-center text-sm sm:text-md font-bold">
+        <h2 aria-hidden className="align-center flex-1 text-center text-sm sm:text-md font-bold font-roboto">
           {monthDateFormatter.format(state.visibleRange.start.add({ months: 1 }).toDate(state.timeZone))}
         </h2>
       )}

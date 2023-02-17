@@ -18,6 +18,8 @@ type Book {
   editorial: Editorial
   format: EFormat
   language: ELanguage
+  numPages: Int!
+  slug: String!
   subtitle: String
   title: String
   user: User!
@@ -52,6 +54,6 @@ input SearchBooksInput {
 }
 
 type Query {
-  book(id: String!): Book
+  book(id: String, slug: String): Book
   searchBooks(input: SearchBooksInput!): BookConnection!
 }

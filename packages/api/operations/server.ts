@@ -29,6 +29,25 @@ export async function fetchBook(
     error: data?.error ?? data?.errors ?? null,
   }
 }
+export async function fetchBookBySlug(
+  options?: Omit<Apollo.QueryOptions<Types.BookBySlugQueryVariables>, 'query'>,
+  ctx?: ApolloClientContext
+) {
+  const apolloClient = getApolloClient(ctx)
+  const allOptions = { ...options, ...{} }
+  const data = await apolloClient.query<Types.BookBySlugQuery>({
+    ...allOptions,
+    query: Operations.BookBySlugDocument,
+  })
+
+  const apolloState = apolloClient.cache.extract()
+
+  return {
+    apolloState: apolloState,
+    data: data?.data,
+    error: data?.error ?? data?.errors ?? null,
+  }
+}
 export async function fetchSearchBooks(
   options?: Omit<Apollo.QueryOptions<Types.SearchBooksQueryVariables>, 'query'>,
   ctx?: ApolloClientContext

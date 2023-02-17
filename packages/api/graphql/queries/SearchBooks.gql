@@ -5,6 +5,7 @@ query SearchBooks($input: SearchBooksInput!) {
       title
       cover
       date
+      slug
     }
     pageInfo {
       hasNextPage

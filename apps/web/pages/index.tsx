@@ -1,67 +1,99 @@
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useForm } from 'react-hook-form'
-import { Header, Link, Logo, SearchBar } from 'ui'
-import markerArrow from '../public/arrow.svg'
+import { fetchSearchBooks } from '@librora/api/operations/server'
+import { Book, PageInfo } from '@librora/api/schema'
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { useEffect } from 'react'
+import { BookCard, Link, Pagination } from 'ui'
+import { setFilters, useFiltersState } from '~store/filters'
+import { MainLayout } from '../components/layouts/MainLayout'
+import { buildSearchQuery, decodeSearch } from '../utils/search'
 
-interface ISearchBarProps {
-  className?: string
+const BOOK_LIST_PAGE_SIZE = 4
+type SearchQueryParams = { search?: string; page?: string; startDate?: string; endDate?: string }
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const query = context.query as SearchQueryParams
+  const searchText = decodeSearch(query.search) ?? ''
+  const pageIndex = query.page ? parseInt(query.page, 10) - 1 : 0
+
+  let response
+  try {
+    response = await fetchSearchBooks({
+      variables: {
+        input: {
+          filters: { freeText: searchText },
+          pagination: { limit: BOOK_LIST_PAGE_SIZE, offset: pageIndex * BOOK_LIST_PAGE_SIZE },
+        },
+      },
+    })
+  } catch (error) {
+    console.error(error)
+  }
+
+  return {
+    props: {
+      booksList: response ? response.data.searchBooks : null,
+      query,
+      pageIndex,
+    },
+  }
 }
-function SearchBarContainer({ className }: ISearchBarProps) {
-  const { control, handleSubmit } = useForm<{ search: string }>()
-  const { push } = useRouter()
+
+interface IBooksListPaginationProps {
+  query: SearchQueryParams
+  pageInfo?: PageInfo
+  pageIndex: number
+  totalCount: number
+}
+// Create pagination component to avoid rerendering home page component when filters state changes.
+function BooksListPagination({ pageInfo, pageIndex, totalCount }: IBooksListPaginationProps) {
+  const page = pageIndex + 1
+  const { filters } = useFiltersState()
 
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        data.search && push(`/search/${data.search.trim().split(' ').join('-')}`)
-      })}
-      className={className}
-    >
-      <SearchBar control={control} name="search" placeholder="Search" />
-    </form>
+    <Pagination
+      hasNextPage={pageInfo?.hasNextPage}
+      hasPreviousPage={pageInfo?.hasPreviousPage}
+      nextPageUrl={`${buildSearchQuery(filters)}&page=${page + 1}`}
+      pageIndex={pageIndex}
+      pageSize={BOOK_LIST_PAGE_SIZE}
+      previousPageUrl={`${buildSearchQuery(filters)}&page=${page - 1}`}
+      totalCount={totalCount}
+    />
   )
 }
 
-export default function Home() {
+export default function Home({
+  booksList,
+  query,
+  pageIndex,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { nodes: books, totalCount = 0, pageInfo } = booksList ?? {}
+
+  useEffect(() => {
+    // rehydrate filters on query param changes.
+    setFilters({
+      search: query.search,
+      dateRange:
+        query.startDate && query.endDate
+          ? { start: new Date(query.startDate), end: new Date(query.endDate) }
+          : undefined,
+    })
+  }, [query.endDate, query.search, query.startDate])
+
   return (
-    <div className="bg-secondary-50 min-h-screen w-full bg-[url('../public/noise.png')]">
-      <div className="container mx-auto flex h-full min-h-screen w-full flex-col items-center justify-around p-4 md:justify-between md:p-6">
-        <div className="hidden md:mb-16 md:block md:w-full">
-          <Header />
-        </div>
+    <MainLayout>
+      <p className="font-merienda my-2 text-sm">
+        {totalCount < 1 ? 'No results found.' : `Explore ${totalCount} books.`}
+      </p>
 
-        <Link href="/" className="mb-24 md:hidden" underline={false}>
-          <Logo />
-        </Link>
-
-        <div>
-          <h1 className="mb-16 text-center text-xl font-bold italic md:text-4xl">
-            Find Your Next Favorite Read: <br /> Search for Books Now!
-          </h1>
-
-          <SearchBarContainer className="mb-16" />
-        </div>
-
-        <div className="relative flex flex-col">
-          <h4 className="text-md mb-8 text-center md:text-2xl">
-            Unleash the Power of Book Sharing <br /> Join Our Community Today
-          </h4>
-          <div className="mb-2 self-center md:hidden">
-            <Link href="/sign-up" variant="button">
-              Sign Up
-            </Link>
-          </div>
-          <div className="-right-32 -top-24 hidden md:absolute md:block">
-            <Image src={markerArrow} alt="" />
-          </div>
-        </div>
-
-        <div className="md:hidden">
-          <span className="mr-2 text-xs font-light">Already a member?</span>
-          <Link href="/sign-in">Sign In</Link>
-        </div>
+      <div className="mb-4 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-20">
+        {books?.map((book) => (
+          <Link href={`/books/${book.slug}`} variant={'unstyled'}>
+            <BookCard {...(book as Book)} />
+          </Link>
+        ))}
       </div>
-    </div>
+
+      <BooksListPagination totalCount={totalCount} pageInfo={pageInfo} query={query} pageIndex={pageIndex} />
+    </MainLayout>
   )
 }

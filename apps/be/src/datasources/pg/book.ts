@@ -6,7 +6,7 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface IBookDataSource extends PgDataSource<BookModel> {
+export interface IBookDataSource extends PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> {
   search: (query: {
     limit: number
     offset: number
@@ -17,17 +17,18 @@ export interface IBookDataSource extends PgDataSource<BookModel> {
 
 export const booksDataSource: IBookDataSource = {
   findUnique: async ({ where, select }) => {
-    const { id } = where
+    const { id, slug } = where
 
     if (id) {
-      z.string().uuid().parse(where.id)
-
-      return loaders.bookById.load({ value: where.id, select })
-    } else {
-      throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
-        extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
-      })
+      z.string().uuid().parse(id)
+      return loaders.bookById.load({ value: id, select })
     }
+
+    if (slug) return loaders.bookBySlug.load({ value: slug, select })
+
+    throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+      extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+    })
   },
 
   findMany: async ({ where = {}, select }) => {

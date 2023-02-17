@@ -62,17 +62,17 @@ interface ICalendarProps
   /** The maximum allowed date that a user may select. */
   maxValue?: Date
   /** The maximum allowed date that a user may select. */
-  isDateUnavailable: (date: Date) => boolean
+  isDateUnavailable?: (date: Date) => boolean
   /** Whether to automatically focus the calendar when it mounts. */
   focusedValue?: Date
   /** The date that is focused when the calendar first mounts (uncountrolled). */
   defaultFocusedValue?: Date
   /** The element's unique identifier. See MDN. */
-  value: Date
+  value?: Date
   /** The current value (controlled). */
-  defaultValue: Date
+  defaultValue?: Date
   /** The default value (uncontrolled). */
-  onChange: (value: Date) => void
+  onChange?: (value: Date) => void
 }
 
 function processCalendarProps({

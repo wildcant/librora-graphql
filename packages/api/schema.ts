@@ -51,6 +51,8 @@ export type Book = {
   format?: Maybe<EFormat>
   id: Scalars['String']
   language?: Maybe<ELanguage>
+  numPages: Scalars['Int']
+  slug: Scalars['String']
   subtitle?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   user: User
@@ -188,7 +190,8 @@ export type QueryAuthorArgs = {
 }
 
 export type QueryBookArgs = {
-  id: Scalars['String']
+  id?: InputMaybe<Scalars['String']>
+  slug?: InputMaybe<Scalars['String']>
 }
 
 export type QuerySearchBooksArgs = {
@@ -272,6 +275,20 @@ export type VerifyEmailPayload = {
   __typename?: 'VerifyEmailPayload'
   message?: Maybe<Scalars['String']>
   success?: Maybe<Scalars['Boolean']>
+}
+
+export type BookDetailsFragmentFragment = {
+  __typename?: 'Book'
+  id: string
+  slug: string
+  title?: string | null
+  subtitle?: string | null
+  cover?: string | null
+  numPages: number
+  language?: ELanguage | null
+  description?: string | null
+  date: string
+  author?: { __typename?: 'Author'; name: string } | null
 }
 
 export type CreateUserMutationVariables = Exact<{
@@ -380,6 +397,27 @@ export type BookQuery = {
   } | null
 }
 
+export type BookBySlugQueryVariables = Exact<{
+  slug: Scalars['String']
+}>
+
+export type BookBySlugQuery = {
+  __typename?: 'Query'
+  book?: {
+    __typename?: 'Book'
+    id: string
+    slug: string
+    title?: string | null
+    subtitle?: string | null
+    cover?: string | null
+    numPages: number
+    language?: ELanguage | null
+    description?: string | null
+    date: string
+    author?: { __typename?: 'Author'; name: string } | null
+  } | null
+}
+
 export type SearchBooksQueryVariables = Exact<{
   input: SearchBooksInput
 }>
@@ -395,6 +433,7 @@ export type SearchBooksQuery = {
       title?: string | null
       cover?: string | null
       date: string
+      slug: string
     }>
     pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean; hasPreviousPage: boolean }
   }

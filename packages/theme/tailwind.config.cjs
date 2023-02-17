@@ -32,6 +32,18 @@ const citrineWhite = {
 module.exports = {
   content: ['../../packages/ui/**/*.{ts,tsx}', './src/**/*.{ts,tsx}', '../../apps/**/*.{ts,tsx}'],
   theme: {
+    height: (theme) => ({
+      auto: 'auto',
+      ...theme('spacing'),
+      full: '100%',
+      screen: 'calc(var(--vh) * 100)',
+    }),
+    minHeight: (theme) => ({
+      0: '0',
+      ...theme('spacing'),
+      full: '100%',
+      screen: 'calc(var(--vh) * 100)',
+    }),
     extend: {
       boxShadow: {
         btn: '5px 6px 0px',

@@ -1,0 +1,14 @@
+fragment BookDetailsFragment on Book {
+  id
+  slug
+  title
+  subtitle
+  cover
+  numPages
+  language
+  description
+  date
+  author {
+    name
+  }
+}

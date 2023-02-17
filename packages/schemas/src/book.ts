@@ -21,6 +21,7 @@ export const BookSchema = z.object({
   publicationCity: z.string(),
   publicationCountry: z.string(),
   publisher: z.string(),
+  slug: z.string(),
   subtitle: z.string(),
   title: z.string(),
   user: z.string().uuid(),

@@ -1,0 +1,5 @@
+query BookBySlug($slug: String!) {
+  book(slug: $slug) {
+    ...BookDetailsFragment
+  }
+}

@@ -28,6 +28,11 @@ export enum EIconName {
   closeCircleFill = 'close-circle-fill',
   calendar = 'calendar',
   errorWarning = 'error-warning',
+  pages = 'pages',
+  earth = 'earth',
+  equalizer = 'equalizer',
+  accountCircle = 'account-circle',
+  arrowLeftLine = 'arrow-left-line',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -50,6 +55,11 @@ const icon: { [key in EIconName]: ReactElement } = {
   'close-circle-fill': Icons.closeCircleFill,
   calendar: Icons.calendar,
   'error-warning': Icons.errorWarning,
+  pages: Icons.pages,
+  earth: Icons.earth,
+  equalizer: Icons.equalizer,
+  'account-circle': Icons.accountCircle,
+  'arrow-left-line': Icons.arrowLeftLine,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {

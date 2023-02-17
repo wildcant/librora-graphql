@@ -81,7 +81,8 @@ export async function createTables() {
     table.uuid('publisher')
     table.foreign('publisher').references('id').inTable('publishers')
 
-    table.string('subtitle')
+    table.string('slug', 512)
+    table.string('subtitle').unique().notNullable()
 
     // table.uuid('subtopics')
     // table.foreign('subtopics').references('id').inTable('subtopics')

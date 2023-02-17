@@ -48,13 +48,13 @@ function AriaDatePicker(props: AriaDatePickerProps<DateValue>) {
                 ref={setPopperElement}
                 style={styles.popper}
                 {...attributes.popper}
-                className="mt-2 rounded-lg bg-white p-2 shadow-xl"
+                className="mt-2 rounded-lg bg-white p-2 shadow-xl absolute"
               >
                 <AriaCalendar
                   {...calendarProps}
                   onChange={(e) => {
                     calendarProps.onChange?.(e)
-                    close()
+                    setTimeout(() => close(), 100)
                   }}
                 />
               </Popover.Panel>
@@ -98,15 +98,15 @@ interface IDatePickerProps
   /** The maximum allowed date that a user may select. */
   maxValue?: Date
   /** The maximum allowed date that a user may select. */
-  isDateUnavailable: (date: Date) => boolean
+  isDateUnavailable?: (date: Date) => boolean
   /** Callback that is called for each date of the calendar. If it returns true, then the date is unavailable. */
-  placeholderValue: Date
+  placeholderValue?: Date
   /** The element's unique identifier. See MDN. */
-  value: Date
+  value?: Date
   /** The current value (controlled). */
-  defaultValue: Date
+  defaultValue?: Date
   /** The default value (uncontrolled). */
-  onChange: (value: Date) => void
+  onChange?: (value: Date) => void
 }
 
 export function DatePicker(props: IDatePickerProps) {

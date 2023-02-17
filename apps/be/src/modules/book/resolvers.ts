@@ -1,3 +1,4 @@
+import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GraphQLError } from 'graphql'
 import z from 'zod'
 import { CustomErrorCode, getFields } from '../../core'
@@ -27,8 +28,17 @@ export const resolvers: BookModule.Resolvers = {
     },
 
     book: async (_, args, context, info) => {
+      if (!args.id && !args.slug) {
+        throw new GraphQLError('Please provide an id or a slug.', {
+          extensions: {
+            code: ApolloServerErrorCode.BAD_USER_INPUT,
+          },
+        })
+      }
+
       const book = await context.dataSources.books.findUnique({
-        where: { id: args.id },
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        where: { id: args.id!, slug: args.slug! },
         select: getFields(info),
       })
 

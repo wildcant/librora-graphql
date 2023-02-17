@@ -4,7 +4,9 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "paths": {
-      "@*": ["../../packages/ui/*"]
+      "@*": ["../../packages/ui/*"],
+      "~store/*": ["./store/*"],
+      "~utils/*": ["./utils/*"]
     },
     "jsx": "preserve"
   }
