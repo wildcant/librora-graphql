@@ -50,13 +50,7 @@ export default function ForgotPassword() {
           </p>
           <form onSubmit={handleSubmit((input) => forgotPassword({ variables: { input } }))}>
             <div className="mb-8">
-              <TextField
-                control={control}
-                name="email"
-                label="Email"
-                colorScheme="bg-secondary-50"
-                className="mb-12"
-              />
+              <TextField control={control} name="email" label="Email" className="mb-12" />
             </div>
 
             <div className="flex justify-center">

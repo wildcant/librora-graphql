@@ -1,19 +1,10 @@
-import { Listbox, Transition } from '@headlessui/react'
 import { Icon } from '@atoms'
+import { Listbox, Transition } from '@headlessui/react'
 import cn from 'classnames'
 import { Fragment } from 'react'
 import { FieldError, FieldValues, useController, UseControllerProps } from 'react-hook-form'
+import { Option } from '../types'
 import s from './Select.module.css'
-
-export type OptionValue = string | number
-export type Option<
-  T extends OptionValue = string,
-  TMeta extends Record<string, string | number | boolean> = {}
-> = {
-  value: T
-  label: string
-  meta?: TMeta
-}
 
 interface IListboxProps {
   defaultValue?: Option | undefined

@@ -8,11 +8,12 @@
   transform: translateY(0.5rem);
   transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
+  /* Notice the :has pseudaclass is compatible with recent versions of most browsers, but it's not with firefox and samsung internet  */
   &:has(+ div > input:focus),
   &.displayLabelTop {
     @apply px-2;
     transform: translateY(-50%) scale(0.8);
-    background-color: var(--colorScheme);
+    background-color: white;
   }
 
   &:has(+ div > input:focus) {
@@ -43,17 +44,16 @@
 }
 
 .Input {
-  @apply box-border w-full rounded-md border-2 border-solid border-gray-500 py-2 px-4 text-sm text-black;
-  @apply focus:outline-none;
+  @apply focus:outline-none focus-visible:outline-none;
   transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: var(--colorScheme);
+  background-color: white;
 
   &.valid {
     @apply focus:ring-primary-600 focus:border-primary-600;
   }
 
   &.error {
-    @apply border-red-500 ring-red-500;
+    @apply border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500;
   }
 
   &.withIconLeft {

@@ -1,3 +1,5 @@
+export * from './autocomplete/Autocomplete'
 export * from './checkbox/Checkbox'
 export * from './select/Select'
 export * from './text-field/TextField'
+export * from './types'

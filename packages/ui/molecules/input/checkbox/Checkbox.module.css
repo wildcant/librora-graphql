@@ -1,5 +1,5 @@
 .CheckboxContainer {
-  @apply relative flex max-w-fit cursor-pointer flex-row;
+  @apply relative flex max-w-fit cursor-pointer flex-row items-center;
   &.disabled {
     @apply cursor-not-allowed opacity-50;
   }

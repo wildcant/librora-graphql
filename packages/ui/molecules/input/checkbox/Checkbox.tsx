@@ -42,9 +42,13 @@ export function CheckboxField<TValues extends FieldValues>({
         tabIndex={0}
       >
         <Icon name="checkbox-blank" className={cn(s.Checkbox, { [s.checked]: field.value })} />
-        {field.value && <Icon name="check" className="absolute fill-white" />}
+        {field.value && (
+          <span className="absolute text-white">
+            <Icon name="check" />
+          </span>
+        )}
         <div className="ml-1 select-none" role="checkbox" aria-checked={field.value}>
-          {label}
+          <p className="text-sm">{label}</p>
         </div>
       </div>
       {error && <span className="text-sm text-red-500">{error.message || 'This field is required.'}</span>}

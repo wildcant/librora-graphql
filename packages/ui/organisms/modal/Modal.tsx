@@ -2,18 +2,8 @@ import { Icon, Progress } from '@atoms'
 import { Dialog, Transition } from '@headlessui/react'
 import { createContext } from '@librora/utils/hooks'
 import { Button, IButtonProps } from '@molecules'
-import {
-  ComponentPropsWithoutRef,
-  Fragment,
-  PropsWithChildren,
-  ReactNode,
-  useLayoutEffect,
-  useState,
-} from 'react'
-
-import { ComponentType } from 'react'
-
-type ExtractProps<T> = T extends ComponentType<infer P> ? P : T
+import { ComponentPropsWithoutRef, Fragment, PropsWithChildren, ReactNode, useState } from 'react'
+import { ExtractProps } from '../../types'
 
 interface IModalProviderProps {
   modals: IModalProps[]
@@ -147,7 +137,7 @@ function Modal(props: IModalProps) {
                   )}
                   {getModalContent(variant, children)}
                   {isConfirmation && (
-                    <div className="flex justify-end gap-2 mt-4">
+                    <div className="mt-4 flex justify-end gap-2">
                       <Button
                         color="primary"
                         // size={{ base: 'xs', md: 'sm' }}

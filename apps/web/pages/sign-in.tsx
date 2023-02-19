@@ -4,7 +4,7 @@ import { useDeepCompareEffect } from '@librora/utils/hooks'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
+import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { AuthLayout } from '../components/layouts/AuthLayout'
 import signInPic from '../public/sign-in.webp'
@@ -54,6 +54,8 @@ export default function SignUp() {
       <p className="text-xl">Welcome Back</p>
       <p className="mb-4 text-base">To continue</p>
       {/* Verify the email address of your account by logging in. */}
+      {/* 
+      TODO: Google auth.
       <div className="flex justify-center">
         <Button
           size="xs"
@@ -66,23 +68,11 @@ export default function SignUp() {
       </div>
 
       <Divider className="my-4 text-xs">Or</Divider>
-
+      */}
       <form onSubmit={handleSubmit(submit)} className="mb-6">
         <div className="mb-8">
-          <TextField
-            control={control}
-            name="account"
-            label="Username"
-            colorScheme="bg-secondary-50"
-            className="mb-6"
-          />
-          <TextField
-            control={control}
-            name="password"
-            label="Password"
-            type="password"
-            colorScheme="bg-secondary-50"
-          />
+          <TextField control={control} name="account" label="Username" className="mb-6" />
+          <TextField control={control} name="password" label="Password" type="password" />
           <div className="flex justify-end">
             <Link href="/forgot-password" size="xs">
               Forgot password?

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateUserMutation } from '@librora/api/operations/client'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, CheckboxField, Divider, Icon, Link, Logo, TextField, useToast } from 'ui'
+import { Button, CheckboxField, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
 import { AuthLayout } from '../components/layouts/AuthLayout'
 
@@ -54,6 +54,8 @@ export default function SignUp() {
       <Logo />
       <p className="text-xl">Create your Librora account</p>
       <p className="mb-4 text-base">To continue</p>
+      {/* 
+      // TODO: Google auth.
       <div className="flex justify-center">
         <Button
           size="xs"
@@ -66,53 +68,21 @@ export default function SignUp() {
       </div>
 
       <Divider className="my-4 text-xs">Or</Divider>
-
+      */}
       <form onSubmit={handleSubmit(submit)}>
         <div className="md:grid md:grid-cols-2 md:gap-x-1 md:gap-y-4">
-          <TextField
-            control={control}
-            name="firstName"
-            label="First name"
-            colorScheme="bg-secondary-50"
-            className="mb-6 md:mb-0"
-          />
-          <TextField
-            control={control}
-            name="lastName"
-            label="Last name"
-            colorScheme="bg-secondary-50"
-            className="mb-6 md:mb-0"
-          />
-          <TextField
-            control={control}
-            name="username"
-            label="Username"
-            colorScheme="bg-secondary-50"
-            className="mb-6 md:mb-0"
-          />
-          <TextField
-            control={control}
-            name="email"
-            label="Email"
-            colorScheme="bg-secondary-50"
-            className="mb-6 md:mb-0"
-          />
+          <TextField control={control} name="firstName" label="First name" className="mb-6 md:mb-0" />
+          <TextField control={control} name="lastName" label="Last name" className="mb-6 md:mb-0" />
+          <TextField control={control} name="username" label="Username" className="mb-6 md:mb-0" />
+          <TextField control={control} name="email" label="Email" className="mb-6 md:mb-0" />
           <TextField
             control={control}
             name="password"
             label="Password"
             type="password"
-            colorScheme="bg-secondary-50"
             className="mb-6 md:mb-0"
           />
-          <TextField
-            control={control}
-            name="confirm"
-            label="Confirm"
-            type="password"
-            colorScheme="bg-secondary-50"
-            className="mb-6"
-          />
+          <TextField control={control} name="confirm" label="Confirm" type="password" className="mb-6" />
         </div>
 
         <CheckboxField

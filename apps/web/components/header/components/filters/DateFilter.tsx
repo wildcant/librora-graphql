@@ -27,8 +27,8 @@ function BooksSearchDateFilter({ onNextFilter }: { onNextFilter: () => void }) {
         >
           <Dialog.Panel className="w-full rounded-t-2xl bg-white h-[calc(100%-0.5rem)] flex flex-col rounded-2xl">
             <Dialog.Title
-              as="div"
-              className="flex flex-row justify-between items-center border-b-neutral-500 h-12 px-6"
+              as="h3"
+              className="flex flex-row justify-between items-center border-b-neutral-500 h-12 px-6 pt-4 text-xl"
             >
               When’s your next read?
             </Dialog.Title>

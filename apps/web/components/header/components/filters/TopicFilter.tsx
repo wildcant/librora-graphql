@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
-import { Button, useBareModal } from 'ui'
+import { Autocomplete, Button, useBareModal } from 'ui'
 
 const BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID = 'books-search-topic-filter'
 
@@ -17,15 +17,17 @@ function BooksSearchTopicFilter() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Dialog.Panel className="w-full rounded-t-2xl bg-white h-[calc(100%-0.5rem)] flex flex-col rounded-2xl">
+          <Dialog.Panel className="flex h-[calc(100%-0.5rem)] w-full flex-col rounded-2xl rounded-t-2xl bg-white">
             <Dialog.Title
-              as="div"
-              className="flex flex-row justify-between items-center border-b-neutral-500 h-12 px-6"
+              as="h3"
+              className="flex h-12 flex-row items-center justify-between border-b-neutral-500 px-6 pt-4 text-xl"
             >
               What topic are you interested on learning today?
             </Dialog.Title>
-            <div className="top-0 left-0 w-full flex-1 overflow-y-auto px-6 py-4"></div>
-            <div className="w-full h-16 z-50 border border-solid border-t-neutral-200 flex justify-between px-6 py-4">
+            <div className="top-0 left-0 w-full flex-1 overflow-y-auto px-6 py-4">
+              <Autocomplete options={[]} multiple />
+            </div>
+            <div className="z-50 flex h-16 w-full justify-between border border-solid border-t-neutral-200 px-6 py-4">
               <Button size="xs" variant="link">
                 Skip
               </Button>

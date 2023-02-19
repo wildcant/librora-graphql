@@ -3,19 +3,12 @@ import { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 import s from './TextField.module.css'
 
-type ColorScheme = 'white' | 'bg-secondary-50'
 export interface ITextFieldProps<TValues extends FieldValues>
   extends UseControllerProps<TValues>,
     Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> {
   label?: string
   leftIcon?: ReactNode
   rightIcon?: ReactNode
-  colorScheme?: ColorScheme
-}
-
-const colorSchemeMapping: { [key in ColorScheme]: string } = {
-  'bg-secondary-50': '#fdf9ef',
-  white: 'white',
 }
 
 export function TextField<TValues extends FieldValues>({
@@ -27,7 +20,6 @@ export function TextField<TValues extends FieldValues>({
   name,
   rightIcon,
   rules,
-  colorScheme = 'white',
   ...props
 }: ITextFieldProps<TValues>) {
   const {
@@ -40,15 +32,17 @@ export function TextField<TValues extends FieldValues>({
     defaultValue,
   })
 
-  const inputClassName = cn(s.Input, {
-    [s.valid]: !error,
-    [s.error]: !!error,
-    [s.disabled]: props.disabled,
-    [s.withIconLeft]: !!leftIcon,
-    [s.withIconRight]: !!rightIcon,
-  })
-
-  const colorSchemeStyle = { '--colorScheme': colorSchemeMapping[colorScheme] } as React.CSSProperties
+  const inputClassName = cn(
+    'box-border w-full rounded-md border-2 border-solid border-gray-500 py-2 px-4 text-sm text-black',
+    s.Input,
+    {
+      [s.valid]: !error,
+      [s.error]: !!error,
+      [s.disabled]: props.disabled,
+      [s.withIconLeft]: !!leftIcon,
+      [s.withIconRight]: !!rightIcon,
+    }
+  )
 
   return (
     <div className={cn(s.Container, className)}>
@@ -63,7 +57,6 @@ export function TextField<TValues extends FieldValues>({
             [s.error]: !!error,
             [s.valid]: !error,
           })}
-          style={colorSchemeStyle}
         >
           {label}
         </label>
@@ -72,14 +65,7 @@ export function TextField<TValues extends FieldValues>({
       <div className={cn(s.InputContainer, { [s.disabled]: props.disabled })}>
         {leftIcon && <div className={s.LeftIcon}>{leftIcon}</div>}
 
-        <input
-          id={name}
-          type="text"
-          className={inputClassName}
-          {...props}
-          {...field}
-          style={colorSchemeStyle}
-        />
+        <input id={name} type="text" className={inputClassName} {...props} {...field} />
 
         {rightIcon && <div className={s.RightIcon}>{rightIcon}</div>}
       </div>
