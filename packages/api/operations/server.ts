@@ -67,3 +67,22 @@ export async function fetchSearchBooks(
     error: data?.error ?? data?.errors ?? null,
   }
 }
+export async function fetchTopics(
+  options?: Omit<Apollo.QueryOptions<Types.TopicsQueryVariables>, 'query'>,
+  ctx?: ApolloClientContext
+) {
+  const apolloClient = getApolloClient(ctx)
+  const allOptions = { ...options, ...{} }
+  const data = await apolloClient.query<Types.TopicsQuery>({
+    ...allOptions,
+    query: Operations.TopicsDocument,
+  })
+
+  const apolloState = apolloClient.cache.extract()
+
+  return {
+    apolloState: apolloState,
+    data: data?.data,
+    error: data?.error ?? data?.errors ?? null,
+  }
+}

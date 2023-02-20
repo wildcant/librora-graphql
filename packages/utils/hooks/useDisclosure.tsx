@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 
+// From mantine.
 export function useDisclosure(initialState = false, callbacks?: { onOpen?(): void; onClose?(): void }) {
   const { onOpen, onClose } = callbacks || {}
   const [opened, setOpened] = useState(initialState)

@@ -184,8 +184,11 @@ export function ModalProvider({ children }: PropsWithChildren) {
       return currentModals
     })
 
-  const closeModal = (id: string) =>
+  const closeModal = (id: string) => {
+    const { onClose } = modals.find((modal) => modal.id === id) ?? {}
+    onClose?.()
     setModals((currentModals) => currentModals.filter((modal) => modal.id !== id))
+  }
 
   const setModalIsLoading = (id: string, isLoading: boolean) =>
     setModals((currentModals) => {

@@ -1,0 +1,8 @@
+type Topic {
+  id: String!
+  name: String!
+}
+
+type Query {
+  topics: [Topic!]!
+}

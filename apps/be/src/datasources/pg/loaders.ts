@@ -1,4 +1,4 @@
-import { ActionModel, AuthorModel, BookModel, UserModel } from '@librora/schemas'
+import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel } from '@librora/schemas'
 import DataLoader, { Options } from 'dataloader'
 import { mapTo } from '../utils'
 import { knex } from './knex'
@@ -23,18 +23,22 @@ function createLoader<T>({ table, key: keyName, options }: CreateLoader<T>) {
 
 /** Data Loaders. */
 export const loaders = {
-  /** Book */
-  bookById: createLoader<BookModel>({ table: 'books', key: 'id' }),
-  bookBySlug: createLoader<BookModel>({ table: 'books', key: 'slug' }),
+  /** Action. */
+  actionById: createLoader<ActionModel>({ table: 'actions', key: 'id', options: { cache: false } }),
 
   /** Author */
   authorById: createLoader<AuthorModel>({ table: 'authors', key: 'id' }),
 
-  /** User */
-  userById: createLoader<UserModel>({ table: 'users', key: 'id' }),
-  userByEmail: createLoader<UserModel>({ table: 'users', key: 'email' }),
-  userByUsername: createLoader<UserModel>({ table: 'users', key: 'username' }),
+  /** Book */
+  bookById: createLoader<BookModel>({ table: 'books', key: 'id' }),
+  bookBySlug: createLoader<BookModel>({ table: 'books', key: 'slug' }),
 
-  /** Action. */
-  userActionById: createLoader<ActionModel>({ table: 'actions', key: 'id', options: { cache: false } }),
+  /** Topic */
+  topicById: createLoader<TopicModel>({ table: 'topics', key: 'id' }),
+  topicByName: createLoader<TopicModel>({ table: 'topics', key: 'name' }),
+
+  /** User */
+  userByEmail: createLoader<UserModel>({ table: 'users', key: 'email' }),
+  userById: createLoader<UserModel>({ table: 'users', key: 'id' }),
+  userByUsername: createLoader<UserModel>({ table: 'users', key: 'username' }),
 }

@@ -1,11 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Button, RangeCalendar, useBareModal, useModalContext } from 'ui'
 import { useDateRangeFilterState } from '~store/filters'
 
 const BOOKS_SEARCH_DATE_FILTER_MODAL_ID = 'books-search-date-filter'
 
 function BooksSearchDateFilter({ onNextFilter }: { onNextFilter: () => void }) {
+  const [calendarKey, setCalendarKey] = useState(Date.now())
   const { closeModal } = useModalContext()
   const { dateRangeFilter, setDateRangeFilter } = useDateRangeFilterState()
   const goToNextFilter = () => {
@@ -25,20 +26,34 @@ function BooksSearchDateFilter({ onNextFilter }: { onNextFilter: () => void }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Dialog.Panel className="w-full rounded-t-2xl bg-white h-[calc(100%-0.5rem)] flex flex-col rounded-2xl">
+          <Dialog.Panel className="flex h-[calc(100%-0.5rem)] w-full flex-col rounded-2xl rounded-t-2xl bg-white">
             <Dialog.Title
               as="h3"
-              className="flex flex-row justify-between items-center border-b-neutral-500 h-12 px-6 pt-4 text-xl"
+              className="flex h-12 flex-row items-center justify-between border-b-neutral-500 px-6 pt-4 text-xl"
             >
               When’s your next read?
             </Dialog.Title>
-            <div className="self-center flex-1">
-              <RangeCalendar onChange={setDateRangeFilter} defaultValue={dateRangeFilter} />
+            <div className="flex-1 self-center">
+              <RangeCalendar key={calendarKey} onChange={setDateRangeFilter} value={dateRangeFilter} />
             </div>
-            <div className="w-full h-16 z-50 border border-solid border-t-neutral-200 flex justify-between px-6 py-4">
-              <Button size="xs" variant="link" onClick={goToNextFilter}>
-                Skip
-              </Button>
+            <div className="z-50 flex h-16 w-full justify-between border border-solid border-t-neutral-200 px-6 py-4">
+              {!dateRangeFilter && (
+                <Button size="xs" variant="link" onClick={goToNextFilter}>
+                  Skip
+                </Button>
+              )}
+              {dateRangeFilter && (
+                <Button
+                  size="xs"
+                  variant="link"
+                  onClick={() => {
+                    setCalendarKey(Date.now())
+                    setDateRangeFilter(undefined)
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
               <Button size="xs" variant="solid" onClick={goToNextFilter}>
                 Next
               </Button>

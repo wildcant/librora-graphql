@@ -90,6 +90,7 @@ type Query {
   author(id: String!): Author
   book(id: String, slug: String): Book
   searchBooks(input: SearchBooksInput!): BookConnection!
+  topics: [Topic!]!
   user(id: String!): User
 }
 
@@ -146,6 +147,11 @@ input SearchBooksInput {
   filters: BookFilters!
   sort: BookSort
   pagination: Pagination!
+}
+
+type Topic {
+  id: String!
+  name: String!
 }
 
 enum EUserType {

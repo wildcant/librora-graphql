@@ -1,5 +1,5 @@
 import { Avatar, Link, Logo } from '@atoms'
-import { Popover, Transition } from '@headlessui/react'
+import { Popover } from '@headlessui/react'
 import { Button } from '@molecules'
 import { useState } from 'react'
 import { usePopper } from 'react-popper'
@@ -89,38 +89,6 @@ function DesktopNavigation({ navItems }: IDesktopNavigationProps) {
           </li>
         ))}
       </ul>
-    </nav>
-  )
-}
-
-interface IMobileNavigationProps {
-  navItems: NavItems
-  isShowing: boolean
-}
-
-function MobileNavigation({ navItems, isShowing }: IMobileNavigationProps) {
-  return (
-    <nav className="lg:hidden">
-      <Transition
-        show={isShowing}
-        enter="transition-opacity duration-75"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-150"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="lg:hidden"
-      >
-        <ul className="flex flex-col border-t">
-          {navItems.map((navItem, idx) => (
-            <li key={`mobile-nav-item-${idx}`} className="border-b-1 border-b text-xs">
-              <Link href={navItem.href} className="block p-6 hover:bg-neutral-100">
-                {navItem.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Transition>
     </nav>
   )
 }

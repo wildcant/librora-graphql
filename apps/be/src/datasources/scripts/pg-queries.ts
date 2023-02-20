@@ -15,10 +15,32 @@ import {
 import addHours from 'date-fns/addHours'
 import { env } from '../../env'
 
+const topics = [
+  { name: 'History' },
+  { name: 'Social Sciences' },
+  { name: 'Business' },
+  { name: 'Politics & International Relations' },
+  { name: 'Theology & Religion' },
+  { name: 'Technology & Engineering' },
+  { name: 'Biological Sciences' },
+  { name: 'Medicine' },
+  { name: 'Education' },
+  { name: 'Physical Sciences' },
+  { name: 'Languages & Linguistics' },
+  { name: 'Philosophy' },
+  { name: 'Law' },
+  { name: 'Psychology' },
+  { name: 'Computer Science' },
+  { name: 'Media & Performing Arts' },
+]
+
 export async function seed(args: string[]) {
   if (args.includes('insert')) {
     const [author] = await knex('authors').insert({ name: 'Marcus Aurelius' }).returning('id')
-    const [topic] = await knex('topics').insert({ name: 'History' }).returning('id')
+
+    const [topic] = await knex('topics').insert({ name: 'Literature' }).returning('id')
+    await knex('topics').insert(topics)
+
     const [subtopic] = await knex('subtopics').insert({ name: 'History of the world' }).returning('id')
 
     const booksData: Pick<BookModel, 'title' | 'cover' | 'description'>[] = [

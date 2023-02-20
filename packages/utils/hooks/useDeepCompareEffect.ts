@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react'
 
 function useDeepCompareMemoize<T>(value: T) {

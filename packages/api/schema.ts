@@ -182,6 +182,7 @@ export type Query = {
   author?: Maybe<Author>
   book?: Maybe<Book>
   searchBooks: BookConnection
+  topics: Array<Topic>
   user?: Maybe<User>
 }
 
@@ -236,6 +237,12 @@ export type SignInPayload = {
   message?: Maybe<Scalars['String']>
   success?: Maybe<Scalars['Boolean']>
   user?: Maybe<User>
+}
+
+export type Topic = {
+  __typename?: 'Topic'
+  id: Scalars['String']
+  name: Scalars['String']
 }
 
 export type User = {
@@ -437,4 +444,11 @@ export type SearchBooksQuery = {
     }>
     pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean; hasPreviousPage: boolean }
   }
+}
+
+export type TopicsQueryVariables = Exact<{ [key: string]: never }>
+
+export type TopicsQuery = {
+  __typename?: 'Query'
+  topics: Array<{ __typename?: 'Topic'; id: string; name: string }>
 }

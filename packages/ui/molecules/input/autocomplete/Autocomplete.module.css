@@ -21,7 +21,7 @@
 }
 
 .Input {
-  @apply relative min-h-[48px] w-full cursor-default rounded-md border-2 border-gray-500 pr-6 shadow-sm sm:text-sm;
+  @apply relative min-h-[48px] w-full cursor-default rounded-md border-2 border-gray-500 pr-6 pl-4 shadow-sm sm:text-sm;
   @apply focus:ring-primary-600 focus:border-primary-600;
   @apply focus:outline-none focus-visible:outline-none;
   transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);

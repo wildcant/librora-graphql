@@ -1,5 +1,6 @@
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/standalone'
 import { actionsDataSource, authorsDataSource, booksDataSource, usersDataSource } from './datasources'
+import { topicsDataSource } from './datasources/pg/topic'
 
 export async function context(_args: StandaloneServerContextFunctionArgument) {
   return {
@@ -8,6 +9,7 @@ export async function context(_args: StandaloneServerContextFunctionArgument) {
       authors: authorsDataSource,
       users: usersDataSource,
       actions: actionsDataSource,
+      topics: topicsDataSource,
     },
   }
 }

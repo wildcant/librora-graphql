@@ -1,16 +1,17 @@
 import { fetchSearchBooks } from '@librora/api/operations/server'
 import { Book, PageInfo } from '@librora/api/schema'
+import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
-import { useEffect } from 'react'
 import { BookCard, Link, Pagination } from 'ui'
-import { setFilters, useFiltersState } from '~store/filters'
+import { SearchQueryParams, useFiltersState, useReestablishFiltersFromQueryParams } from '~store/filters'
 import { MainLayout } from '../components/layouts/MainLayout'
 import { buildSearchQuery, decodeSearch } from '../utils/search'
 
 const BOOK_LIST_PAGE_SIZE = 4
-type SearchQueryParams = { search?: string; page?: string; startDate?: string; endDate?: string }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const query = context.query as SearchQueryParams
+
   const searchText = decodeSearch(query.search) ?? ''
   const pageIndex = query.page ? parseInt(query.page, 10) - 1 : 0
 
@@ -67,17 +68,11 @@ export default function Home({
   pageIndex,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { nodes: books, totalCount = 0, pageInfo } = booksList ?? {}
+  const { reestablishFiltersToQueryParams } = useReestablishFiltersFromQueryParams()
 
-  useEffect(() => {
-    // rehydrate filters on query param changes.
-    setFilters({
-      search: query.search,
-      dateRange:
-        query.startDate && query.endDate
-          ? { start: new Date(query.startDate), end: new Date(query.endDate) }
-          : undefined,
-    })
-  }, [query.endDate, query.search, query.startDate])
+  useDeepCompareEffect(() => {
+    reestablishFiltersToQueryParams(query)
+  }, [query])
 
   return (
     <MainLayout>

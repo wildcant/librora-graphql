@@ -21,5 +21,15 @@ export function buildSearchQuery(filters: IFiltersState): string {
     query += `&startDate=${formatDate(filters.dateRange.start)}&endDate=${formatDate(filters.dateRange.end)}`
   }
 
+  if (filters.topics) {
+    filters.topics.forEach((topic) => {
+      query += `&topics=${encodeURIComponent(topic)}`
+    })
+  }
+
+  if (filters.language) {
+    query += `&language=${filters.language}`
+  }
+
   return query
 }

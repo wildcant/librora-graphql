@@ -1,11 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
+import { ELanguage } from '@librora/api/schema'
 import { useDisclosure } from '@librora/utils/hooks'
 import format from 'date-fns/format'
 import { ComponentPropsWithoutRef, Fragment } from 'react'
 import { Button, Divider, Icon, Link, RangeValue, useBareModal, useModalContext } from 'ui'
-import { useFiltersState } from '~store/filters'
+import { clearAllFilters, useFiltersState, useReestablishFiltersFromQueryParams } from '~store/filters'
 import { buildSearchQuery } from '~utils/search'
 import { useDateFilter } from './DateFilter'
+import { useLanguageFilter } from './LanguageFilter'
 import { useTopicFilter } from './TopicFilter'
 
 function FilterField({
@@ -22,11 +24,11 @@ function FilterField({
   fieldValue?: string
 }) {
   return (
-    <div className="w-full rounded-2xl bg-white p-4 shadow-sm my-2">
+    <div className="my-2 w-full rounded-2xl bg-white p-4 shadow-sm">
       {!hideButton && (
-        <button className="p-0 m-0 w-full flex justify-between items-center" {...props}>
-          <span className="text-neutral-500 font-light text-sm">{fieldName}</span>
-          <span className="text-neutral-700 font-light text-sm">{fieldValue ?? fieldPlaceholder}</span>
+        <button className="m-0 flex w-full items-center justify-between p-0" {...props}>
+          <span className="text-sm font-light text-neutral-500">{fieldName}</span>
+          <span className="text-sm font-light text-neutral-700">{fieldValue ?? fieldPlaceholder}</span>
         </button>
       )}
       {children}
@@ -51,12 +53,22 @@ function formatDateRage(dateRange?: RangeValue<Date>): string | undefined {
   return `${format(dateRange.start, 'MMM dd')} - ${format(dateRange.end, 'MMM dd')}`
 }
 
+// TODO: Abstract to generic utility for all enums.
+const ELanguageAsKey: { [key in ELanguage]: keyof typeof ELanguage } = {
+  ENGLISH: 'English',
+}
+
 function BooksSearchFilters() {
   const { closeModal } = useModalContext()
   const [filterOpened, filterOpenedHandlers] = useDisclosure(false)
   const { filters } = useFiltersState()
 
-  const { open: openTopicFilterModal } = useTopicFilter({ onClose: () => filterOpenedHandlers.close() })
+  const { open: openLanguageFilterModal } = useLanguageFilter({ onClose: () => filterOpenedHandlers.close() })
+
+  const { open: openTopicFilterModal } = useTopicFilter({
+    onClose: () => filterOpenedHandlers.close(),
+    onNextFilter: openLanguageFilterModal,
+  })
   const openTopicFilter = () => {
     openTopicFilterModal()
     filterOpenedHandlers.open()
@@ -71,6 +83,11 @@ function BooksSearchFilters() {
     filterOpenedHandlers.open()
   }
 
+  const topicFieldValue =
+    filters.topics.length > 0
+      ? `${filters.topics[0]}${filters.topics.length > 1 ? ' & more..' : ''}`
+      : undefined
+
   return (
     <div className="fixed inset-0 h-full">
       <div className="flex h-full items-end pt-2">
@@ -83,13 +100,13 @@ function BooksSearchFilters() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1/2"
         >
-          <Dialog.Panel className="w-full rounded-t-2xl bg-[#F7F7F7] h-[calc(100%-0.5rem)] flex flex-col">
+          <Dialog.Panel className="flex h-[calc(100%-0.5rem)] w-full flex-col rounded-t-2xl bg-[#F7F7F7]">
             <Dialog.Title
               as="div"
-              className="flex flex-row justify-between items-center border-b-neutral-500 h-12 px-6"
+              className="flex h-12 flex-row items-center justify-between border-b-neutral-500 px-6"
             >
-              <button className="p-0 m-0" onClick={() => closeModal(BOOKS_SEARCH_MODAL_ID)}>
-                <div className="border border-solid border-neutral-300 rounded-full p-1 bg-neutral-50">
+              <button className="m-0 p-0" onClick={() => closeModal(BOOKS_SEARCH_MODAL_ID)}>
+                <div className="rounded-full border border-solid border-neutral-300 bg-neutral-50 p-1">
                   <Icon name={filterOpened ? 'arrow-left-line' : 'close'} size="sm" />
                 </div>
               </button>
@@ -108,13 +125,18 @@ function BooksSearchFilters() {
                 fieldName="Topic"
                 fieldPlaceholder="Add subject"
                 onClick={openTopicFilter}
-                // fieldValue={filters.topic}
+                fieldValue={topicFieldValue}
               />
-              <FilterField fieldName="Language" fieldPlaceholder="Linguistic preference" />
+              <FilterField
+                fieldName="Language"
+                fieldPlaceholder="Linguistic preference"
+                onClick={openLanguageFilterModal}
+                fieldValue={filters.language ? ELanguageAsKey[filters.language] : undefined}
+              />
             </div>
-            <div className="w-full h-16 z-50 border border-solid border-t-neutral-200 flex justify-between px-6 py-4">
-              <Button size="xs" variant="link">
-                Reestablish
+            <div className="z-50 flex h-16 w-full justify-between border border-solid border-t-neutral-200 px-6 py-4">
+              <Button size="xs" variant="link" onClick={clearAllFilters}>
+                Clear All
               </Button>
               <SearchAction onSearch={() => closeModal(BOOKS_SEARCH_MODAL_ID)} />
             </div>
@@ -126,8 +148,10 @@ function BooksSearchFilters() {
 }
 
 export function useBooksSearchFiltersModal() {
+  const { reestablishFiltersToQueryParams } = useReestablishFiltersFromQueryParams()
   return useBareModal({
     id: BOOKS_SEARCH_MODAL_ID,
+    onClose: reestablishFiltersToQueryParams,
     children: <BooksSearchFilters />,
   })
 }

@@ -200,6 +200,7 @@ export type Query = {
   author?: Maybe<Author>;
   book?: Maybe<Book>;
   searchBooks: BookConnection;
+  topics: Array<Topic>;
   user?: Maybe<User>;
 };
 
@@ -258,6 +259,12 @@ export type SignInPayload = {
   message?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
   user?: Maybe<User>;
+};
+
+export type Topic = {
+  __typename?: 'Topic';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type User = {
@@ -401,6 +408,7 @@ export type ResolversTypes = {
   SignInInput: SignInInput;
   SignInPayload: ResolverTypeWrapper<Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Topic: ResolverTypeWrapper<Topic>;
   User: ResolverTypeWrapper<PublicUserModel>;
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'nodes'> & { nodes: Array<ResolversTypes['User']> }>;
   ValidateActionPayload: ResolverTypeWrapper<ValidateActionPayload>;
@@ -436,6 +444,7 @@ export type ResolversParentTypes = {
   SignInInput: SignInInput;
   SignInPayload: Omit<SignInPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   String: Scalars['String'];
+  Topic: Topic;
   User: PublicUserModel;
   UserConnection: Omit<UserConnection, 'nodes'> & { nodes: Array<ResolversParentTypes['User']> };
   ValidateActionPayload: ValidateActionPayload;
@@ -526,6 +535,7 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QueryAuthorArgs, 'id'>>;
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
   searchBooks?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'input'>>;
+  topics?: Resolver<Array<ResolversTypes['Topic']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
@@ -546,6 +556,12 @@ export type SignInPayloadResolvers<ContextType = IContext, ParentType extends Re
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TopicResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Topic'] = ResolversParentTypes['Topic']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -599,6 +615,7 @@ export type Resolvers<ContextType = IContext> = {
   ResendVerificationEmail?: ResendVerificationEmailResolvers<ContextType>;
   ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
+  Topic?: TopicResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserConnection?: UserConnectionResolvers<ContextType>;
   ValidateActionPayload?: ValidateActionPayloadResolvers<ContextType>;

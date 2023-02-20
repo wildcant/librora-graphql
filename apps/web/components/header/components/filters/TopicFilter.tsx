@@ -1,10 +1,37 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { Autocomplete, Button, useBareModal } from 'ui'
+import { useTopicsQuery } from '@librora/api/operations/client'
+import { Fragment, useMemo, useState } from 'react'
+import { Autocomplete, Button, Option, useBareModal, useModalContext } from 'ui'
+import { useTopicsFilterState } from '~store/filters'
 
 const BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID = 'books-search-topic-filter'
 
-function BooksSearchTopicFilter() {
+function BooksSearchTopicFilter({ onNextFilter }: { onNextFilter: () => void }) {
+  const [autocompleteKey, setAutocompleteKey] = useState(Date.now())
+  const { topicsFilter, setTopicsFilter } = useTopicsFilterState()
+  const { data, loading } = useTopicsQuery()
+  const topics = data?.topics
+
+  // we must memoize the options otherwise the combobox within the autocomplete will reset.
+  const topicsOptions: Option<string>[] = useMemo(
+    () => topics?.map((topic) => ({ value: topic.id, label: topic.name })) ?? [],
+    // TODO: Investigate: primitives are compared by value and arrays and objects are compared by reference.
+    [topics]
+  )
+
+  const defaultValues = topicsFilter.length
+    ? // Make sure the topics currently set in filters are still available.
+      (topicsFilter
+        .map((topicFilter) => topicsOptions.find((topicOption) => topicFilter === topicOption.label))
+        .filter((t) => !!t) as Option[])
+    : []
+
+  const { closeModal } = useModalContext()
+  const goToNextFilter = () => {
+    onNextFilter()
+    setTimeout(() => closeModal(BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID), 200)
+  }
+
   return (
     <div className="fixed inset-0 h-full">
       <div className="flex h-full items-end pt-20">
@@ -24,14 +51,37 @@ function BooksSearchTopicFilter() {
             >
               What topic are you interested on learning today?
             </Dialog.Title>
-            <div className="top-0 left-0 w-full flex-1 overflow-y-auto px-6 py-4">
-              <Autocomplete options={[]} multiple />
+            <div className="top-0 left-0 mt-4 w-full flex-1 overflow-y-auto px-6 py-4">
+              <Autocomplete
+                key={autocompleteKey}
+                defaultValue={defaultValues}
+                label="Search Topics"
+                loading={loading}
+                multiple
+                onChange={(selectedTopics) => setTopicsFilter(selectedTopics.map(({ label }) => label))}
+                options={topicsOptions}
+              />
             </div>
             <div className="z-50 flex h-16 w-full justify-between border border-solid border-t-neutral-200 px-6 py-4">
-              <Button size="xs" variant="link">
-                Skip
-              </Button>
-              <Button size="xs" variant="solid">
+              {topicsFilter.length === 0 && (
+                <Button size="xs" variant="link" onClick={goToNextFilter}>
+                  Skip
+                </Button>
+              )}
+              {topicsFilter.length > 0 && (
+                <Button
+                  size="xs"
+                  variant="link"
+                  onClick={() => {
+                    setAutocompleteKey(Date.now())
+                    setTopicsFilter([])
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+
+              <Button size="xs" variant="solid" onClick={goToNextFilter}>
                 Next
               </Button>
             </div>
@@ -42,12 +92,12 @@ function BooksSearchTopicFilter() {
   )
 }
 
-export function useTopicFilter({ onClose }: { onClose: () => void }) {
+export function useTopicFilter({ onClose, onNextFilter }: { onClose: () => void; onNextFilter: () => void }) {
   const modalActions = useBareModal({
     id: BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID,
     onClose,
     hideOverlay: true,
-    children: <BooksSearchTopicFilter />,
+    children: <BooksSearchTopicFilter onNextFilter={onNextFilter} />,
   })
   return modalActions
 }

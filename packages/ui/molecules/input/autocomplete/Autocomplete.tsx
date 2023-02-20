@@ -1,5 +1,6 @@
 import { Icon } from '@atoms'
 import { Combobox, Transition } from '@headlessui/react'
+import { useUncontrolled } from '@librora/utils/hooks'
 import cn from 'classnames'
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { FieldError, FieldValues, useController, UseControllerProps } from 'react-hook-form'
@@ -28,9 +29,10 @@ type IComboboxProps = {
 
 export type IAutocompleteProps = IComboboxProps & {
   options: Option[]
+  loading?: boolean
 }
 
-type AutocompleteInputProps = Pick<IAutocompleteProps, 'error' | 'label' | 'disabled'> & {
+type AutocompleteInputProps = Pick<IAutocompleteProps, 'error' | 'label' | 'disabled' | 'loading'> & {
   value?: Option | Option[] | null
   activeIndex: number | null
   open: boolean
@@ -45,25 +47,29 @@ function AutocompleteInput({
   open,
   setQuery,
   disabled,
+  loading,
 }: AutocompleteInputProps) {
+  const valuesIsDefined = Array.isArray(value) ? value.length > 0 : !!value
+
   return (
     <div className="relative w-full">
       <label
         htmlFor="autocomplete"
         className={cn(s.Label, {
-          [s.displayLabelTop]: open || !!value || !activeIndex,
+          [s.displayLabelTop]: open || valuesIsDefined || !!activeIndex,
           [s.focus]: open,
           [s.valid]: !error,
           [s.error]: error,
         })}
       >
-        {label}
+        {loading ? 'Loading..' : label}
       </label>
       <Combobox.Input
         id="autocomplete"
-        className={cn(s.Input, { [s.valid]: !error, [s.error]: error, [s.disabled]: disabled })}
+        className={cn(s.Input, { [s.valid]: !error, [s.error]: error, [s.disabled]: disabled || loading })}
         autoComplete="off"
         onChange={(event) => setQuery(event.target.value)}
+        disabled={disabled || loading}
         displayValue={(option) => {
           if (Array.isArray(option)) {
             const selectedOptionsLabels = option.map((opt) => (opt as unknown as Option | undefined)?.label)
@@ -123,18 +129,22 @@ function AutocompleteOptions({ setQuery, query, options }: AutocompleteOptionsPr
             <Combobox.Option
               key={option.value}
               value={option}
-              className={(optionProps) => cn(s.Option, { [s.selected]: optionProps.selected })}
+              className={(optionProps) => {
+                return cn(s.Option, { [s.selected]: optionProps.selected })
+              }}
             >
-              {(optionProps) => (
-                <div
-                  className={cn(s.OptionLabel, {
-                    [s.selected]: optionProps.selected,
-                    [s.active]: optionProps.active,
-                  })}
-                >
-                  {option.label}
-                </div>
-              )}
+              {(optionProps) => {
+                return (
+                  <div
+                    className={cn(s.OptionLabel, {
+                      [s.selected]: optionProps.selected,
+                      [s.active]: optionProps.active,
+                    })}
+                  >
+                    {option.label}
+                  </div>
+                )
+              }}
             </Combobox.Option>
           ))
         )}
@@ -143,7 +153,10 @@ function AutocompleteOptions({ setQuery, query, options }: AutocompleteOptionsPr
   )
 }
 
-type AutocompleteSingleSelectProps = Pick<IAutocompleteProps, 'error' | 'label' | 'options' | 'disabled'> & {
+type AutocompleteSingleSelectProps = Pick<
+  IAutocompleteProps,
+  'error' | 'label' | 'options' | 'disabled' | 'loading'
+> & {
   name?: string
   defaultValue?: Option
   value?: Option
@@ -158,6 +171,7 @@ function AutocompleteSingleSelect({
   error,
   options,
   disabled,
+  loading,
 }: AutocompleteSingleSelectProps) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Option | undefined>(defaultValue ?? undefined)
@@ -178,6 +192,7 @@ function AutocompleteSingleSelect({
             label={label}
             error={error}
             disabled={disabled}
+            loading={loading}
           />
           <AutocompleteOptions query={query} setQuery={setQuery} options={options} />
           {error && (
@@ -189,13 +204,20 @@ function AutocompleteSingleSelect({
   )
 }
 
-type AutocompleteMultiSelectProps = Pick<IAutocompleteProps, 'error' | 'label' | 'options' | 'disabled'> & {
+type AutocompleteMultiSelectProps = Pick<
+  IAutocompleteProps,
+  'error' | 'label' | 'options' | 'disabled' | 'loading'
+> & {
   name?: string
   defaultValue?: Option[]
   value?: Option[]
   onChange?(value: Option[]): void
 }
 
+/**
+ * If the options property is being computed asynchronously make sure to memoize it,
+ * otherwise the combobox component will be reset om every re render.
+ */
 function AutocompleteMultiSelect({
   defaultValue,
   onChange,
@@ -204,33 +226,39 @@ function AutocompleteMultiSelect({
   error,
   options,
   disabled,
+  loading,
+  value: valueProp,
 }: AutocompleteMultiSelectProps) {
   const [query, setQuery] = useState('')
-  const [selected, setSelected] = useState<Option[]>(defaultValue ?? [])
-  const handleChange = (val: Option[]) => {
-    setSelected(val)
-    onChange?.(val)
-  }
+
+  const [_value, handleChange] = useUncontrolled({
+    value: valueProp,
+    defaultValue,
+    onChange,
+  })
 
   return (
-    <Combobox name={name} value={selected} onChange={handleChange} multiple disabled={disabled}>
-      {({ open, activeIndex, value }) => (
-        <div className="relative">
-          <AutocompleteInput
-            value={value}
-            activeIndex={activeIndex}
-            open={open}
-            setQuery={setQuery}
-            label={label}
-            error={error}
-            disabled={disabled}
-          />
-          <AutocompleteOptions query={query} setQuery={setQuery} options={options} />
-          {error && (
-            <span className="text-sm text-red-500">{error.message || 'This field is required.'}</span>
-          )}
-        </div>
-      )}
+    <Combobox name={name} value={_value} onChange={handleChange} multiple disabled={disabled}>
+      {({ open, activeIndex, value }) => {
+        return (
+          <div className="relative">
+            <AutocompleteInput
+              value={value}
+              activeIndex={activeIndex}
+              open={open}
+              setQuery={setQuery}
+              label={label}
+              error={error}
+              disabled={disabled}
+              loading={loading}
+            />
+            <AutocompleteOptions query={query} setQuery={setQuery} options={options} />
+            {error && (
+              <span className="text-sm text-red-500">{error.message || 'This field is required.'}</span>
+            )}
+          </div>
+        )
+      }}
     </Combobox>
   )
 }

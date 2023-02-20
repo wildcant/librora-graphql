@@ -1,13 +1,20 @@
 import { makeVar, ReactiveVar, useReactiveVar } from '@apollo/client'
-import { RangeValue } from '@organisms'
+import { ELanguage } from '@librora/api/schema'
+import { useRouter } from 'next/router'
+import { RangeValue } from 'ui'
 
-const filtersInitialValues: IFiltersState = {}
+const filtersInitialValues: IFiltersState = {
+  topics: [],
+}
 
 export interface IFiltersState {
   dateRange?: RangeValue<Date>
   search?: string
+  topics: string[]
+  language?: ELanguage
 }
 
+/**Search range filter */
 const searchVar = makeVar<IFiltersState['search']>(filtersInitialValues.search)
 type UseSearchFilterStateReturn = {
   searchFilter: IFiltersState['search']
@@ -18,6 +25,7 @@ export const useSearchFilterState = (): UseSearchFilterStateReturn => ({
   setSearchFilter: searchVar,
 })
 
+/**Date range filter */
 const dateRangeVar = makeVar<IFiltersState['dateRange']>(filtersInitialValues.dateRange)
 type UseDateRangeFilterStateReturn = {
   dateRangeFilter: IFiltersState['dateRange']
@@ -28,17 +36,90 @@ export const useDateRangeFilterState = (): UseDateRangeFilterStateReturn => ({
   setDateRangeFilter: dateRangeVar,
 })
 
-export const setFilters = (mewValues: IFiltersState) => {
-  searchVar(mewValues.search)
-  dateRangeVar(mewValues.dateRange)
+/** Topics filter */
+const topicsVar = makeVar<IFiltersState['topics']>(filtersInitialValues.topics)
+type UseTopicsFilterStateReturn = {
+  topicsFilter: IFiltersState['topics']
+  setTopicsFilter: ReactiveVar<IFiltersState['topics']>
 }
+export const useTopicsFilterState = (): UseTopicsFilterStateReturn => ({
+  topicsFilter: useReactiveVar(topicsVar),
+  setTopicsFilter: topicsVar,
+})
 
+/** Language filter */
+const languageVar = makeVar<IFiltersState['language']>(filtersInitialValues.language)
+type UseLanguageFilterStateReturn = {
+  languageFilter: IFiltersState['language']
+  setLanguageFilter: ReactiveVar<IFiltersState['language']>
+}
+export const useLanguageFilterState = (): UseLanguageFilterStateReturn => ({
+  languageFilter: useReactiveVar(languageVar),
+  setLanguageFilter: languageVar,
+})
+
+/**All filters */
+export const setFilters = (newValues: IFiltersState) => {
+  searchVar(newValues.search)
+  dateRangeVar(newValues.dateRange)
+  topicsVar(newValues.topics)
+  languageVar(newValues.language)
+}
 export const useFiltersState = (): {
   filters: IFiltersState
   setFilters: (newValues: IFiltersState) => void
 } => {
   const search = useReactiveVar(searchVar)
   const dateRange = useReactiveVar(dateRangeVar)
+  const topics = useReactiveVar(topicsVar)
+  const language = useReactiveVar(languageVar)
 
-  return { filters: { search, dateRange }, setFilters }
+  return { filters: { search, dateRange, topics, language }, setFilters }
+}
+
+/**
+ * Utility functions to mutate state.
+ */
+
+export type SearchQueryParams = {
+  search?: string
+  page?: string
+  startDate?: string
+  endDate?: string
+  topics?: string | string[]
+  language?: ELanguage
+}
+
+/** Set filters based on query params. */
+export function useReestablishFiltersFromQueryParams() {
+  const router = useRouter()
+
+  return {
+    reestablishFiltersToQueryParams(queryOverwrite?: SearchQueryParams) {
+      const query = queryOverwrite ?? (router.query as SearchQueryParams)
+
+      let topics: string[] = []
+      if (query.topics) {
+        if (Array.isArray(query.topics)) {
+          topics = query.topics
+        } else if (typeof query.topics === 'string') {
+          topics = [query.topics]
+        }
+      }
+
+      setFilters({
+        dateRange:
+          query.startDate && query.endDate
+            ? { start: new Date(query.startDate), end: new Date(query.endDate) }
+            : undefined,
+        search: query.search,
+        topics,
+        language: query.language,
+      })
+    },
+  }
+}
+
+export function clearAllFilters() {
+  setFilters(filtersInitialValues)
 }

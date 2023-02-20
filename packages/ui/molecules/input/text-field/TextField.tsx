@@ -32,17 +32,13 @@ export function TextField<TValues extends FieldValues>({
     defaultValue,
   })
 
-  const inputClassName = cn(
-    'box-border w-full rounded-md border-2 border-solid border-gray-500 py-2 px-4 text-sm text-black',
-    s.Input,
-    {
-      [s.valid]: !error,
-      [s.error]: !!error,
-      [s.disabled]: props.disabled,
-      [s.withIconLeft]: !!leftIcon,
-      [s.withIconRight]: !!rightIcon,
-    }
-  )
+  const inputClassName = cn(s.Input, {
+    [s.valid]: !error,
+    [s.error]: !!error,
+    [s.disabled]: props.disabled,
+    [s.withIconLeft]: !!leftIcon,
+    [s.withIconRight]: !!rightIcon,
+  })
 
   return (
     <div className={cn(s.Container, className)}>
