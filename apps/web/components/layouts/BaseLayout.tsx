@@ -1,6 +1,6 @@
 import { useLockBodyScroll } from '@librora/utils/hooks'
 import classNames from 'classnames'
-import { Loader, Toast } from 'ui'
+import { Icon, Link, Loader, Toast } from 'ui'
 import { useGlobalState } from '../../store/global'
 import { Portal } from '../Portal'
 
@@ -15,6 +15,24 @@ function Loading() {
   )
 }
 
+function MobileNavigation() {
+  return (
+    <nav className="fixed bottom-0 flex h-16 w-full justify-center border-t-[1px] border-t-neutral-100 bg-white md:hidden">
+      <div className="flex h-full flex-row items-center gap-10">
+        <Link href="/" variant="unstyled" className="flex flex-col items-center text-neutral-500">
+          <Icon name="search" size="lg" />
+          <span className="text-[10px] font-bold">Explore</span>
+        </Link>
+
+        <Link href="/sign-in" variant="unstyled" className="flex flex-col items-center text-neutral-500">
+          <Icon name="account-circle" size="lg" />
+          <span className="text-[10px] font-bold">Sign in</span>
+        </Link>
+      </div>
+    </nav>
+  )
+}
+
 export interface LayoutProps {
   children?: React.ReactNode
 }
@@ -25,7 +43,10 @@ export function BaseLayout({ children }: LayoutProps) {
   return (
     <>
       {isLoadingGlobal && <Loading />}
-      <div className={classNames({ 'blur-sm': isLoadingGlobal })}>{children}</div>
+      <div className={classNames({ 'blur-sm': isLoadingGlobal })}>
+        {children}
+        <MobileNavigation />
+      </div>
       <Toast />
     </>
   )

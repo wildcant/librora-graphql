@@ -1,4 +1,4 @@
-.Divider {
+.HorizontalDivider {
   @apply flex w-full items-center text-center;
 
   &::before,
@@ -12,5 +12,22 @@
   }
   &:not(:empty)::after {
     @apply ml-4;
+  }
+}
+
+.VerticalDivider {
+  @apply flex h-full flex-col items-center text-center;
+
+  &::before,
+  &::after {
+    @apply flex-1 border-l-[1px] border-solid border-neutral-200;
+    content: '';
+  }
+
+  &:not(:empty)::before {
+    @apply mt-4;
+  }
+  &:not(:empty)::after {
+    @apply mb-4;
   }
 }

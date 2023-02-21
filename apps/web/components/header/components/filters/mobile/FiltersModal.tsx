@@ -1,14 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { ELanguage } from '@librora/api/schema'
 import { useDisclosure } from '@librora/utils/hooks'
-import format from 'date-fns/format'
 import { ComponentPropsWithoutRef, Fragment } from 'react'
-import { Button, Divider, Icon, Link, RangeValue, useBareModal, useModalContext } from 'ui'
+import { Button, Divider, Icon, Link, useBareModal, useModalContext } from 'ui'
 import { clearAllFilters, useFiltersState, useReestablishFiltersFromQueryParams } from '~store/filters'
 import { buildSearchQuery } from '~utils/search'
-import { useDateFilter } from './DateFilter'
-import { useLanguageFilter } from './LanguageFilter'
-import { useTopicFilter } from './TopicFilter'
+import { formatDateRage, formatLanguage, formatTopics } from '../utils'
+import { useDateFilter } from './DateFilterModal'
+import { useLanguageFilter } from './LanguageFilterModal'
+import { useTopicFilter } from './TopicFilterModal'
 
 function FilterField({
   children,
@@ -48,16 +47,6 @@ function SearchAction({ onSearch }: { onSearch: () => void }) {
   )
 }
 
-function formatDateRage(dateRange?: RangeValue<Date>): string | undefined {
-  if (!dateRange) return
-  return `${format(dateRange.start, 'MMM dd')} - ${format(dateRange.end, 'MMM dd')}`
-}
-
-// TODO: Abstract to generic utility for all enums.
-const ELanguageAsKey: { [key in ELanguage]: keyof typeof ELanguage } = {
-  ENGLISH: 'English',
-}
-
 function BooksSearchFilters() {
   const { closeModal } = useModalContext()
   const [filterOpened, filterOpenedHandlers] = useDisclosure(false)
@@ -82,11 +71,6 @@ function BooksSearchFilters() {
     openDateFilterModal()
     filterOpenedHandlers.open()
   }
-
-  const topicFieldValue =
-    filters.topics.length > 0
-      ? `${filters.topics[0]}${filters.topics.length > 1 ? ' & more..' : ''}`
-      : undefined
 
   return (
     <div className="fixed inset-0 h-full">
@@ -125,13 +109,13 @@ function BooksSearchFilters() {
                 fieldName="Topic"
                 fieldPlaceholder="Add subject"
                 onClick={openTopicFilter}
-                fieldValue={topicFieldValue}
+                fieldValue={formatTopics(filters.topics)}
               />
               <FilterField
                 fieldName="Language"
                 fieldPlaceholder="Linguistic preference"
                 onClick={openLanguageFilterModal}
-                fieldValue={filters.language ? ELanguageAsKey[filters.language] : undefined}
+                fieldValue={formatLanguage(filters.language)}
               />
             </div>
             <div className="z-50 flex h-16 w-full justify-between border border-solid border-t-neutral-200 px-6 py-4">

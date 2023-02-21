@@ -1,6 +1,5 @@
-import { Avatar, Link, Logo } from '@atoms'
+import { Avatar, Icon, Link, Logo } from 'ui'
 import { Popover } from '@headlessui/react'
-import { Button } from '@molecules'
 import { useState } from 'react'
 import { usePopper } from 'react-popper'
 import { Search } from './components/Search'
@@ -12,76 +11,98 @@ type NavItems = {
 
 const isAuthenticated = false
 
+const navItems: NavItems = [
+  { title: 'Books', href: '/books' },
+  { title: 'Reservations', href: '/reservations' },
+]
+
+// const authMenuItems: NavItems = []
+const publicMenuItems: NavItems = [
+  { title: 'Sign up', href: '/sign-up' },
+  { title: 'Sign in', href: '/sign-in' },
+]
+
 export function Header() {
-  const [_isShowing, setIsShowing] = useState(false)
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-end',
   })
 
-  const navItems: NavItems = [
-    { title: 'Find', href: '/find' },
-    { title: 'Books', href: '/books' },
-    { title: 'Reservations', href: '/reservations' },
-  ]
-
   const showNavigation = isAuthenticated
 
   return (
-    <header className="p-4">
-      <div className="">
-        <div hidden>
-          <Link href="/" variant="unstyled">
-            <Logo />
-          </Link>
+    <div className="container mx-auto">
+      <header className="p-6 md:pt-8 md:pb-4 md:px-0">
+        <div className="md:flex md:flex-row md:justify-between">
+          <div className="hidden md:block">
+            <Link href="/" variant="unstyled">
+              <Logo />
+            </Link>
+          </div>
+
+          <Search containerClassName="md:flex-1" className="md:mx-auto md:max-w-md" />
+
+          {showNavigation && <Navigation navItems={navItems} />}
+
+          {!isAuthenticated && (
+            <Popover>
+              <Popover.Button
+                ref={setReferenceElement}
+                className=" focus:outline-primary-200 hidden rounded-full md:block"
+              >
+                <Icon name="account-circle-fill" size="2xl" />
+              </Popover.Button>
+              <Popover.Panel
+                ref={setPopperElement}
+                style={styles.popper}
+                {...attributes.popper}
+                className="z-20 mt-2 rounded-lg bg-white p-2 shadow-xl"
+              >
+                <div className="grid w-40 grid-cols-1">
+                  {publicMenuItems.map((menuItem) => (
+                    <Link href={menuItem.href} className="py-3 px-4 text-neutral-900">
+                      {menuItem.title}
+                    </Link>
+                  ))}
+                </div>
+              </Popover.Panel>
+            </Popover>
+          )}
+
+          {isAuthenticated && (
+            <Popover>
+              <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-200 rounded-full">
+                <Avatar src="http://localhost:3000/avatar-placeholder.jpeg" />
+              </Popover.Button>
+              <Popover.Panel
+                ref={setPopperElement}
+                style={styles.popper}
+                {...attributes.popper}
+                className="mt-2 rounded-lg bg-white p-2 shadow-xl"
+              >
+                <div className="grid w-40 grid-cols-1">
+                  <a href="/analytics">Profile</a>
+                  <a href="/integrations">Sign out</a>
+                </div>
+              </Popover.Panel>
+            </Popover>
+          )}
         </div>
-
-        <Search />
-
-        {showNavigation && (
-          <Button
-            onClick={() => setIsShowing((showing) => !showing)}
-            icon="menu"
-            variant="unstyled"
-            className="mr-2 lg:hidden"
-          />
-        )}
-
-        {showNavigation && <DesktopNavigation navItems={navItems} />}
-      </div>
-
-      {isAuthenticated && (
-        <Popover>
-          <Popover.Button ref={setReferenceElement} className=" focus:outline-primary-200 rounded-full">
-            <Avatar src="http://localhost:3000/avatar-placeholder.jpeg" />
-          </Popover.Button>
-          <Popover.Panel
-            ref={setPopperElement}
-            style={styles.popper}
-            {...attributes.popper}
-            className="mt-2 rounded-lg bg-white p-2 shadow-xl"
-          >
-            <div className="grid w-40 grid-cols-1">
-              <a href="/analytics">Profile</a>
-              <a href="/integrations">Sign out</a>
-            </div>
-          </Popover.Panel>
-        </Popover>
-      )}
-    </header>
+      </header>
+    </div>
   )
 }
 
-interface IDesktopNavigationProps {
+interface INavigationProps {
   navItems: NavItems
 }
 
-function DesktopNavigation({ navItems }: IDesktopNavigationProps) {
+function Navigation(props: INavigationProps) {
   return (
     <nav className="hidden lg:flex lg:justify-center">
       <ul className="flex flex-row items-center">
-        {navItems.map((navItem, idx) => (
+        {props.navItems.map((navItem, idx) => (
           <li key={`desktop-nav-item-${idx}`}>
             <Link href={navItem.href} className="block p-4 hover:bg-neutral-100">
               {navItem.title}

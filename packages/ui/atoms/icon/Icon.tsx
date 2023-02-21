@@ -6,6 +6,8 @@ const dimension = {
   sm: 16,
   md: 20,
   lg: 24,
+  xl: 32,
+  '2xl': 48,
 }
 
 export enum EIconName {
@@ -33,6 +35,7 @@ export enum EIconName {
   equalizer = 'equalizer',
   accountCircle = 'account-circle',
   arrowLeftLine = 'arrow-left-line',
+  accountCircleFill = 'account-circle-fill',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -60,10 +63,11 @@ const icon: { [key in EIconName]: ReactElement } = {
   equalizer: Icons.equalizer,
   'account-circle': Icons.accountCircle,
   'arrow-left-line': Icons.arrowLeftLine,
+  'account-circle-fill': Icons.accountCircleFill,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
-  size?: 'xs' | 'sm' | 'md' | 'lg'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   name: `${EIconName}`
 }
 

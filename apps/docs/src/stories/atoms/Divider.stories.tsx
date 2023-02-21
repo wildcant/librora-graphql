@@ -8,9 +8,19 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof Divider>
 
-const Template: ComponentStory<typeof Divider> = (args) => <Divider {...args} />
+const Template: ComponentStory<typeof Divider> = (args) => (
+  <div className="flex h-96 flex-row">
+    <Divider {...args} />
+  </div>
+)
 
-export const Default = Template.bind({})
-Default.args = {
+export const Horizontal = Template.bind({})
+Horizontal.args = {
+  children: 'Or',
+}
+
+export const Vertical = Template.bind({})
+Vertical.args = {
+  isVertical: true,
   children: 'Or',
 }

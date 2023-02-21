@@ -1,12 +1,18 @@
 {
   "extends": "@librora/tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/header/components/filters/mobile/TopicFilterModal.tsx"
+  ],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "paths": {
       "@*": ["../../packages/ui/*"],
       "~store/*": ["./store/*"],
-      "~utils/*": ["./utils/*"]
+      "~utils/*": ["./utils/*"],
+      "~components/*": ["./components/*"]
     },
     "jsx": "preserve"
   }

@@ -4,6 +4,7 @@ import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { BookCard, Link, Pagination } from 'ui'
 import { SearchQueryParams, useFiltersState, useReestablishFiltersFromQueryParams } from '~store/filters'
+import { Filters } from '../components/header/components/filters/desktop/Filters'
 import { MainLayout } from '../components/layouts/MainLayout'
 import { buildSearchQuery, decodeSearch } from '../utils/search'
 
@@ -69,13 +70,15 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { nodes: books, totalCount = 0, pageInfo } = booksList ?? {}
   const { reestablishFiltersToQueryParams } = useReestablishFiltersFromQueryParams()
-
+  // const { isFilterPopoverOpen } = useIsFilterPopoverOpenState()
   useDeepCompareEffect(() => {
     reestablishFiltersToQueryParams(query)
   }, [query])
 
   return (
     <MainLayout>
+      <Filters className="hidden md:flex" />
+      {/* <div className={classNames({ 'blur-sm': isFilterPopoverOpen })}> */}
       <p className="font-merienda my-2 text-sm">
         {totalCount < 1 ? 'No results found.' : `Explore ${totalCount} books.`}
       </p>
@@ -89,6 +92,7 @@ export default function Home({
       </div>
 
       <BooksListPagination totalCount={totalCount} pageInfo={pageInfo} query={query} pageIndex={pageIndex} />
+      {/* </div> */}
     </MainLayout>
   )
 }

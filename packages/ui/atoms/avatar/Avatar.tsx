@@ -5,5 +5,7 @@ interface IAvatarProps {
 }
 
 export function Avatar({ src }: IAvatarProps) {
-  return <Image src={src} alt="temp" width={50} height={50} className="w-9 rounded-full sm:w-10 lg:w-12" />
+  return (
+    <Image src={src} alt="User avatar" width={48} height={48} className="w-9 rounded-full sm:w-10 lg:w-12" />
+  )
 }

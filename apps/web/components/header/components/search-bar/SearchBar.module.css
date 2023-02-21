@@ -1,10 +1,11 @@
 .SearchBox {
-  @apply rounded-full min-h-[56px] min-w-[285px] flex flex-row;
+  @apply flex min-h-[56px] min-w-[285px] flex-row rounded-full;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .Input {
-  @apply border-none h-full p-0 pl-10 rounded-l-full text-sm shadow-none drop-shadow-none flex-1;
+  @apply h-full flex-1 rounded-l-full border-none p-0 pl-10 text-sm shadow-none drop-shadow-none;
   @apply placeholder:font-sans placeholder:text-neutral-300;
-  @apply focus:outline-0 focus:ring-0 focus-visible:outline-primary-500;
+  @apply focus-visible:outline-primary-500 focus:outline-0 focus:ring-0;
+  @apply md:rounded-full;
 }

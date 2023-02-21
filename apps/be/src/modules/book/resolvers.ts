@@ -1,6 +1,6 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GraphQLError } from 'graphql'
-import z from 'zod'
+// import z from 'zod'
 import { CustomErrorCode, getFields } from '../../core'
 import { createTypeConnection, DEFAULT_PAGE_SIZE } from '../../graphql/pagination'
 import { BookModule } from './types'
@@ -12,7 +12,7 @@ export const resolvers: BookModule.Resolvers = {
       const { filters, pagination } = args.input
 
       // Validate free text is not empty.
-      z.string().min(1, { message: `Field "freeText" must not be empty.` }).parse(filters.freeText)
+      // z.string().min(1, { message: `Field "freeText" must not be empty.` }).parse(filters.freeText)
 
       const limit = pagination.limit ?? DEFAULT_PAGE_SIZE
       const offset = pagination.offset ?? 0

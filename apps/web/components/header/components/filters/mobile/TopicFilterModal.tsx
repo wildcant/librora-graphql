@@ -1,32 +1,18 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { useTopicsQuery } from '@librora/api/operations/client'
-import { Fragment, useMemo, useState } from 'react'
-import { Autocomplete, Button, Option, useBareModal, useModalContext } from 'ui'
+import { Fragment, useState } from 'react'
+import { Autocomplete, Button, useBareModal, useModalContext } from 'ui'
 import { useTopicsFilterState } from '~store/filters'
+import { useTopicsFilter } from '../useTopicsFilter'
 
 const BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID = 'books-search-topic-filter'
 
 function BooksSearchTopicFilter({ onNextFilter }: { onNextFilter: () => void }) {
   const [autocompleteKey, setAutocompleteKey] = useState(Date.now())
   const { topicsFilter, setTopicsFilter } = useTopicsFilterState()
-  const { data, loading } = useTopicsQuery()
-  const topics = data?.topics
-
-  // we must memoize the options otherwise the combobox within the autocomplete will reset.
-  const topicsOptions: Option<string>[] = useMemo(
-    () => topics?.map((topic) => ({ value: topic.id, label: topic.name })) ?? [],
-    // TODO: Investigate: primitives are compared by value and arrays and objects are compared by reference.
-    [topics]
-  )
-
-  const defaultValues = topicsFilter.length
-    ? // Make sure the topics currently set in filters are still available.
-      (topicsFilter
-        .map((topicFilter) => topicsOptions.find((topicOption) => topicFilter === topicOption.label))
-        .filter((t) => !!t) as Option[])
-    : []
+  const { defaultValues, topicsOptions, loading } = useTopicsFilter(topicsFilter)
 
   const { closeModal } = useModalContext()
+
   const goToNextFilter = () => {
     onNextFilter()
     setTimeout(() => closeModal(BOOKS_SEARCH_TOPIC_FILTER_MODAL_ID), 200)

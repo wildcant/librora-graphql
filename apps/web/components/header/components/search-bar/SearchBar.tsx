@@ -1,19 +1,20 @@
-import { Icon } from '@atoms'
+import { Icon } from 'ui'
 import { Button } from '@molecules'
+import cn from 'classnames'
 import { ComponentPropsWithoutRef, useRef } from 'react'
 import { useSearchFilterState } from '~store/filters'
-import { useBooksSearchFiltersModal } from '../filters/Filters'
+import { useBooksSearchFiltersModal } from '../filters/mobile/FiltersModal'
 import s from './SearchBar.module.css'
 
-export function SearchBar(props: ComponentPropsWithoutRef<'input'>) {
+export function SearchBar({ className, ...props }: ComponentPropsWithoutRef<'input'>) {
   const inputRef = useRef<HTMLInputElement>(null)
   const { searchFilter, setSearchFilter } = useSearchFilterState()
   const { open: openModal } = useBooksSearchFiltersModal()
 
   return (
     <>
-      <div className={s.SearchBox}>
-        <div className="flex-1 relative flex flex-row items-center">
+      <div className={cn(s.SearchBox, className)}>
+        <div className="relative flex flex-1 flex-row items-center">
           <input
             id={props.name}
             type="text"
@@ -32,6 +33,7 @@ export function SearchBar(props: ComponentPropsWithoutRef<'input'>) {
           {searchFilter && (
             <Button
               variant="unstyled"
+              className="pr-2 md:pr-6"
               icon={<Icon name="close-circle-fill" size="sm" />}
               size="sm"
               onClick={() => {
@@ -44,13 +46,13 @@ export function SearchBar(props: ComponentPropsWithoutRef<'input'>) {
           )}
         </div>
 
-        <div className="block">
+        <div className="block md:hidden">
           <button
             type="button"
-            className="p-0 h-full w-full rounded-r-full focus-visible:outline-primary-500"
+            className="focus-visible:outline-primary-500 h-full w-full rounded-r-full p-0"
             onClick={openModal}
           >
-            <div className="border border-solid rounded-full p-2 mx-2">
+            <div className="mx-2 rounded-full border border-solid p-2">
               <Icon name="equalizer" size="sm" />
             </div>
           </button>

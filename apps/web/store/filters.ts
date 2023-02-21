@@ -3,16 +3,26 @@ import { ELanguage } from '@librora/api/schema'
 import { useRouter } from 'next/router'
 import { RangeValue } from 'ui'
 
-const filtersInitialValues: IFiltersState = {
-  topics: [],
-}
-
 export interface IFiltersState {
   dateRange?: RangeValue<Date>
   search?: string
   topics: string[]
   language?: ELanguage
 }
+
+const filtersInitialValues: IFiltersState = {
+  topics: [],
+}
+
+const isFilterPopoverOpenVar = makeVar<boolean>(false)
+type UseIsFilterPopoverOpenStateReturn = {
+  isFilterPopoverOpen: boolean
+  setIsFilterPopoverOpen: ReactiveVar<boolean>
+}
+export const useIsFilterPopoverOpenState = (): UseIsFilterPopoverOpenStateReturn => ({
+  isFilterPopoverOpen: useReactiveVar(isFilterPopoverOpenVar),
+  setIsFilterPopoverOpen: isFilterPopoverOpenVar,
+})
 
 /**Search range filter */
 const searchVar = makeVar<IFiltersState['search']>(filtersInitialValues.search)
@@ -65,6 +75,14 @@ export const setFilters = (newValues: IFiltersState) => {
   topicsVar(newValues.topics)
   languageVar(newValues.language)
 }
+export const getFiltersValues = (): IFiltersState => {
+  return {
+    search: searchVar(),
+    dateRange: dateRangeVar(),
+    topics: topicsVar(),
+    language: languageVar(),
+  }
+}
 export const useFiltersState = (): {
   filters: IFiltersState
   setFilters: (newValues: IFiltersState) => void
@@ -110,7 +128,7 @@ export function useReestablishFiltersFromQueryParams() {
       setFilters({
         dateRange:
           query.startDate && query.endDate
-            ? { start: new Date(query.startDate), end: new Date(query.endDate) }
+            ? { start: new Date(`${query.startDate}T00:00`), end: new Date(`${query.endDate}T00:00`) }
             : undefined,
         search: query.search,
         topics,

@@ -30,6 +30,9 @@ type IComboboxProps = {
 export type IAutocompleteProps = IComboboxProps & {
   options: Option[]
   loading?: boolean
+  optionsContainerProps?: {
+    unstyled?: boolean
+  }
 }
 
 type AutocompleteInputProps = Pick<IAutocompleteProps, 'error' | 'label' | 'disabled' | 'loading'> & {
@@ -80,7 +83,10 @@ function AutocompleteInput({
       />
 
       <Combobox.Button
-        className={cn('absolute inset-y-0 right-0 px-2', { 'cursor-not-allowed opacity-50': disabled })}
+        className={cn('absolute inset-y-0 right-0 px-2', {
+          'cursor-not-allowed opacity-50': disabled || loading,
+        })}
+        disabled={disabled || loading}
       >
         <Icon
           name={open ? 'arrow-up' : 'arrow-down'}
@@ -93,12 +99,12 @@ function AutocompleteInput({
   )
 }
 
-type AutocompleteOptionsProps = Pick<IAutocompleteProps, 'options'> & {
+type AutocompleteOptionsProps = Pick<IAutocompleteProps, 'options' | 'optionsContainerProps'> & {
   query: string
   setQuery: Dispatch<SetStateAction<string>>
 }
 
-function AutocompleteOptions({ setQuery, query, options }: AutocompleteOptionsProps) {
+function AutocompleteOptions({ setQuery, query, options, optionsContainerProps }: AutocompleteOptionsProps) {
   const filteredOptions =
     query === ''
       ? options
@@ -121,7 +127,12 @@ function AutocompleteOptions({ setQuery, query, options }: AutocompleteOptionsPr
       leaveTo="opacity-0"
       afterLeave={() => setQuery('')}
     >
-      <Combobox.Options className={s.OptionContainer}>
+      <Combobox.Options
+        className={cn(s.OptionContainer, {
+          ['rounded-b-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none']:
+            !optionsContainerProps?.unstyled,
+        })}
+      >
         {filteredOptions.length === 0 && query !== '' ? (
           <div className="relative cursor-default select-none py-2 px-4 text-gray-700">Nothing found.</div>
         ) : (
@@ -155,7 +166,7 @@ function AutocompleteOptions({ setQuery, query, options }: AutocompleteOptionsPr
 
 type AutocompleteSingleSelectProps = Pick<
   IAutocompleteProps,
-  'error' | 'label' | 'options' | 'disabled' | 'loading'
+  'error' | 'label' | 'options' | 'disabled' | 'loading' | 'optionsContainerProps'
 > & {
   name?: string
   defaultValue?: Option
@@ -172,6 +183,7 @@ function AutocompleteSingleSelect({
   options,
   disabled,
   loading,
+  optionsContainerProps,
 }: AutocompleteSingleSelectProps) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Option | undefined>(defaultValue ?? undefined)
@@ -181,7 +193,7 @@ function AutocompleteSingleSelect({
   }
 
   return (
-    <Combobox name={name} value={selected} onChange={handleChange} nullable disabled={disabled}>
+    <Combobox name={name} value={selected} onChange={handleChange} nullable disabled={disabled || loading}>
       {({ open, activeIndex, value }) => (
         <div className="relative">
           <AutocompleteInput
@@ -194,7 +206,12 @@ function AutocompleteSingleSelect({
             disabled={disabled}
             loading={loading}
           />
-          <AutocompleteOptions query={query} setQuery={setQuery} options={options} />
+          <AutocompleteOptions
+            query={query}
+            setQuery={setQuery}
+            options={options}
+            optionsContainerProps={optionsContainerProps}
+          />
           {error && (
             <span className="text-sm text-red-500">{error.message || 'This field is required.'}</span>
           )}
@@ -206,7 +223,7 @@ function AutocompleteSingleSelect({
 
 type AutocompleteMultiSelectProps = Pick<
   IAutocompleteProps,
-  'error' | 'label' | 'options' | 'disabled' | 'loading'
+  'error' | 'label' | 'options' | 'disabled' | 'loading' | 'optionsContainerProps'
 > & {
   name?: string
   defaultValue?: Option[]
@@ -228,6 +245,7 @@ function AutocompleteMultiSelect({
   disabled,
   loading,
   value: valueProp,
+  optionsContainerProps,
 }: AutocompleteMultiSelectProps) {
   const [query, setQuery] = useState('')
 
@@ -238,7 +256,7 @@ function AutocompleteMultiSelect({
   })
 
   return (
-    <Combobox name={name} value={_value} onChange={handleChange} multiple disabled={disabled}>
+    <Combobox name={name} value={_value} onChange={handleChange} multiple disabled={disabled || loading}>
       {({ open, activeIndex, value }) => {
         return (
           <div className="relative">
@@ -252,7 +270,12 @@ function AutocompleteMultiSelect({
               disabled={disabled}
               loading={loading}
             />
-            <AutocompleteOptions query={query} setQuery={setQuery} options={options} />
+            <AutocompleteOptions
+              query={query}
+              setQuery={setQuery}
+              options={options}
+              optionsContainerProps={optionsContainerProps}
+            />
             {error && (
               <span className="text-sm text-red-500">{error.message || 'This field is required.'}</span>
             )}

@@ -2,7 +2,12 @@ import { useRouter } from 'next/router'
 import { decodeSearch, encodeSearch } from '../../../utils/search'
 import { SearchBar } from './search-bar/SearchBar'
 
-export function Search() {
+interface ISearchProps {
+  containerClassName?: string
+  className?: string
+}
+
+export function Search({ className, containerClassName }: ISearchProps) {
   const router = useRouter()
   const search = router.query.search as string | undefined
 
@@ -15,8 +20,14 @@ export function Search() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         newSearch({ search: (e.target as any).search.value as string })
       }}
+      className={containerClassName}
     >
-      <SearchBar name="search" placeholder="Search" defaultValue={decodeSearch(search)} />
+      <SearchBar
+        name="search"
+        placeholder="Search"
+        defaultValue={decodeSearch(search)}
+        className={className}
+      />
     </form>
   )
 }

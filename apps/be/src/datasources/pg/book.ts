@@ -50,7 +50,7 @@ export const booksDataSource: IBookDataSource = {
 
   search: async ({ where: { freeText = '' }, select, limit, offset }) => {
     // TODO: Improve query to allow filtering by author and publication date.
-    const query = `fullText @@ to_tsquery('${freeText.replace(' ', ':* & ')}:*')`
+    const query = freeText ? `fullText @@ to_tsquery('${freeText.replace(' ', ':* & ')}:*')` : ''
 
     const [ids, [{ count }]] = await Promise.all([
       knex('books')
