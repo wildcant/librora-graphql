@@ -1,0 +1,53 @@
+.Container {
+  display: grid;
+  grid-template-areas:
+    'book-title'
+    'book-author'
+    'book-cover'
+    'quick-facts'
+    'book-description'
+    'booking';
+
+  @media (min-width: 768px) {
+    grid-template-areas:
+      'book-cover book-title'
+      'book-cover book-author'
+      'book-cover quick-facts'
+      'book-cover book-description'
+      'book-cover booking';
+
+    grid-template-columns: 30% 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 30px;
+  }
+}
+
+.Cover {
+  @apply relative aspect-[2/3];
+  grid-area: book-cover;
+}
+
+.Title {
+  @apply mt-2 text-xl font-bold md:text-2xl lg:text-4xl;
+  grid-area: book-title;
+}
+
+.Author {
+  @apply text-sm font-light md:text-xl lg:text-2xl;
+  grid-area: book-author;
+}
+
+.Booking {
+  @apply mt-4;
+  grid-area: booking;
+}
+
+.Description {
+  @apply mt-4;
+  grid-area: book-description;
+}
+
+.QuickFacts {
+  @apply mt-4;
+  grid-area: quick-facts;
+}

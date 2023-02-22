@@ -3,6 +3,7 @@ import { Popover } from '@headlessui/react'
 import { useState } from 'react'
 import { usePopper } from 'react-popper'
 import { Search } from './components/Search'
+import { useRouter } from 'next/router'
 
 type NavItems = {
   title: string
@@ -23,6 +24,7 @@ const publicMenuItems: NavItems = [
 ]
 
 export function Header() {
+  const router = useRouter()
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -32,7 +34,7 @@ export function Header() {
   const showNavigation = isAuthenticated
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto hidden md:block">
       <header className="p-6 md:pt-8 md:pb-4 md:px-0">
         <div className="md:flex md:flex-row md:justify-between">
           <div className="hidden md:block">
@@ -41,7 +43,9 @@ export function Header() {
             </Link>
           </div>
 
-          <Search containerClassName="md:flex-1" className="md:mx-auto md:max-w-md" />
+          {router.pathname === '/' && (
+            <Search containerClassName="hidden md:block md:flex-1" className="md:mx-auto md:max-w-md" />
+          )}
 
           {showNavigation && <Navigation navItems={navItems} />}
 

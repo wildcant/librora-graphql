@@ -10,8 +10,8 @@ export function MainLayout({ children }: IMainLayoutProps) {
   return (
     <BaseLayout>
       <Header />
-      <div className="container mx-auto h-full min-h-screen w-full">
-        <div className="p-6 md:py-6 md:px-0">{children}</div>
+      <div className="container mx-auto h-full min-h-96 w-full">
+        <div className="p-6 pb-16 md:py-0 md:px-0">{children}</div>
       </div>
     </BaseLayout>
   )

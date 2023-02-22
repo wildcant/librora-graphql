@@ -3,12 +3,13 @@ import { Book, PageInfo } from '@librora/api/schema'
 import { useDeepCompareEffect } from '@librora/utils/hooks'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { BookCard, Link, Pagination } from 'ui'
+import { Search } from '~components/header/components/Search'
 import { SearchQueryParams, useFiltersState, useReestablishFiltersFromQueryParams } from '~store/filters'
 import { Filters } from '../components/header/components/filters/desktop/Filters'
 import { MainLayout } from '../components/layouts/MainLayout'
 import { buildSearchQuery, decodeSearch } from '../utils/search'
 
-const BOOK_LIST_PAGE_SIZE = 4
+const BOOK_LIST_PAGE_SIZE = 8
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const query = context.query as SearchQueryParams
@@ -77,6 +78,7 @@ export default function Home({
 
   return (
     <MainLayout>
+      <Search containerClassName="md:hidden" />
       <Filters className="hidden md:flex" />
       {/* <div className={classNames({ 'blur-sm': isFilterPopoverOpen })}> */}
       <p className="font-merienda my-2 text-sm">

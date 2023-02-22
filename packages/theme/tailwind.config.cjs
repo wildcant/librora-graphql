@@ -82,5 +82,40 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@headlessui/tailwindcss')],
+  plugins: [
+    require('@headlessui/tailwindcss'),
+    /*
+    // Just playing around with custom plugins.
+    function ({ addBase, theme }) {
+      function extractBreakpoints(screens) {
+        return Object.keys(screens).reduce((vars, screenKey) => {
+          const value = screens[screenKey]
+
+          const newVars = { [`--screen-${screenKey}`]: value }
+
+          return { ...vars, ...newVars }
+        }, {})
+      }
+
+      function extractColorVars(colorObj, colorGroup = '') {
+        return Object.keys(colorObj).reduce((vars, colorKey) => {
+          const value = colorObj[colorKey]
+
+          const newVars =
+            typeof value === 'string'
+              ? { [`--color${colorGroup}-${colorKey}`]: value }
+              : extractColorVars(value, `-${colorKey}`)
+
+          return { ...vars, ...newVars }
+        }, {})
+      }
+
+      const root = { ...extractColorVars(theme('colors')), ...extractBreakpoints(theme('screens')) }
+
+      addBase({
+        ':root': root,
+      })
+    },
+    */
+  ],
 }

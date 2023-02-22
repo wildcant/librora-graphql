@@ -36,6 +36,7 @@ export enum EIconName {
   accountCircle = 'account-circle',
   arrowLeftLine = 'arrow-left-line',
   accountCircleFill = 'account-circle-fill',
+  timeLine = 'time-line',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -64,6 +65,7 @@ const icon: { [key in EIconName]: ReactElement } = {
   'account-circle': Icons.accountCircle,
   'arrow-left-line': Icons.arrowLeftLine,
   'account-circle-fill': Icons.accountCircleFill,
+  'time-line': Icons.timeLine,
 }
 
 export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
