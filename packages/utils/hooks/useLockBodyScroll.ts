@@ -3,16 +3,16 @@ import { RefObject, useEffect, useRef } from 'react'
 import { isBrowser } from '../dom-utils/dom'
 
 export function getClosestBody(el: Element | HTMLElement | HTMLIFrameElement | null): HTMLElement | null {
-  if (!el) {
-    return null
-  } else if (el.tagName === 'BODY') {
-    return el as HTMLElement
-  } else if (el.tagName === 'IFRAME') {
+  if (!el) return null
+
+  if (el.tagName === 'BODY') return el as HTMLElement
+
+  if (el.tagName === 'IFRAME') {
     const document = (el as HTMLIFrameElement).contentDocument
     return document ? document.body : null
-  } else if (!(el as HTMLElement).offsetParent) {
-    return null
   }
+
+  if (!(el as HTMLElement).offsetParent) return null
 
   return getClosestBody((el as HTMLElement).offsetParent!)
 }
@@ -27,7 +27,7 @@ function preventDefault(rawEvent: TouchEvent): boolean {
   return false
 }
 
-export interface BodyInfoItem {
+export type BodyInfoItem = {
   counter: number
   initialOverflow: CSSStyleDeclaration['overflow']
 }

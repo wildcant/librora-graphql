@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import cn from 'classnames'
 import s from './Chip.module.css'
 
-interface IPillProps {
+type PillProps = {
   children: ReactNode
   variant?: 'solid' | 'plain' | 'outline' | 'ghost'
   color?: 'primary' | 'secondary'
@@ -10,7 +10,7 @@ interface IPillProps {
   className?: string
 }
 
-export function Chip({ children, variant = 'solid', color = 'primary', size = 'sm', className }: IPillProps) {
+export function Chip({ children, variant = 'solid', color = 'primary', size = 'sm', className }: PillProps) {
   const chipClassName = cn(
     s.Chip,
     {

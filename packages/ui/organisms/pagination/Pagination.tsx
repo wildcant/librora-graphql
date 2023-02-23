@@ -1,6 +1,6 @@
 import { Icon, Link } from 'ui'
 
-interface IPaginationProps {
+type PaginationProps = {
   hasNextPage?: boolean
   hasPreviousPage?: boolean
   nextPageUrl: string
@@ -18,7 +18,7 @@ export function Pagination({
   pageSize,
   previousPageUrl,
   totalCount,
-}: IPaginationProps) {
+}: PaginationProps) {
   const firstItem = pageIndex * pageSize + 1
   const lastItem = (pageIndex + 1) * pageSize
 

@@ -27,4 +27,4 @@ generates:
             Author: '@librora/schemas#AuthorModel'
             User: '@librora/schemas#PublicUserModel'
             Action: '@librora/schemas#ActionModel'
-          contextType: ../context#IContext
+          contextType: ../context#Context

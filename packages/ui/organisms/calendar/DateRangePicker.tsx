@@ -94,7 +94,7 @@ function processDateRangePickerProps({
   value,
   defaultValue,
   onChange,
-}: IDateRangePickerProps): AriaDateRangePickerProps<DateValue> {
+}: DateRangePickerProps): AriaDateRangePickerProps<DateValue> {
   return {
     minValue: minValue ? nativeDateToCalendarDate(minValue) : undefined,
     maxValue: maxValue ? nativeDateToCalendarDate(maxValue) : undefined,
@@ -110,11 +110,10 @@ function processDateRangePickerProps({
   }
 }
 
-interface IDateRangePickerProps
-  extends Omit<
-    AriaDateRangePickerProps<DateValue>,
-    'minValue' | 'maxValue' | 'isDateUnavailable' | 'placeholderValue' | 'value' | 'defaultValue' | 'onChange'
-  > {
+type DateRangePickerProps = Omit<
+  AriaDateRangePickerProps<DateValue>,
+  'minValue' | 'maxValue' | 'isDateUnavailable' | 'placeholderValue' | 'value' | 'defaultValue' | 'onChange'
+> & {
   /** The minimum allowed date that a user may select. */
   minValue?: Date
   /** The maximum allowed date that a user may select. */
@@ -131,6 +130,6 @@ interface IDateRangePickerProps
   onChange?: (value: RangeValue<Date>) => void
 }
 
-export function DateRangePicker(props: IDateRangePickerProps) {
+export function DateRangePicker(props: DateRangePickerProps) {
   return <AriaDateRangePicker {...processDateRangePickerProps(props)} />
 }

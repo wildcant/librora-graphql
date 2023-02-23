@@ -18,7 +18,8 @@ export function log(severity: LogSeverity, data: string | Record<string, unknown
   if (data instanceof Error || data instanceof ZodError) {
     // TODO: Use winston in prod.
     console.error(pe.render(data))
-  } else {
-    console.debug(severity, data)
+    return
   }
+
+  console.debug(severity, data)
 }

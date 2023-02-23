@@ -19,3 +19,4 @@ generates:
       - 'typescript'
     config:
       onlyEnums: true
+      # enumsAsConst: true

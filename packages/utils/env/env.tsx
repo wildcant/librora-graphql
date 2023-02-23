@@ -4,7 +4,7 @@ import React, { createContext, useContext, useMemo, useState, useEffect } from '
 import { ssrDocument } from './mock-document'
 import { ssrWindow } from './mock-window'
 
-interface Environment {
+type Environment = {
   window: Window
   document: Document
 }
@@ -26,7 +26,7 @@ export function useEnvironment() {
   return useContext(EnvironmentContext)
 }
 
-export interface EnvironmentProviderProps {
+export type EnvironmentProviderProps = {
   children: React.ReactNode
   environment?: Environment
 }

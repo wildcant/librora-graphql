@@ -3,9 +3,9 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface IActionDataSource extends PgDataSource<ActionModel> {}
+export type ActionDataSource = PgDataSource<ActionModel>
 
-export const actionsDataSource: IActionDataSource = {
+export const actionsDataSource: ActionDataSource = {
   findUnique: ({ where, select }) => loaders.actionById.load({ value: where.id, select }),
 
   findMany: async ({ where = {}, select }) => {

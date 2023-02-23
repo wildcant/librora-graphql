@@ -5,21 +5,23 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface ITopicDataSource extends PgDataSource<TopicModel, Pick<TopicModel, 'id' | 'name'>> {}
+export type TopicDataSource = PgDataSource<TopicModel, Pick<TopicModel, 'id' | 'name'>>
 
-export const topicsDataSource: ITopicDataSource = {
+export const topicsDataSource: TopicDataSource = {
   findUnique: async ({ where, select }) => {
     const { id, name } = where
 
     if (id) {
       return loaders.topicById.load({ value: id, select })
-    } else if (name) {
-      return loaders.topicByName.load({ value: name, select })
-    } else {
-      throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
-        extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
-      })
     }
+
+    if (name) {
+      return loaders.topicByName.load({ value: name, select })
+    }
+
+    throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+      extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+    })
   },
 
   findMany: async ({ where = {}, select }) => {

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Button, DateRangePicker, Icon } from 'ui'
 import s from './BookDetails.module.css'
 const defaultBookImage = ''
+
 function BookingForm() {
   return (
     <div className="border border-neutral-200 rounded-xl p-6 flex flex-col items-center max-w-md gap-8">
@@ -13,7 +14,7 @@ function BookingForm() {
   )
 }
 
-type IBookingDetailsProps = NonNullable<BookBySlugQuery['book']>
+type BookingDetailsProps = NonNullable<BookBySlugQuery['book']>
 
 export function BookingDetails({
   title,
@@ -23,7 +24,7 @@ export function BookingDetails({
   language,
   description,
   date,
-}: IBookingDetailsProps) {
+}: BookingDetailsProps) {
   return (
     <div className={s.Container}>
       <h1 className={s.Title}>{title}</h1>

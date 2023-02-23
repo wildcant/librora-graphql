@@ -2,9 +2,11 @@
   "name": "@librora/tsconfig",
   "version": "0.0.0",
   "private": true,
+  "types": "./ts-reset/index.d.ts",
   "files": [
     "base.json",
     "nextjs.json",
-    "react-library.json"
+    "react-library.json",
+    "**/*.d.ts"
   ]
 }

@@ -2,7 +2,7 @@
 // import styles from './Text.module.css'
 import { ComponentPropsWithoutRef } from 'react'
 
-interface ITextProps extends ComponentPropsWithoutRef<'span'> {
+type TextProps = ComponentPropsWithoutRef<'span'> & {
   as?:
     | 'b'
     | 'i'
@@ -22,7 +22,7 @@ interface ITextProps extends ComponentPropsWithoutRef<'span'> {
   // size: '6xl' | '5xl' | '4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 }
 
-export function Text({ as: As, /* size, */ ...props }: ITextProps) {
+export function Text({ as: As, /* size, */ ...props }: TextProps) {
   const Element = As
   /*
   const textClassName = cn(

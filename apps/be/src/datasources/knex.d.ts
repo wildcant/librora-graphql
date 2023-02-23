@@ -2,13 +2,13 @@ import { Knex } from 'knex'
 import { AuthorModel, BookModel, ActionModel, UserModel } from '@librora/schemas'
 import { RequiredId } from './pg/types'
 
-interface BooksTopicsModel {
+type BooksTopicsModel = {
   id: string
   book: string
   topic: string
 }
 
-interface BooksSubTopicsModel {
+type BooksSubTopicsModel = {
   id: string
   book: string
   subtopic: string

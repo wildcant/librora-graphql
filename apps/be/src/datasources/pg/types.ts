@@ -19,7 +19,7 @@ export type Enumerable<T> = T | Array<T>
 /**
  * Contract for all data sources.
  */
-export interface PgDataSource<T, TUniqueProperties = { id: string }> {
+export type PgDataSource<T, TUniqueProperties = { id: string }> = {
   /** Lets you retrieve a single database record by id or unique attribute */
   findUnique: (query: {
     where: RequireAtLeastOne<TUniqueProperties>

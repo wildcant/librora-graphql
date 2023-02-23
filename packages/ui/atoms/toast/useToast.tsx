@@ -1,9 +1,9 @@
-import { Icon, IIconProps } from '@atoms'
+import { Icon, IconProps } from '@atoms'
 import { toast, ToastContent, ToastOptions, TypeOptions } from 'react-toastify'
 
-interface IToastProps extends ToastOptions {}
+type ToastProps = ToastOptions
 
-const toastTypeToIcon: { [key in TypeOptions]: IIconProps } = {
+const toastTypeToIcon: { [key in TypeOptions]: IconProps } = {
   default: { name: 'info' },
   error: { name: 'error' },
   info: { name: 'info' },
@@ -11,15 +11,15 @@ const toastTypeToIcon: { [key in TypeOptions]: IIconProps } = {
   warning: { name: 'warning' },
 }
 
-interface IUseToastArgs {
+type UseToastArgs = {
   variant?: 'default' | 'dark' | 'promise'
 }
 
-export function useToast(args?: IUseToastArgs) {
+export function useToast(args?: UseToastArgs) {
   const { variant = 'default' } = args ?? {}
 
   return {
-    notify(content: ToastContent = '', props?: Omit<IToastProps, 'position'>) {
+    notify(content: ToastContent = '', props?: Omit<ToastProps, 'position'>) {
       const { type = 'info', ...rest } = props ?? {}
 
       const options: ToastOptions = {

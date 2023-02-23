@@ -5,8 +5,7 @@ import { VisuallyHidden } from '@react-aria/visually-hidden'
 import { CalendarState, RangeCalendarState } from '@react-stately/calendar'
 import { CalendarButton } from './CalendarButton'
 
-interface ICalendarHeaderProps
-  extends Pick<CalendarAria, 'calendarProps' | 'prevButtonProps' | 'nextButtonProps'> {
+type ICalendarHeaderProps = Pick<CalendarAria, 'calendarProps' | 'prevButtonProps' | 'nextButtonProps'> & {
   state: CalendarState | RangeCalendarState
   displayTwoMonths?: boolean
 }

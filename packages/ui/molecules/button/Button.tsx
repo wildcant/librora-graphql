@@ -3,7 +3,7 @@ import cn from 'classnames'
 import { ComponentPropsWithoutRef, ReactElement } from 'react'
 import s from './Button.module.css'
 
-export interface IButtonProps extends ComponentPropsWithoutRef<'button'> {
+export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
   color?: 'primary' | 'secondary'
   icon?: ReactElement | `${EIconName}`
   iconClassName?: string
@@ -30,7 +30,7 @@ export const Button = ({
   size,
   variant = 'solid',
   ...props
-}: IButtonProps) => {
+}: ButtonProps) => {
   let iconElement = typeof icon === 'string' ? <Icon name={icon} size="lg" className={iconClassName} /> : icon
 
   if (isLoading) {

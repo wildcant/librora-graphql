@@ -6,24 +6,21 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface IUserDataSource
-  extends PgDataSource<UserModel, Pick<UserModel, 'id' | 'email' | 'username'>> {}
+export type UserDataSource = PgDataSource<UserModel, Pick<UserModel, 'id' | 'email' | 'username'>>
 
-export const usersDataSource: IUserDataSource = {
+export const usersDataSource: UserDataSource = {
   findUnique: async ({ where, select }) => {
     const { id, username, email } = where
 
-    if (id) {
-      return loaders.userById.load({ value: id, select })
-    } else if (email) {
-      return loaders.userByEmail.load({ value: email, select })
-    } else if (username) {
-      return loaders.userByUsername.load({ value: username, select })
-    } else {
-      throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
-        extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
-      })
-    }
+    if (id) return loaders.userById.load({ value: id, select })
+
+    if (email) return loaders.userByEmail.load({ value: email, select })
+
+    if (username) return loaders.userByUsername.load({ value: username, select })
+
+    throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+      extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+    })
   },
 
   findMany: async ({ where = {}, select }) => {

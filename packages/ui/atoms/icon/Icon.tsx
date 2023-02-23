@@ -68,12 +68,12 @@ const icon: { [key in EIconName]: ReactElement } = {
   'time-line': Icons.timeLine,
 }
 
-export interface IIconProps extends ComponentPropsWithoutRef<'svg'> {
+export type IconProps = ComponentPropsWithoutRef<'svg'> & {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   name: `${EIconName}`
 }
 
-export function Icon({ size = 'lg', name, ...props }: IIconProps) {
+export function Icon({ size = 'lg', name, ...props }: IconProps) {
   const d = dimension[size]
 
   return (

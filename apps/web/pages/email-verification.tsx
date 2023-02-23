@@ -23,9 +23,10 @@ export default function EmailVerification() {
           if (success) {
             notify(message ?? 'Email verified', { type: 'success' })
             router.replace('/sign-in')
-          } else {
-            router.replace(`/errors/expired-email-verification?token=${token}`)
+            return
           }
+
+          router.replace(`/errors/expired-email-verification?token=${token}`)
         },
         onError: (e) => notify(e.message, { type: 'error' }),
       })

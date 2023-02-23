@@ -1,0 +1,27 @@
+enum EReservationState {
+  PENDING
+  WITHDRAWN
+  DENIED
+  CONFIRMED
+  CANCELED
+  EXPIRED
+  ACTIVE
+  RETURNED
+}
+
+enum EReservationChangeRequestState {
+  CHANGE_PENDING
+  CHANGE_CANCELLED
+  CHANGE_DENIED
+  CHANGE_CONFIRMED
+}
+
+type Reservation {
+  id: String!
+  state: EReservationState
+  subState: EReservationChangeRequestState
+}
+
+type Query {
+  reservation(id: String!): Reservation
+}

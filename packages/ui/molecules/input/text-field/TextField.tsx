@@ -3,13 +3,12 @@ import { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 import s from './TextField.module.css'
 
-export interface ITextFieldProps<TValues extends FieldValues>
-  extends UseControllerProps<TValues>,
-    Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> {
-  label?: string
-  leftIcon?: ReactNode
-  rightIcon?: ReactNode
-}
+export type TextFieldProps<TValues extends FieldValues> = UseControllerProps<TValues> &
+  Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> & {
+    label?: string
+    leftIcon?: ReactNode
+    rightIcon?: ReactNode
+  }
 
 export function TextField<TValues extends FieldValues>({
   className,
@@ -21,7 +20,7 @@ export function TextField<TValues extends FieldValues>({
   rightIcon,
   rules,
   ...props
-}: ITextFieldProps<TValues>) {
+}: TextFieldProps<TValues>) {
   const {
     field,
     fieldState: { error },

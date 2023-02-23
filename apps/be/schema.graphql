@@ -90,6 +90,7 @@ type Query {
   author(id: String!): Author
   book(id: String, slug: String): Book
   searchBooks(input: SearchBooksInput!): BookConnection!
+  reservation(id: String!): Reservation
   topics: [Topic!]!
   user(id: String!): User
 }
@@ -147,6 +148,30 @@ input SearchBooksInput {
   filters: BookFilters!
   sort: BookSort
   pagination: Pagination!
+}
+
+enum EReservationState {
+  PENDING
+  WITHDRAWN
+  DENIED
+  CONFIRMED
+  CANCELED
+  EXPIRED
+  ACTIVE
+  RETURNED
+}
+
+enum EReservationChangeRequestState {
+  CHANGE_PENDING
+  CHANGE_CANCELLED
+  CHANGE_DENIED
+  CHANGE_CONFIRMED
+}
+
+type Reservation {
+  id: String!
+  state: EReservationState
+  subState: EReservationChangeRequestState
 }
 
 type Topic {

@@ -3,10 +3,10 @@ import { ReactNode } from 'react'
 import { ApolloProvider } from './apollo'
 import { SSRProvider } from '@react-aria/ssr'
 
-interface IProvidersProps {
+type ProvidersProps = {
   children: ReactNode
 }
-export function Providers({ children }: IProvidersProps) {
+export function Providers({ children }: ProvidersProps) {
   return (
     <ApolloProvider>
       <SSRProvider>

@@ -3,9 +3,9 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface IAuthorDataSource extends PgDataSource<AuthorModel> {}
+export type AuthorDataSource = PgDataSource<AuthorModel>
 
-export const authorsDataSource: IAuthorDataSource = {
+export const authorsDataSource: AuthorDataSource = {
   findUnique: ({ where, select }) => loaders.authorById.load({ value: where.id, select: select }),
 
   findMany: async ({ where = {}, select }) => {

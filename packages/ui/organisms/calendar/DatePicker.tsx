@@ -1,6 +1,5 @@
 import { Icon } from '@atoms'
 import { Popover } from '@headlessui/react'
-import { CalendarDate } from './utils/internationalized'
 import { useDatePicker } from '@react-aria/datepicker'
 import { useDatePickerState } from '@react-stately/datepicker'
 import { AriaDatePickerProps, DateValue } from '@react-types/datepicker'
@@ -9,6 +8,7 @@ import { usePopper } from 'react-popper'
 import { AriaCalendar } from './Calendar'
 import { DateField } from './DateField'
 import { calendarDateToNativeDate, nativeDateToCalendarDate } from './utils/calendarDate'
+import { CalendarDate } from './utils/internationalized'
 
 function AriaDatePicker(props: AriaDatePickerProps<DateValue>) {
   const state = useDatePickerState(props)
@@ -74,7 +74,7 @@ function processDatePickerProps({
   value,
   defaultValue,
   onChange,
-}: IDatePickerProps): AriaDatePickerProps<DateValue> {
+}: DatePickerProps): AriaDatePickerProps<DateValue> {
   return {
     minValue: minValue ? nativeDateToCalendarDate(minValue) : undefined,
     maxValue: maxValue ? nativeDateToCalendarDate(maxValue) : undefined,
@@ -88,11 +88,10 @@ function processDatePickerProps({
   }
 }
 
-interface IDatePickerProps
-  extends Omit<
-    AriaDatePickerProps<DateValue>,
-    'minValue' | 'maxValue' | 'isDateUnavailable' | 'placeholderValue' | 'value' | 'defaultValue' | 'onChange'
-  > {
+type DatePickerProps = Omit<
+  AriaDatePickerProps<DateValue>,
+  'minValue' | 'maxValue' | 'isDateUnavailable' | 'placeholderValue' | 'value' | 'defaultValue' | 'onChange'
+> & {
   /** The minimum allowed date that a user may select. */
   minValue?: Date
   /** The maximum allowed date that a user may select. */
@@ -109,6 +108,6 @@ interface IDatePickerProps
   onChange?: (value: Date) => void
 }
 
-export function DatePicker(props: IDatePickerProps) {
+export function DatePicker(props: DatePickerProps) {
   return <AriaDatePicker {...processDatePickerProps(props)} />
 }

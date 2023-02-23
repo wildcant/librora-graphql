@@ -14,4 +14,4 @@ export async function context(_args: StandaloneServerContextFunctionArgument) {
   }
 }
 
-export type IContext = Awaited<ReturnType<typeof context>>
+export type Context = Awaited<ReturnType<typeof context>>

@@ -2,12 +2,12 @@ import { useRouter } from 'next/router'
 import { decodeSearch, encodeSearch } from '../../../utils/search'
 import { SearchBar } from './search-bar/SearchBar'
 
-interface ISearchProps {
+type SearchProps = {
   containerClassName?: string
   className?: string
 }
 
-export function Search({ className, containerClassName }: ISearchProps) {
+export function Search({ className, containerClassName }: SearchProps) {
   const router = useRouter()
   const search = router.query.search as string | undefined
 

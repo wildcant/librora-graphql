@@ -5,7 +5,7 @@ import cn from 'classnames'
 import Image from 'next/image'
 import signUpPic from '../../public/sign-up.webp'
 
-interface IAuthLayoutProps {
+type AuthLayoutProps = {
   children: ReactNode
   image?: ReactNode
   imageContainerClassName?: string
@@ -15,7 +15,7 @@ export function AuthLayout({
   children,
   image = <Image src={signUpPic} alt="Registration image" className="w-full self-center" />,
   imageContainerClassName = 'bg-[#8178B1]',
-}: IAuthLayoutProps) {
+}: AuthLayoutProps) {
   return (
     <BaseLayout>
       <div className="flex h-full min-h-screen w-full items-center justify-center">

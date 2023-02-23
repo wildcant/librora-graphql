@@ -40,14 +40,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-interface IBooksListPaginationProps {
+type BooksListPaginationProps = {
   query: SearchQueryParams
   pageInfo?: PageInfo
   pageIndex: number
   totalCount: number
 }
 // Create pagination component to avoid rerendering home page component when filters state changes.
-function BooksListPagination({ pageInfo, pageIndex, totalCount }: IBooksListPaginationProps) {
+function BooksListPagination({ pageInfo, pageIndex, totalCount }: BooksListPaginationProps) {
   const page = pageIndex + 1
   const { filters } = useFiltersState()
 

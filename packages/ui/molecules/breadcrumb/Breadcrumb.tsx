@@ -1,13 +1,13 @@
 import cn from 'classnames'
 import { Children, cloneElement, ComponentPropsWithoutRef, isValidElement } from 'react'
 
-export interface IBreadcrumbProps extends ComponentPropsWithoutRef<'nav'> {}
+export type BreadcrumbProps = ComponentPropsWithoutRef<'nav'>
 
 function getValidChildren(children: React.ReactNode) {
   return Children.toArray(children).filter((child) => isValidElement(child)) as React.ReactElement[]
 }
 
-export function Breadcrumb({ children, className, ...props }: IBreadcrumbProps) {
+export function Breadcrumb({ children, className, ...props }: BreadcrumbProps) {
   const validChildren = getValidChildren(children)
   const count = validChildren.length
 

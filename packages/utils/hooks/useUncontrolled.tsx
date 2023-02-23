@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-interface UseUncontrolledInput<T> {
+type UseUncontrolledInput<T> = {
   /** Value for controlled state */
   value?: T
 

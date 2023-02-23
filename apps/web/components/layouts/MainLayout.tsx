@@ -2,11 +2,11 @@ import { ReactNode } from 'react'
 import { Header } from '../header/Header'
 import { BaseLayout } from './BaseLayout'
 
-interface IMainLayoutProps {
+type MainLayoutProps = {
   children: ReactNode
 }
 
-export function MainLayout({ children }: IMainLayoutProps) {
+export function MainLayout({ children }: MainLayoutProps) {
   return (
     <BaseLayout>
       <Header />

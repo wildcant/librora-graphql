@@ -1,19 +1,19 @@
 import { Icon, Progress } from '@atoms'
 import { Dialog, Transition } from '@headlessui/react'
 import { createContext } from '@librora/utils/hooks'
-import { Button, IButtonProps } from '@molecules'
+import { Button, ButtonProps } from '@molecules'
 import { ComponentPropsWithoutRef, Fragment, PropsWithChildren, ReactNode, useState } from 'react'
 import { ExtractProps } from '../../types'
 
-interface IModalProviderProps {
-  modals: IModalProps[]
-  openModal: (id: IModalProps) => void
+type ModalProviderProps = {
+  modals: ModalProps[]
+  openModal: (id: ModalProps) => void
   setModalIsLoading: (id: string, isLoading: boolean) => void
   closeModal: (id: string) => void
   isModalLoading: (id: string) => boolean
 }
 
-const [Provider, useContext] = createContext<IModalProviderProps>({
+const [Provider, useContext] = createContext<ModalProviderProps>({
   name: 'ModalContext',
   hookName: 'useModalContext',
   providerName: 'ModalProvider',
@@ -21,14 +21,14 @@ const [Provider, useContext] = createContext<IModalProviderProps>({
 
 type ModalVariant = 'confirmation' | 'custom' | 'bare'
 
-interface IModalProps {
+type ModalProps = {
   id: string
   variant: ModalVariant
   isLoading?: boolean
   titleProps?: ComponentPropsWithoutRef<'p'>
   children?: ReactNode
-  primaryProps?: IButtonProps
-  secondaryProps?: IButtonProps
+  primaryProps?: ButtonProps
+  secondaryProps?: ButtonProps
   closeButton?: boolean
   containerProps?: ExtractProps<typeof Dialog>
   contentTransitionProps?: Pick<
@@ -62,7 +62,7 @@ function getModalContent(variant: ModalVariant, children: ReactNode) {
   }
 }
 
-function Modal(props: IModalProps) {
+function Modal(props: ModalProps) {
   const {
     id,
     variant,
@@ -172,9 +172,9 @@ function Modal(props: IModalProps) {
 
 export const useModalContext = useContext
 export function ModalProvider({ children }: PropsWithChildren) {
-  const [modals, setModals] = useState<IModalProps[]>([])
+  const [modals, setModals] = useState<ModalProps[]>([])
 
-  const openModal = (modal: IModalProps) =>
+  const openModal = (modal: ModalProps) =>
     setModals((currentModals) => {
       const modalIndex = currentModals.findIndex((m) => m.id === modal.id)
       // Add the modal if it doesn't exist.
@@ -222,20 +222,19 @@ export function ModalProvider({ children }: PropsWithChildren) {
   )
 }
 
-interface IUseConfirmationModalProps
-  extends Pick<
-    IModalProps,
-    | 'id'
-    | 'titleProps'
-    | 'children'
-    | 'primaryProps'
-    | 'secondaryProps'
-    | 'isLoading'
-    | 'closeButton'
-    | 'containerProps'
-  > {}
+type UseConfirmationModalProps = Pick<
+  ModalProps,
+  | 'id'
+  | 'titleProps'
+  | 'children'
+  | 'primaryProps'
+  | 'secondaryProps'
+  | 'isLoading'
+  | 'closeButton'
+  | 'containerProps'
+>
 
-export function useConfirmationModal(props: IUseConfirmationModalProps) {
+export function useConfirmationModal(props: UseConfirmationModalProps) {
   const { openModal, closeModal } = useModalContext()
   return {
     open: () => openModal({ variant: 'confirmation', ...props }),
@@ -243,20 +242,19 @@ export function useConfirmationModal(props: IUseConfirmationModalProps) {
   }
 }
 
-interface IUseCustomModalProps
-  extends Pick<
-    IModalProps,
-    | 'id'
-    | 'children'
-    | 'isLoading'
-    | 'closeButton'
-    | 'containerProps'
-    | 'onClose'
-    | 'contentTransitionProps'
-    | 'contentProps'
-  > {}
+type UseCustomModalProps = Pick<
+  ModalProps,
+  | 'id'
+  | 'children'
+  | 'isLoading'
+  | 'closeButton'
+  | 'containerProps'
+  | 'onClose'
+  | 'contentTransitionProps'
+  | 'contentProps'
+>
 
-export function useCustomModal(props: IUseCustomModalProps) {
+export function useCustomModal(props: UseCustomModalProps) {
   const { openModal, closeModal } = useModalContext()
   return {
     open: () => openModal({ variant: 'custom', ...props }),
@@ -264,21 +262,20 @@ export function useCustomModal(props: IUseCustomModalProps) {
   }
 }
 
-interface IUseBareModalProps
-  extends Pick<
-    IModalProps,
-    | 'id'
-    | 'children'
-    | 'isLoading'
-    | 'closeButton'
-    | 'containerProps'
-    | 'onClose'
-    | 'contentTransitionProps'
-    | 'contentProps'
-    | 'hideOverlay'
-  > {}
+type UseBareModalProps = Pick<
+  ModalProps,
+  | 'id'
+  | 'children'
+  | 'isLoading'
+  | 'closeButton'
+  | 'containerProps'
+  | 'onClose'
+  | 'contentTransitionProps'
+  | 'contentProps'
+  | 'hideOverlay'
+>
 
-export function useBareModal(props: IUseBareModalProps) {
+export function useBareModal(props: UseBareModalProps) {
   const { openModal, closeModal } = useModalContext()
 
   return {

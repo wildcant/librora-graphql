@@ -292,9 +292,8 @@ export function Autocomplete(props: IAutocompleteProps) {
   return props.multiple ? <AutocompleteMultiSelect {...props} /> : <AutocompleteSingleSelect {...props} />
 }
 
-interface IAutocompleteFieldProps<TValues extends FieldValues>
-  extends UseControllerProps<TValues>,
-    Pick<IAutocompleteProps, 'options' | 'disabled' | 'label' | 'multiple'> {}
+type AutocompleteFieldProps<TValues extends FieldValues> = UseControllerProps<TValues> &
+  Pick<IAutocompleteProps, 'options' | 'disabled' | 'label' | 'multiple'>
 
 export function AutocompleteField<TValues extends FieldValues>({
   name,
@@ -302,7 +301,7 @@ export function AutocompleteField<TValues extends FieldValues>({
   rules,
   defaultValue,
   ...props
-}: IAutocompleteFieldProps<TValues>) {
+}: AutocompleteFieldProps<TValues>) {
   const {
     field,
     fieldState: { error },

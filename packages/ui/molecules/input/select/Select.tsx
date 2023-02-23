@@ -6,7 +6,7 @@ import { FieldError, FieldValues, useController, UseControllerProps } from 'reac
 import { Option } from '../types'
 import s from './Select.module.css'
 
-interface IListboxProps {
+type ListboxProps = {
   defaultValue?: Option | undefined
   disabled?: boolean | undefined
   horizontal?: boolean | undefined
@@ -18,11 +18,11 @@ interface IListboxProps {
   error?: FieldError
 }
 
-export interface ISelectProps extends IListboxProps {
+export type SelectProps = ListboxProps & {
   options: Option[]
 }
 
-export function Select({ options, value, error, ...props }: ISelectProps) {
+export function Select({ options, value, error, ...props }: SelectProps) {
   return (
     <Listbox value={value} {...props} defaultValue={null}>
       {({ open }) => (
@@ -92,9 +92,8 @@ export function Select({ options, value, error, ...props }: ISelectProps) {
   )
 }
 
-interface ISelectFieldProps<TValues extends FieldValues>
-  extends UseControllerProps<TValues>,
-    Pick<ISelectProps, 'options' | 'disabled' | 'label'> {}
+type SelectFieldProps<TValues extends FieldValues> = UseControllerProps<TValues> &
+  Pick<SelectProps, 'options' | 'disabled' | 'label'>
 
 export function SelectField<TValues extends FieldValues>({
   name,
@@ -102,7 +101,7 @@ export function SelectField<TValues extends FieldValues>({
   rules,
   defaultValue,
   ...props
-}: ISelectFieldProps<TValues>) {
+}: SelectFieldProps<TValues>) {
   const {
     field,
     fieldState: { error },

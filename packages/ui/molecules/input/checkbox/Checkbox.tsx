@@ -4,11 +4,10 @@ import { ComponentPropsWithoutRef } from 'react'
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 import s from './Checkbox.module.css'
 
-export interface ICheckboxFieldProps<TValues extends FieldValues>
-  extends UseControllerProps<TValues>,
-    Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> {
-  label?: string
-}
+export type CheckboxFieldProps<TValues extends FieldValues> = UseControllerProps<TValues> &
+  Pick<ComponentPropsWithoutRef<'input'>, 'className' | 'disabled' | 'type'> & {
+    label?: string
+  }
 
 export function CheckboxField<TValues extends FieldValues>({
   className,
@@ -19,7 +18,7 @@ export function CheckboxField<TValues extends FieldValues>({
   rules,
   disabled,
   shouldUnregister,
-}: ICheckboxFieldProps<TValues>) {
+}: CheckboxFieldProps<TValues>) {
   const {
     field,
     fieldState: { error },

@@ -45,18 +45,17 @@ export function AriaCalendar(props: AriaCalendarProps<DateValue>) {
   )
 }
 
-interface ICalendarProps
-  extends Omit<
-    AriaCalendarProps<DateValue>,
-    | 'minValue'
-    | 'maxValue'
-    | 'isDateUnavailable'
-    | 'focusedValue'
-    | 'defaultFocusedValue'
-    | 'value'
-    | 'defaultValue'
-    | 'onChange'
-  > {
+type CalendarProps = Omit<
+  AriaCalendarProps<DateValue>,
+  | 'minValue'
+  | 'maxValue'
+  | 'isDateUnavailable'
+  | 'focusedValue'
+  | 'defaultFocusedValue'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+> & {
   /** The minimum allowed date that a user may select. */
   minValue?: Date
   /** The maximum allowed date that a user may select. */
@@ -84,7 +83,7 @@ function processCalendarProps({
   value,
   defaultValue,
   onChange,
-}: ICalendarProps): AriaCalendarProps<DateValue> {
+}: CalendarProps): AriaCalendarProps<DateValue> {
   return {
     minValue: minValue ? nativeDateToCalendarDate(minValue) : undefined,
     maxValue: maxValue ? nativeDateToCalendarDate(maxValue) : undefined,
@@ -99,6 +98,6 @@ function processCalendarProps({
   }
 }
 
-export function Calendar(props: ICalendarProps) {
+export function Calendar(props: CalendarProps) {
   return <AriaCalendar {...processCalendarProps(props)} />
 }

@@ -1,5 +1,5 @@
 import format from 'date-fns/format'
-import { IFiltersState } from '~store/filters'
+import { FiltersState } from '~store/filters'
 
 export function encodeSearch(search: string) {
   return search.split(' ').join('-')
@@ -11,7 +11,7 @@ export function decodeSearch(search?: string) {
 
 const formatDate = (date: Date) => format(date, 'yyyy-MM-dd')
 
-export function buildSearchQuery(filters: IFiltersState): string {
+export function buildSearchQuery(filters: FiltersState): string {
   let query = '?'
   if (filters.search) {
     query += `search=${encodeSearch(filters.search)}`

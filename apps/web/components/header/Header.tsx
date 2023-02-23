@@ -98,11 +98,11 @@ export function Header() {
   )
 }
 
-interface INavigationProps {
+type NavigationProps = {
   navItems: NavItems
 }
 
-function Navigation(props: INavigationProps) {
+function Navigation(props: NavigationProps) {
   return (
     <nav className="hidden lg:flex lg:justify-center">
       <ul className="flex flex-row items-center">

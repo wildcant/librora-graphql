@@ -3,14 +3,14 @@ import { ELanguage } from '@librora/api/schema'
 import { useRouter } from 'next/router'
 import { RangeValue } from 'ui'
 
-export interface IFiltersState {
+export type FiltersState = {
   dateRange?: RangeValue<Date>
   search?: string
   topics: string[]
   language?: ELanguage
 }
 
-const filtersInitialValues: IFiltersState = {
+const filtersInitialValues: FiltersState = {
   topics: [],
 }
 
@@ -25,10 +25,10 @@ export const useIsFilterPopoverOpenState = (): UseIsFilterPopoverOpenStateReturn
 })
 
 /**Search range filter */
-const searchVar = makeVar<IFiltersState['search']>(filtersInitialValues.search)
+const searchVar = makeVar<FiltersState['search']>(filtersInitialValues.search)
 type UseSearchFilterStateReturn = {
-  searchFilter: IFiltersState['search']
-  setSearchFilter: ReactiveVar<IFiltersState['search']>
+  searchFilter: FiltersState['search']
+  setSearchFilter: ReactiveVar<FiltersState['search']>
 }
 export const useSearchFilterState = (): UseSearchFilterStateReturn => ({
   searchFilter: useReactiveVar(searchVar),
@@ -36,10 +36,10 @@ export const useSearchFilterState = (): UseSearchFilterStateReturn => ({
 })
 
 /**Date range filter */
-const dateRangeVar = makeVar<IFiltersState['dateRange']>(filtersInitialValues.dateRange)
+const dateRangeVar = makeVar<FiltersState['dateRange']>(filtersInitialValues.dateRange)
 type UseDateRangeFilterStateReturn = {
-  dateRangeFilter: IFiltersState['dateRange']
-  setDateRangeFilter: ReactiveVar<IFiltersState['dateRange']>
+  dateRangeFilter: FiltersState['dateRange']
+  setDateRangeFilter: ReactiveVar<FiltersState['dateRange']>
 }
 export const useDateRangeFilterState = (): UseDateRangeFilterStateReturn => ({
   dateRangeFilter: useReactiveVar(dateRangeVar),
@@ -47,10 +47,10 @@ export const useDateRangeFilterState = (): UseDateRangeFilterStateReturn => ({
 })
 
 /** Topics filter */
-const topicsVar = makeVar<IFiltersState['topics']>(filtersInitialValues.topics)
+const topicsVar = makeVar<FiltersState['topics']>(filtersInitialValues.topics)
 type UseTopicsFilterStateReturn = {
-  topicsFilter: IFiltersState['topics']
-  setTopicsFilter: ReactiveVar<IFiltersState['topics']>
+  topicsFilter: FiltersState['topics']
+  setTopicsFilter: ReactiveVar<FiltersState['topics']>
 }
 export const useTopicsFilterState = (): UseTopicsFilterStateReturn => ({
   topicsFilter: useReactiveVar(topicsVar),
@@ -58,10 +58,10 @@ export const useTopicsFilterState = (): UseTopicsFilterStateReturn => ({
 })
 
 /** Language filter */
-const languageVar = makeVar<IFiltersState['language']>(filtersInitialValues.language)
+const languageVar = makeVar<FiltersState['language']>(filtersInitialValues.language)
 type UseLanguageFilterStateReturn = {
-  languageFilter: IFiltersState['language']
-  setLanguageFilter: ReactiveVar<IFiltersState['language']>
+  languageFilter: FiltersState['language']
+  setLanguageFilter: ReactiveVar<FiltersState['language']>
 }
 export const useLanguageFilterState = (): UseLanguageFilterStateReturn => ({
   languageFilter: useReactiveVar(languageVar),
@@ -69,13 +69,13 @@ export const useLanguageFilterState = (): UseLanguageFilterStateReturn => ({
 })
 
 /**All filters */
-export const setFilters = (newValues: IFiltersState) => {
+export const setFilters = (newValues: FiltersState) => {
   searchVar(newValues.search)
   dateRangeVar(newValues.dateRange)
   topicsVar(newValues.topics)
   languageVar(newValues.language)
 }
-export const getFiltersValues = (): IFiltersState => {
+export const getFiltersValues = (): FiltersState => {
   return {
     search: searchVar(),
     dateRange: dateRangeVar(),
@@ -84,8 +84,8 @@ export const getFiltersValues = (): IFiltersState => {
   }
 }
 export const useFiltersState = (): {
-  filters: IFiltersState
-  setFilters: (newValues: IFiltersState) => void
+  filters: FiltersState
+  setFilters: (newValues: FiltersState) => void
 } => {
   const search = useReactiveVar(searchVar)
   const dateRange = useReactiveVar(dateRangeVar)

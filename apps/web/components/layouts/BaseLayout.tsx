@@ -33,7 +33,7 @@ function MobileNavigation() {
   )
 }
 
-export interface LayoutProps {
+export type LayoutProps = {
   children?: React.ReactNode
 }
 

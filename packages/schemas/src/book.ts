@@ -29,20 +29,20 @@ export const BookSchema = z.object({
 
 /*
 
-export interface PublisherModel {
+export type  PublisherModel {
   id: string
   name: string
   url: string
 }
 
-export interface TopicModel {
+export type TopicModel {
   id: string
   name: string
   colorCode: string
   uniqueUrl: string
 }
 
-export interface SubTopicModel {
+export type SubTopicModel {
   id: string
   name: string
   colorCode: string

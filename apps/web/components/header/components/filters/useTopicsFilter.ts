@@ -14,9 +14,9 @@ export function useTopicsFilter(topicsFilterValues: string[]) {
   )
   const defaultValues = topicsFilterValues.length
     ? // Make sure the topics currently set in filters are still available.
-      (topicsFilterValues
+      topicsFilterValues
         .map((topicFilter) => topicsOptions.find((topicOption) => topicFilter === topicOption.label))
-        .filter((t) => !!t) as Option[])
+        .filter(Boolean)
     : []
 
   return { loading, defaultValues, topicsOptions }

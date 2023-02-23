@@ -1,4 +1,4 @@
-import { CalendarDate, createCalendar, DateValue } from './utils/internationalized'
+import { useDeviceType } from '@librora/utils/hooks'
 import { AriaRangeCalendarProps, useRangeCalendar } from '@react-aria/calendar'
 import { useRangeCalendarState } from '@react-stately/calendar'
 import { useRef } from 'react'
@@ -11,8 +11,8 @@ import {
   nativeDateToCalendarDate,
   nativeRangeDateToCalendarRangeDate,
 } from './utils/calendarDate'
+import { CalendarDate, createCalendar, DateValue } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
-import { useDeviceType } from '@librora/utils/hooks'
 
 export function AriaRangeCalendar(props: AriaRangeCalendarProps<DateValue>) {
   const { locale } = useDefaultLocale()
@@ -54,18 +54,17 @@ export function AriaRangeCalendar(props: AriaRangeCalendarProps<DateValue>) {
   )
 }
 
-interface ICalendarProps
-  extends Omit<
-    AriaRangeCalendarProps<DateValue>,
-    | 'minValue'
-    | 'maxValue'
-    | 'isDateUnavailable'
-    | 'focusedValue'
-    | 'defaultFocusedValue'
-    | 'value'
-    | 'defaultValue'
-    | 'onChange'
-  > {
+type CalendarProps = Omit<
+  AriaRangeCalendarProps<DateValue>,
+  | 'minValue'
+  | 'maxValue'
+  | 'isDateUnavailable'
+  | 'focusedValue'
+  | 'defaultFocusedValue'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+> & {
   /** The minimum allowed date that a user may select. */
   minValue?: Date
   /** The maximum allowed date that a user may select. */
@@ -93,7 +92,7 @@ function processRangeCalendarProps({
   value,
   defaultValue,
   onChange,
-}: ICalendarProps): AriaRangeCalendarProps<DateValue> {
+}: CalendarProps): AriaRangeCalendarProps<DateValue> {
   return {
     minValue: minValue ? nativeDateToCalendarDate(minValue) : undefined,
     maxValue: maxValue ? nativeDateToCalendarDate(maxValue) : undefined,
@@ -110,6 +109,6 @@ function processRangeCalendarProps({
   }
 }
 
-export function RangeCalendar(props: ICalendarProps) {
+export function RangeCalendar(props: CalendarProps) {
   return <AriaRangeCalendar {...processRangeCalendarProps(props)} />
 }

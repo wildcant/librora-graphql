@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { ComponentPropsWithoutRef } from 'react'
 
-interface ILoaderProps extends ComponentPropsWithoutRef<'svg'> {
+type LoaderProps = ComponentPropsWithoutRef<'svg'> & {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   color?: 'primary' | 'secondary'
 }
@@ -15,7 +15,7 @@ const dimension = {
   '2xl': 64,
 }
 
-export function Loader({ size = 'lg', color = 'primary', className, ...props }: ILoaderProps) {
+export function Loader({ size = 'lg', color = 'primary', className, ...props }: LoaderProps) {
   const d = dimension[size]
 
   const loaderClassName = cn(

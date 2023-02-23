@@ -6,7 +6,7 @@ import { knex } from './knex'
 import { loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export interface IBookDataSource extends PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> {
+export type BookDataSource = PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> & {
   search: (query: {
     limit: number
     offset: number
@@ -15,7 +15,7 @@ export interface IBookDataSource extends PgDataSource<BookModel, Pick<BookModel,
   }) => Promise<{ count: number; nodes: BookModel[] }>
 }
 
-export const booksDataSource: IBookDataSource = {
+export const booksDataSource: BookDataSource = {
   findUnique: async ({ where, select }) => {
     const { id, slug } = where
 

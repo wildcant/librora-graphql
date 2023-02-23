@@ -1,16 +1,16 @@
 import { makeVar, ReactiveVar, useReactiveVar } from '@apollo/client'
 
-interface IGlobalState {
+type GlobalState = {
   isLoadingGlobal: boolean
 }
 
-const globalInitialValues: IGlobalState = {
+const globalInitialValues: GlobalState = {
   isLoadingGlobal: false,
 }
 
-const globalVar = makeVar<IGlobalState>(globalInitialValues)
+const globalVar = makeVar<GlobalState>(globalInitialValues)
 
-export const useGlobalState = (): [IGlobalState, ReactiveVar<IGlobalState>] => {
+export const useGlobalState = (): [GlobalState, ReactiveVar<GlobalState>] => {
   const global = useReactiveVar(globalVar)
 
   return [global, globalVar]

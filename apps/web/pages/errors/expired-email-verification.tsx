@@ -19,7 +19,10 @@ function ExpiredResetPassword() {
 
     if (router.isReady && !token) {
       router.replace('/sign-in')
-    } else if (router.isReady && typeof token === 'string') {
+      return
+    }
+
+    if (router.isReady && typeof token === 'string') {
       resendVerificationEmail({
         variables: { token },
 

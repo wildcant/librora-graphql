@@ -2,7 +2,7 @@ import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas
 import addHours from 'date-fns/addHours'
 import isAfter from 'date-fns/isAfter'
 import { sendEmailConfirmation } from '../../comms/email'
-import { IContext } from '../../context'
+import { Context } from '../../context'
 
 export function validateResetPasswordAction(metadata: { redeemed: boolean; expiresAt: Date }): {
   message?: string
@@ -21,7 +21,7 @@ export function validateResetPasswordAction(metadata: { redeemed: boolean; expir
 
 // TODO: Research a better way to handle this kind of side effects.
 // Could be an event bus or some other event driven tool.
-export async function sendVerificationEmail(args: { userId: string; context: IContext }) {
+export async function sendVerificationEmail(args: { userId: string; context: Context }) {
   const emailConfirmationAction: ActionModel = {
     namespace: EActionNamespace.UserFlow,
     name: EUserActionName.EmailConfirmation,

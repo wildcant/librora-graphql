@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { ReactNode } from 'react'
 import s from './Badge.module.css'
 
-interface IBadgeProps {
+type BadgeProps = {
   children: ReactNode | string
   className?: string
   color?: 'primary' | 'secondary'
@@ -10,7 +10,7 @@ interface IBadgeProps {
   variant?: 'solid' | 'outline'
 }
 
-export function Badge({ children, className, color = 'primary', content, variant = 'solid' }: IBadgeProps) {
+export function Badge({ children, className, color = 'primary', content, variant = 'solid' }: BadgeProps) {
   const badgeClassName = cn(
     s.Badge,
     {

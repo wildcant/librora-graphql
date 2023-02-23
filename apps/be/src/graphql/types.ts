@@ -8,7 +8,7 @@
 
 import { GraphQLResolveInfo } from 'graphql';
 import { BookModel, AuthorModel, PublicUserModel, ActionModel } from '@librora/schemas';
-import { IContext } from '../context';
+import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -103,6 +103,22 @@ export type EFormat =
 
 export type ELanguage =
   | 'ENGLISH';
+
+export type EReservationChangeRequestState =
+  | 'CHANGE_CANCELLED'
+  | 'CHANGE_CONFIRMED'
+  | 'CHANGE_DENIED'
+  | 'CHANGE_PENDING';
+
+export type EReservationState =
+  | 'ACTIVE'
+  | 'CANCELED'
+  | 'CONFIRMED'
+  | 'DENIED'
+  | 'EXPIRED'
+  | 'PENDING'
+  | 'RETURNED'
+  | 'WITHDRAWN';
 
 export type ESort =
   | 'ASC'
@@ -199,6 +215,7 @@ export type Query = {
   __typename?: 'Query';
   author?: Maybe<Author>;
   book?: Maybe<Book>;
+  reservation?: Maybe<Reservation>;
   searchBooks: BookConnection;
   topics: Array<Topic>;
   user?: Maybe<User>;
@@ -216,6 +233,11 @@ export type QueryBookArgs = {
 };
 
 
+export type QueryReservationArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QuerySearchBooksArgs = {
   input: SearchBooksInput;
 };
@@ -229,6 +251,13 @@ export type ResendVerificationEmail = {
   __typename?: 'ResendVerificationEmail';
   message?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type Reservation = {
+  __typename?: 'Reservation';
+  id: Scalars['String'];
+  state?: Maybe<EReservationState>;
+  subState?: Maybe<EReservationChangeRequestState>;
 };
 
 export type ResetPasswordInput = {
@@ -388,6 +417,8 @@ export type ResolversTypes = {
   ECountryCode: ECountryCode;
   EFormat: EFormat;
   ELanguage: ELanguage;
+  EReservationChangeRequestState: EReservationChangeRequestState;
+  EReservationState: EReservationState;
   ESort: ESort;
   EUserRole: EUserRole;
   EUserType: EUserType;
@@ -402,6 +433,7 @@ export type ResolversTypes = {
   Pagination: Pagination;
   Query: ResolverTypeWrapper<{}>;
   ResendVerificationEmail: ResolverTypeWrapper<ResendVerificationEmail>;
+  Reservation: ResolverTypeWrapper<Reservation>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: ResolverTypeWrapper<Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   SearchBooksInput: SearchBooksInput;
@@ -438,6 +470,7 @@ export type ResolversParentTypes = {
   Pagination: Pagination;
   Query: {};
   ResendVerificationEmail: ResendVerificationEmail;
+  Reservation: Reservation;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   SearchBooksInput: SearchBooksInput;
@@ -452,20 +485,20 @@ export type ResolversParentTypes = {
   VerifyEmailPayload: VerifyEmailPayload;
 };
 
-export type AuthorResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
+export type AuthorResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AuthorConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['AuthorConnection'] = ResolversParentTypes['AuthorConnection']> = {
+export type AuthorConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AuthorConnection'] = ResolversParentTypes['AuthorConnection']> = {
   nodes?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type BookResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
+export type BookResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType>;
   cover?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   coverThumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -483,39 +516,39 @@ export type BookResolvers<ContextType = IContext, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type BookConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['BookConnection'] = ResolversParentTypes['BookConnection']> = {
+export type BookConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BookConnection'] = ResolversParentTypes['BookConnection']> = {
   nodes?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateUserPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = {
+export type CreateUserPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EditorialResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Editorial'] = ResolversParentTypes['Editorial']> = {
+export type EditorialResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Editorial'] = ResolversParentTypes['Editorial']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EditorialConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['EditorialConnection'] = ResolversParentTypes['EditorialConnection']> = {
+export type EditorialConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['EditorialConnection'] = ResolversParentTypes['EditorialConnection']> = {
   nodes?: Resolver<Array<ResolversTypes['Editorial']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ForgotPasswordPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ForgotPasswordPayload'] = ResolversParentTypes['ForgotPasswordPayload']> = {
+export type ForgotPasswordPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ForgotPasswordPayload'] = ResolversParentTypes['ForgotPasswordPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   forgotPassword?: Resolver<Maybe<ResolversTypes['ForgotPasswordPayload']>, ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
   resendVerificationEmail?: Resolver<Maybe<ResolversTypes['ResendVerificationEmail']>, ParentType, ContextType, RequireFields<MutationResendVerificationEmailArgs, 'token'>>;
@@ -525,47 +558,55 @@ export type MutationResolvers<ContextType = IContext, ParentType extends Resolve
   verifyEmail?: Resolver<Maybe<ResolversTypes['VerifyEmailPayload']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'input'>>;
 };
 
-export type PageInfoResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QueryAuthorArgs, 'id'>>;
   book?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryBookArgs>>;
+  reservation?: Resolver<Maybe<ResolversTypes['Reservation']>, ParentType, ContextType, RequireFields<QueryReservationArgs, 'id'>>;
   searchBooks?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'input'>>;
   topics?: Resolver<Array<ResolversTypes['Topic']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
-export type ResendVerificationEmailResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ResendVerificationEmail'] = ResolversParentTypes['ResendVerificationEmail']> = {
+export type ResendVerificationEmailResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ResendVerificationEmail'] = ResolversParentTypes['ResendVerificationEmail']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ResetPasswordPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ResetPasswordPayload'] = ResolversParentTypes['ResetPasswordPayload']> = {
+export type ReservationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Reservation'] = ResolversParentTypes['Reservation']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['EReservationState']>, ParentType, ContextType>;
+  subState?: Resolver<Maybe<ResolversTypes['EReservationChangeRequestState']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ResetPasswordPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ResetPasswordPayload'] = ResolversParentTypes['ResetPasswordPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SignInPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
+export type SignInPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TopicResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Topic'] = ResolversParentTypes['Topic']> = {
+export type TopicResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Topic'] = ResolversParentTypes['Topic']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   books?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType>;
   countryCode?: Resolver<Maybe<ResolversTypes['ECountryCode']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -581,26 +622,26 @@ export type UserResolvers<ContextType = IContext, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserConnectionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
+export type UserConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
   nodes?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ValidateActionPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['ValidateActionPayload'] = ResolversParentTypes['ValidateActionPayload']> = {
+export type ValidateActionPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ValidateActionPayload'] = ResolversParentTypes['ValidateActionPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   valid?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type VerifyEmailPayloadResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['VerifyEmailPayload'] = ResolversParentTypes['VerifyEmailPayload']> = {
+export type VerifyEmailPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['VerifyEmailPayload'] = ResolversParentTypes['VerifyEmailPayload']> = {
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = IContext> = {
+export type Resolvers<ContextType = Context> = {
   Author?: AuthorResolvers<ContextType>;
   AuthorConnection?: AuthorConnectionResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
@@ -613,6 +654,7 @@ export type Resolvers<ContextType = IContext> = {
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResendVerificationEmail?: ResendVerificationEmailResolvers<ContextType>;
+  Reservation?: ReservationResolvers<ContextType>;
   ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
   Topic?: TopicResolvers<ContextType>;
