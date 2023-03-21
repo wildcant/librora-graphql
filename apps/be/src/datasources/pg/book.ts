@@ -1,9 +1,9 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { BookModel, BookSchemaValidators } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
+import { Knex } from 'knex'
 import { z } from 'zod'
-import { knex } from './knex'
-import { loaders } from './loaders'
+import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export type BookDataSource = PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> & {
@@ -15,7 +15,7 @@ export type BookDataSource = PgDataSource<BookModel, Pick<BookModel, 'id' | 'slu
   }) => Promise<{ count: number; nodes: BookModel[] }>
 }
 
-export const booksDataSource: BookDataSource = {
+export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource => ({
   findUnique: async ({ where, select }) => {
     const { id, slug } = where
 
@@ -70,4 +70,4 @@ export const booksDataSource: BookDataSource = {
 
     return { count, nodes }
   },
-}
+})

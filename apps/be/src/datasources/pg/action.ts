@@ -1,11 +1,11 @@
 import { ActionModel } from '@librora/schemas'
-import { knex } from './knex'
-import { loaders } from './loaders'
+import { Knex } from 'knex'
+import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export type ActionDataSource = PgDataSource<ActionModel>
 
-export const actionsDataSource: ActionDataSource = {
+export const actionsDataSource = (knex: Knex, loaders: Loaders): ActionDataSource => ({
   findUnique: ({ where, select }) => loaders.actionById.load({ value: where.id, select }),
 
   findMany: async ({ where = {}, select }) => {
@@ -25,4 +25,4 @@ export const actionsDataSource: ActionDataSource = {
     const [record] = await knex('actions').where(where).update(data).returning('*')
     return record
   },
-}
+})

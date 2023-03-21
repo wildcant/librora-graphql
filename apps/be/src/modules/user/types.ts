@@ -13,8 +13,9 @@ export namespace UserModule {
     UserConnection: 'nodes' | 'pageInfo' | 'totalCount';
     CreateUserPayload: 'message' | 'success' | 'user';
     VerifyEmailPayload: 'success' | 'message';
+    ReservePayload: 'message';
     Query: 'user';
-    Mutation: 'createUser' | 'verifyEmail';
+    Mutation: 'createUser' | 'verifyEmail' | 'reserve';
   };
   
   interface DefinedEnumValues {
@@ -27,6 +28,7 @@ export namespace UserModule {
   interface DefinedInputFields {
     CreateUserInput: 'email' | 'firstName' | 'lastName' | 'password' | 'username';
     VerifyEmailInput: 'token';
+    ReserveInput: 'bookId';
   };
   
   export type EUserType = DefinedEnumValues['EUserType'];
@@ -41,6 +43,8 @@ export namespace UserModule {
   export type CreateUserPayload = Pick<Types.CreateUserPayload, DefinedFields['CreateUserPayload']>;
   export type VerifyEmailInput = Pick<Types.VerifyEmailInput, DefinedInputFields['VerifyEmailInput']>;
   export type VerifyEmailPayload = Pick<Types.VerifyEmailPayload, DefinedFields['VerifyEmailPayload']>;
+  export type ReserveInput = Pick<Types.ReserveInput, DefinedInputFields['ReserveInput']>;
+  export type ReservePayload = Pick<Types.ReservePayload, DefinedFields['ReservePayload']>;
   export type Query = Pick<Types.Query, DefinedFields['Query']>;
   export type Mutation = Pick<Types.Mutation, DefinedFields['Mutation']>;
   
@@ -48,6 +52,7 @@ export namespace UserModule {
   export type UserConnectionResolvers = Pick<Types.UserConnectionResolvers, DefinedFields['UserConnection'] | '__isTypeOf'>;
   export type CreateUserPayloadResolvers = Pick<Types.CreateUserPayloadResolvers, DefinedFields['CreateUserPayload'] | '__isTypeOf'>;
   export type VerifyEmailPayloadResolvers = Pick<Types.VerifyEmailPayloadResolvers, DefinedFields['VerifyEmailPayload'] | '__isTypeOf'>;
+  export type ReservePayloadResolvers = Pick<Types.ReservePayloadResolvers, DefinedFields['ReservePayload'] | '__isTypeOf'>;
   export type QueryResolvers = Pick<Types.QueryResolvers, DefinedFields['Query']>;
   export type MutationResolvers = Pick<Types.MutationResolvers, DefinedFields['Mutation']>;
   
@@ -56,6 +61,7 @@ export namespace UserModule {
     UserConnection?: UserConnectionResolvers;
     CreateUserPayload?: CreateUserPayloadResolvers;
     VerifyEmailPayload?: VerifyEmailPayloadResolvers;
+    ReservePayload?: ReservePayloadResolvers;
     Query?: QueryResolvers;
     Mutation?: MutationResolvers;
   };

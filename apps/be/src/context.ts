@@ -1,17 +1,5 @@
-import { StandaloneServerContextFunctionArgument } from '@apollo/server/standalone'
-import { actionsDataSource, authorsDataSource, booksDataSource, usersDataSource } from './datasources'
-import { topicsDataSource } from './datasources/pg/topic'
+import { dataSources } from './datasources'
 
-export async function context(_args: StandaloneServerContextFunctionArgument) {
-  return {
-    dataSources: {
-      books: booksDataSource,
-      authors: authorsDataSource,
-      users: usersDataSource,
-      actions: actionsDataSource,
-      topics: topicsDataSource,
-    },
-  }
-}
+export const context = async () => ({ dataSources })
 
 export type Context = Awaited<ReturnType<typeof context>>

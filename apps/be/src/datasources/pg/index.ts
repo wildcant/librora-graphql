@@ -1,4 +1,49 @@
-export * from './author'
-export * from './book'
-export * from './user'
-export * from './action'
+/* eslint-disable turbo/no-undeclared-env-vars */
+import knexBuilder, { Knex } from 'knex'
+import { env } from '../../env'
+import { actionsDataSource } from './action'
+import { authorsDataSource } from './author'
+import { booksDataSource } from './book'
+import { createLoaders } from './loaders'
+import { topicsDataSource } from './topic'
+import { usersDataSource } from './user'
+
+const config = {
+  client: 'postgres',
+  connection: {
+    host: env.DATABASE_HOST ?? '127.0.0.1',
+    port: env.DATABASE_PORT ?? 5434,
+    database: env.DATABASE_NAME ?? 'librora',
+    user: env.DATABASE_USERNAME ?? 'postgres',
+    password: env.DATABASE_PASSWORD ?? '12345',
+    ssl: env.DATABASE_SSL ?? false,
+  },
+}
+
+let knexInstance: Knex | undefined
+
+if (!knexInstance) {
+  knexInstance = knexBuilder({
+    client: config.client,
+    connection: {
+      host: config.connection.host,
+      port: config.connection.port,
+      user: config.connection.user,
+      password: config.connection.password,
+      database: config.connection.database,
+    },
+    debug: env.NODE_ENV === 'development',
+  })
+}
+
+const loaders = createLoaders(knexInstance)
+
+export const dataSources = {
+  books: booksDataSource(knexInstance, loaders),
+  authors: authorsDataSource(knexInstance, loaders),
+  users: usersDataSource(knexInstance, loaders),
+  actions: actionsDataSource(knexInstance, loaders),
+  topics: topicsDataSource(knexInstance, loaders),
+  /** Loaders could be used to invalidate data loaders cache. */
+  loaders,
+}

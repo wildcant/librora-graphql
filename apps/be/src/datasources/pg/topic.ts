@@ -1,13 +1,13 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { TopicModel, TopicSchema } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
-import { knex } from './knex'
-import { loaders } from './loaders'
+import { Knex } from 'knex'
+import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export type TopicDataSource = PgDataSource<TopicModel, Pick<TopicModel, 'id' | 'name'>>
 
-export const topicsDataSource: TopicDataSource = {
+export const topicsDataSource = (knex: Knex, loaders: Loaders): TopicDataSource => ({
   findUnique: async ({ where, select }) => {
     const { id, name } = where
 
@@ -39,4 +39,4 @@ export const topicsDataSource: TopicDataSource = {
     const [record] = await knex('topics').where(where).update(data).returning('*')
     return record
   },
-}
+})

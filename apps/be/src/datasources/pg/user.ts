@@ -1,14 +1,13 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { UserModel, UserSchema } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
-
-import { knex } from './knex'
-import { loaders } from './loaders'
+import { Knex } from 'knex'
+import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export type UserDataSource = PgDataSource<UserModel, Pick<UserModel, 'id' | 'email' | 'username'>>
 
-export const usersDataSource: UserDataSource = {
+export const usersDataSource = (knex: Knex, loaders: Loaders): UserDataSource => ({
   findUnique: async ({ where, select }) => {
     const { id, username, email } = where
 
@@ -39,4 +38,4 @@ export const usersDataSource: UserDataSource = {
     const [user] = await knex('users').where(where).update(data).returning('*')
     return user
   },
-}
+})

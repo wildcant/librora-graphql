@@ -32,6 +32,7 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
   createUser(input: CreateUserInput!): CreateUserPayload
   verifyEmail(input: VerifyEmailInput!): VerifyEmailPayload
+  reserve(input: ReserveInput): ReservePayload
 }
 
 input SignInInput {
@@ -239,6 +240,14 @@ input VerifyEmailInput {
 
 type VerifyEmailPayload {
   success: Boolean
+  message: String
+}
+
+input ReserveInput {
+  bookId: String!
+}
+
+type ReservePayload {
   message: String
 }
 

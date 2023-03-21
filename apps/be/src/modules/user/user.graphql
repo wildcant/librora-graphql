@@ -61,6 +61,14 @@ type VerifyEmailPayload {
   message: String
 }
 
+input ReserveInput {
+  bookId: String!
+}
+
+type ReservePayload {
+  message: String
+}
+
 type Query {
   user(id: String!): User
 }
@@ -68,4 +76,5 @@ type Query {
 type Mutation {
   createUser(input: CreateUserInput!): CreateUserPayload
   verifyEmail(input: VerifyEmailInput!): VerifyEmailPayload
+  reserve(input: ReserveInput): ReservePayload
 }

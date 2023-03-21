@@ -59,11 +59,3 @@ select:focus,
 textarea {
   font-size: 16px;
 }
-
-/*
-  Fix for width overflow issue caused by react aria live announcer.
-  See https://github.com/adobe/react-spectrum/issues/4086
-*/
-div[data-live-announcer='true'] {
-  display: none;
-}

@@ -1,11 +1,11 @@
 import { AuthorModel, AuthorSchema } from '@librora/schemas'
-import { knex } from './knex'
-import { loaders } from './loaders'
+import { Knex } from 'knex'
+import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
 export type AuthorDataSource = PgDataSource<AuthorModel>
 
-export const authorsDataSource: AuthorDataSource = {
+export const authorsDataSource = (knex: Knex, loaders: Loaders): AuthorDataSource => ({
   findUnique: ({ where, select }) => loaders.authorById.load({ value: where.id, select: select }),
 
   findMany: async ({ where = {}, select }) => {
@@ -23,4 +23,4 @@ export const authorsDataSource: AuthorDataSource = {
     const [record] = await knex('authors').where(where).update(data).returning('*')
     return record
   },
-}
+})

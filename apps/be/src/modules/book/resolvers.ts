@@ -60,14 +60,13 @@ export const resolvers: BookModule.Resolvers = {
         select: getFields(info),
       })
 
-      if (!user) {
+      if (!user)
         throw new GraphQLError(`The user for this book doesn't exist.`, {
           extensions: {
             code: CustomErrorCode.DATA_INCONSISTENCY,
             message: `User not found for book with ${book.id}`,
           },
         })
-      }
 
       return user
     },

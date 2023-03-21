@@ -14,4 +14,5 @@ export const env = cleanEnv(process.env, {
   DATABASE_PASSWORD: str(),
   DATABASE_SSL: bool(),
   WEB_APP_URL: str(),
+  NODE_ENV: str(),
 })

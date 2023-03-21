@@ -159,6 +159,7 @@ export type Mutation = {
   createUser?: Maybe<CreateUserPayload>;
   forgotPassword?: Maybe<ForgotPasswordPayload>;
   resendVerificationEmail?: Maybe<ResendVerificationEmail>;
+  reserve?: Maybe<ReservePayload>;
   resetPassword?: Maybe<ResetPasswordPayload>;
   signIn?: Maybe<SignInPayload>;
   validateAction?: Maybe<ValidateActionPayload>;
@@ -178,6 +179,11 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationResendVerificationEmailArgs = {
   token: Scalars['String'];
+};
+
+
+export type MutationReserveArgs = {
+  input?: InputMaybe<ReserveInput>;
 };
 
 
@@ -258,6 +264,15 @@ export type Reservation = {
   id: Scalars['String'];
   state?: Maybe<EReservationState>;
   subState?: Maybe<EReservationChangeRequestState>;
+};
+
+export type ReserveInput = {
+  bookId: Scalars['String'];
+};
+
+export type ReservePayload = {
+  __typename?: 'ReservePayload';
+  message?: Maybe<Scalars['String']>;
 };
 
 export type ResetPasswordInput = {
@@ -434,6 +449,8 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   ResendVerificationEmail: ResolverTypeWrapper<ResendVerificationEmail>;
   Reservation: ResolverTypeWrapper<Reservation>;
+  ReserveInput: ReserveInput;
+  ReservePayload: ResolverTypeWrapper<ReservePayload>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: ResolverTypeWrapper<Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
   SearchBooksInput: SearchBooksInput;
@@ -471,6 +488,8 @@ export type ResolversParentTypes = {
   Query: {};
   ResendVerificationEmail: ResendVerificationEmail;
   Reservation: Reservation;
+  ReserveInput: ReserveInput;
+  ReservePayload: ReservePayload;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordPayload: Omit<ResetPasswordPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
   SearchBooksInput: SearchBooksInput;
@@ -552,6 +571,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   forgotPassword?: Resolver<Maybe<ResolversTypes['ForgotPasswordPayload']>, ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
   resendVerificationEmail?: Resolver<Maybe<ResolversTypes['ResendVerificationEmail']>, ParentType, ContextType, RequireFields<MutationResendVerificationEmailArgs, 'token'>>;
+  reserve?: Resolver<Maybe<ResolversTypes['ReservePayload']>, ParentType, ContextType, Partial<MutationReserveArgs>>;
   resetPassword?: Resolver<Maybe<ResolversTypes['ResetPasswordPayload']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'input'>>;
   signIn?: Resolver<Maybe<ResolversTypes['SignInPayload']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   validateAction?: Resolver<Maybe<ResolversTypes['ValidateActionPayload']>, ParentType, ContextType, RequireFields<MutationValidateActionArgs, 'id'>>;
@@ -583,6 +603,11 @@ export type ReservationResolvers<ContextType = Context, ParentType extends Resol
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['EReservationState']>, ParentType, ContextType>;
   subState?: Resolver<Maybe<ResolversTypes['EReservationChangeRequestState']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ReservePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ReservePayload'] = ResolversParentTypes['ReservePayload']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -655,6 +680,7 @@ export type Resolvers<ContextType = Context> = {
   Query?: QueryResolvers<ContextType>;
   ResendVerificationEmail?: ResendVerificationEmailResolvers<ContextType>;
   Reservation?: ReservationResolvers<ContextType>;
+  ReservePayload?: ReservePayloadResolvers<ContextType>;
   ResetPasswordPayload?: ResetPasswordPayloadResolvers<ContextType>;
   SignInPayload?: SignInPayloadResolvers<ContextType>;
   Topic?: TopicResolvers<ContextType>;
