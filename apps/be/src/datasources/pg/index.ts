@@ -8,7 +8,7 @@ import { createLoaders } from './loaders'
 import { topicsDataSource } from './topic'
 import { usersDataSource } from './user'
 
-const config = {
+export const knexConfig = {
   client: 'postgres',
   connection: {
     host: env.DATABASE_HOST ?? '127.0.0.1',
@@ -24,13 +24,13 @@ let knexInstance: Knex | undefined
 
 if (!knexInstance) {
   knexInstance = knexBuilder({
-    client: config.client,
+    client: knexConfig.client,
     connection: {
-      host: config.connection.host,
-      port: config.connection.port,
-      user: config.connection.user,
-      password: config.connection.password,
-      database: config.connection.database,
+      host: knexConfig.connection.host,
+      port: knexConfig.connection.port,
+      user: knexConfig.connection.user,
+      password: knexConfig.connection.password,
+      database: knexConfig.connection.database,
     },
     debug: env.NODE_ENV === 'development',
   })

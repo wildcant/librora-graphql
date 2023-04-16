@@ -3,6 +3,8 @@
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "strict": true,
+    "strictNullChecks": true
   }
 }

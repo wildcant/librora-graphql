@@ -9,9 +9,9 @@ import {
   EUserRole,
   EUserType,
 } from '@librora/schemas'
-import { knex } from '../pg/knex'
+import { Knex } from 'knex'
 
-export async function createTables() {
+export async function createTables(knex: Knex) {
   await knex.raw(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
 
   await knex.schema.createTable('users', function (table) {

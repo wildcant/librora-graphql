@@ -5,7 +5,8 @@ import { Knex } from 'knex'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
-export type UserDataSource = PgDataSource<UserModel, Pick<UserModel, 'id' | 'email' | 'username'>>
+export type UserUniquerProperties = Pick<UserModel, 'id' | 'email' | 'username'>
+export type UserDataSource = PgDataSource<UserModel, UserUniquerProperties>
 
 export const usersDataSource = (knex: Knex, loaders: Loaders): UserDataSource => ({
   findUnique: async ({ where, select }) => {
@@ -23,19 +24,21 @@ export const usersDataSource = (knex: Knex, loaders: Loaders): UserDataSource =>
   },
 
   findMany: async ({ where = {}, select }) => {
-    const ids = (await knex('users').where(where).select('id')).map(({ id }) => id)
-    return loaders.userById.loadMany(ids.map((id) => ({ value: id, select })))
+    const records = knex('users')
+      .where(where)
+      .select(select ?? '*')
+    return records
   },
 
   create: async (data) => {
     UserSchema.partial({ id: true }).parse(data)
-    const [user] = await knex('users').insert(data).returning('*')
-    return user
+    const [record] = await knex('users').insert(data).returning('*')
+    return record
   },
 
   update: async ({ where, data }) => {
     // TODO: Investigate how to validate updates.
-    const [user] = await knex('users').where(where).update(data).returning('*')
-    return user
+    const [record] = await knex('users').where(where).update(data).returning('*')
+    return record
   },
 })

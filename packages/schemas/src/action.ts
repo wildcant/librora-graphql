@@ -37,12 +37,12 @@ const ActionNamespaceSchema = z.union([
     z.object({
       namespace: z.literal(EActionNamespace.ReservationFlow),
       name: z.literal(EReservationActionName.Booked),
-      // metadata: z.object({}),
+      metadata: z.object({}),
     }),
     z.object({
       namespace: z.literal(EActionNamespace.ReservationFlow),
       name: z.literal(EReservationActionName.Approved),
-      // metadata: z.object({}),
+      metadata: z.object({}),
     }),
   ]),
 ])
@@ -51,7 +51,23 @@ export const ActionSchema = z
   .object({
     id: z.string().uuid().optional(),
     user: z.string().uuid(),
+    // namespace: z.nativeEnum(EActionNamespace).optional(),
+    // name: z
+    //   .enum([
+    //     EUserActionName.EmailConfirmation,
+    //     EUserActionName.ResetPassword,
+    //     EReservationActionName.Approved,
+    //     EReservationActionName.Booked,
+    //   ] as const)
+    //   .optional(),
   })
   .and(ActionNamespaceSchema)
 
-export type ActionModel = z.infer<typeof ActionSchema>
+type Prettify<T> = {
+  [K in keyof T]: T[K]
+  // eslint-disable-next-line @typescript-eslint/ban-types
+} & {}
+
+// export type ActionModel = z.infer<typeof ActionSchema>
+
+export type ActionModel = Prettify<z.infer<typeof ActionSchema>>

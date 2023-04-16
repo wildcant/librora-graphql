@@ -25,8 +25,10 @@ export const topicsDataSource = (knex: Knex, loaders: Loaders): TopicDataSource 
   },
 
   findMany: async ({ where = {}, select }) => {
-    const ids = (await knex('topics').where(where).select('id')).map(({ id }) => id)
-    return loaders.topicById.loadMany(ids.map((id) => ({ value: id, select })))
+    const records = await knex('topics')
+      .where(where)
+      .select(select ?? '*')
+    return records
   },
 
   create: async (data) => {

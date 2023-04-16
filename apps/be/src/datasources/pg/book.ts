@@ -3,16 +3,14 @@ import { BookModel, BookSchemaValidators } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
 import { z } from 'zod'
+import { Prettify } from '../../types'
 import { Loaders } from './loaders'
-import { PgDataSource } from './types'
+import { FindManyArgs, PgDataSource } from './types'
 
 export type BookDataSource = PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> & {
-  search: (query: {
-    limit: number
-    offset: number
-    select?: (keyof BookModel)[]
-    where: { freeText: string }
-  }) => Promise<{ count: number; nodes: BookModel[] }>
+  search: (
+    query: Prettify<Omit<FindManyArgs<BookModel>, 'where'> & { where: { freeText?: string } }>
+  ) => Promise<{ count: number; nodes: BookModel[] }>
 }
 
 export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource => ({
@@ -21,7 +19,8 @@ export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource =>
 
     if (id) {
       z.string().uuid().parse(id)
-      return loaders.bookById.load({ value: id, select })
+      const book = await loaders.bookById.load({ value: id, select })
+      return book
     }
 
     if (slug) return loaders.bookBySlug.load({ value: slug, select })
@@ -32,9 +31,10 @@ export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource =>
   },
 
   findMany: async ({ where = {}, select }) => {
-    const ids = await knex('books').where(where).select('id')
-
-    return loaders.bookById.loadMany(ids.map(({ id }) => ({ value: id, select })))
+    const books = knex('books')
+      .where(where)
+      .select(select ?? '*')
+    return books
   },
 
   create: async (data) => {
@@ -48,25 +48,20 @@ export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource =>
     return record
   },
 
-  search: async ({ where: { freeText = '' }, select, limit, offset }) => {
+  search: async ({ where: { freeText = '' }, select, limit = 10, offset = 0 }) => {
     // TODO: Improve query to allow filtering by author and publication date.
     const query = freeText ? `fullText @@ to_tsquery('${freeText.replace(' ', ':* & ')}:*')` : ''
 
-    const [ids, [{ count }]] = await Promise.all([
+    const [nodes, [{ count }]] = await Promise.all([
       knex('books')
         .limit(limit)
         .offset(offset)
         .orderByRaw(`ts_rank(fullText, plainto_tsquery('${freeText.replace(' ', ' & ')}:*')) DESC`)
         .whereRaw(query)
         // .select(knex.raw(`ts_rank(fullText, plainto_tsquery('${text}'))`)) // For testing purposes.
-        .select('id'),
+        .select(select ?? '*'),
       knex('books').whereRaw(query).count(),
     ])
-
-    // TODO: Double check error handling.
-    const nodes = (await loaders.bookById.loadMany(
-      ids.map(({ id }) => ({ value: id, select }))
-    )) as BookModel[]
 
     return { count, nodes }
   },

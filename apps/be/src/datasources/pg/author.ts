@@ -2,15 +2,27 @@ import { AuthorModel, AuthorSchema } from '@librora/schemas'
 import { Knex } from 'knex'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
+import { GraphQLError } from 'graphql'
+import { ApolloServerErrorCode } from '@apollo/server/dist/esm/errors'
 
 export type AuthorDataSource = PgDataSource<AuthorModel>
 
 export const authorsDataSource = (knex: Knex, loaders: Loaders): AuthorDataSource => ({
-  findUnique: ({ where, select }) => loaders.authorById.load({ value: where.id, select: select }),
+  findUnique: async ({ where, select }) => {
+    if (where.id) {
+      const author = await loaders.authorById.load({ value: where.id, select })
+      return author
+    }
 
+    throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
+      extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
+    })
+  },
   findMany: async ({ where = {}, select }) => {
-    const ids = (await knex('authors').where(where).select('id')).map(({ id }) => id)
-    return loaders.authorById.loadMany(ids.map((id) => ({ value: id, select })))
+    const authors = await knex('authors')
+      .where(where)
+      .select(select ?? '*')
+    return authors
   },
 
   create: async (data) => {

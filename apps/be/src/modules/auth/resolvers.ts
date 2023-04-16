@@ -3,14 +3,11 @@ import addHours from 'date-fns/addHours'
 import omit from 'lodash/fp/omit'
 import z from 'zod'
 import { sendPasswordInstructions } from '../../comms/email'
-import { MutationResolvers } from '../../graphql/types'
 import { validateResetPasswordAction } from '../action/utils'
 import { AuthModule } from './types'
 
-/**
- * Sign in mutation.
- */
-const signIn: MutationResolvers['signIn'] = async (_, args, context) => {
+/** Sign in mutation. */
+const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) => {
   const { account, password } = args.input
 
   // Check if account is the username or the email.
@@ -28,13 +25,14 @@ const signIn: MutationResolvers['signIn'] = async (_, args, context) => {
   return { success: true, message: 'Logged in.', user: omit(['password'], rawUser) }
 }
 
-/**
- * Forgot Password mutation.
- */
-const forgotPassword: MutationResolvers['forgotPassword'] = async (_, args, context) => {
+/** Forgot Password mutation. */
+const forgotPassword: AuthModule.MutationResolvers['forgotPassword'] = async (_, args, context) => {
   const { email } = args.input
 
-  const user = await context.dataSources.users.findUnique({ where: { email }, select: ['id', 'username'] })
+  const user = await context.dataSources.users.findUnique({
+    where: { email },
+    select: ['id', 'username', 'firstName'],
+  })
 
   if (user) {
     const resetPasswordAction: ActionModel = {
@@ -61,10 +59,8 @@ const forgotPassword: MutationResolvers['forgotPassword'] = async (_, args, cont
   }
 }
 
-/**
- * Reset Password mutation.
- */
-const resetPassword: MutationResolvers['resetPassword'] = async (_, args, context) => {
+/** Reset Password mutation.*/
+const resetPassword: AuthModule.MutationResolvers['resetPassword'] = async (_, args, context) => {
   const { token, newPassword } = args.input
 
   // Validate reset password action.

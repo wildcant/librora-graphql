@@ -1,19 +1,19 @@
 #!/usr/bin/env tsx
 
-import { knex } from '../pg/knex'
 import { faker } from '@faker-js/faker'
 import {
-  ECountryCode,
+  BookModel,
+  EActionNamespace,
   EFormat,
-  EUserRole,
-  EUserType,
   ELanguage,
   EUserActionName,
-  EActionNamespace,
-  BookModel,
+  EUserRole,
+  EUserType,
 } from '@librora/schemas'
 import addHours from 'date-fns/addHours'
+import knexBuilder, { Knex } from 'knex'
 import { env } from '../../env'
+import { knexConfig } from '../pg'
 
 const topics = [
   { name: 'History' },
@@ -34,7 +34,7 @@ const topics = [
   { name: 'Media & Performing Arts' },
 ]
 
-export async function seed(args: string[]) {
+export async function seed(knex: Knex, args: string[]) {
   if (args.includes('insert')) {
     const [author] = await knex('authors').insert({ name: 'Marcus Aurelius' }).returning('id')
 
@@ -108,7 +108,7 @@ export async function seed(args: string[]) {
     ]
     const [user] = await knex('users')
       .insert({
-        countryCode: ECountryCode.Co,
+        // countryCode: ECountryCode.Co,
         email: faker.internet.email(),
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
@@ -142,7 +142,7 @@ export async function seed(args: string[]) {
             publicationCountry: faker.address.country(),
             subtitle: faker.lorem.sentences(1),
             title,
-            user: user.id,
+            // user: user.id,
             slug: title.toLowerCase().split(' ').join('-'),
           })
           .returning('id')
@@ -169,5 +169,16 @@ export async function seed(args: string[]) {
 }
 
 if (process.argv.slice(2).length) {
-  seed(process.argv.slice(2))
+  const knex = knexBuilder({
+    client: knexConfig.client,
+    connection: {
+      host: knexConfig.connection.host,
+      port: knexConfig.connection.port,
+      user: knexConfig.connection.user,
+      password: knexConfig.connection.password,
+      database: knexConfig.connection.database,
+    },
+    debug: env.NODE_ENV === 'development',
+  })
+  seed(knex, process.argv.slice(2))
 }

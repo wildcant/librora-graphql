@@ -1,3 +1,5 @@
+import { GraphQLError } from 'graphql'
+
 export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>
 }[keyof T]
@@ -16,22 +18,50 @@ export type OptionalId<T> = OmitId<T> & { id?: string }
 
 export type Enumerable<T> = T | Array<T>
 
+type FindUniqueArgs<T, TUniqueProperties> = {
+  where: RequireAtLeastOne<TUniqueProperties>
+  select?: (keyof T)[]
+}
+
+export type FindManyArgs<T> = {
+  where?: RequireAtLeastOne<T>
+  select?: (keyof T)[]
+  limit?: number
+  offset?: number
+}
+
+export type ListKeys<T, K extends Array<keyof T> | undefined> = K extends readonly (infer U)[] ? U : never
+
+type GetEntityPayload<
+  T,
+  TUniqueProperties,
+  S extends FindUniqueArgs<T, TUniqueProperties> | FindManyArgs<T>,
+  U = keyof S
+> = 'select' extends U ? { [P in ListKeys<T, S['select']>]: P extends keyof T ? T[P] : never } : T
+
+type HasSelect<T> = {
+  select: (keyof T)[]
+}
+
+export type CheckSelect<T, S, U> = T extends HasSelect<S> ? U : S
+
+export type DynamicFindManyResponse<
+  T,
+  Q extends FindManyArgs<T>,
+  TUniqueProperties = { id: string }
+> = Promise<Array<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>>
+
 /**
  * Contract for all data sources.
  */
 export type PgDataSource<T, TUniqueProperties = { id: string }> = {
   /** Lets you retrieve a single database record by id or unique attribute */
-  findUnique: (query: {
-    where: RequireAtLeastOne<TUniqueProperties>
-    select?: (keyof T)[]
-  }) => Promise<T | null>
+  findUnique<Q extends FindUniqueArgs<T, TUniqueProperties>>(
+    query: Q
+  ): Promise<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>
 
   /** Returns a list of records. */
-  findMany: (query: {
-    where?: RequireAtLeastOne<T>
-    select?: (keyof T)[]
-    // include?: { [key in keyof Partial<T>]: boolean }
-  }) => Promise<(T | Error | null)[]>
+  findMany<Q extends FindManyArgs<T>>(query: Q): DynamicFindManyResponse<T, Q, TUniqueProperties>
 
   /** Creates a new database record. */
   create: (data: OptionalId<T>) => Promise<T | null>

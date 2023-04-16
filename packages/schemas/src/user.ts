@@ -11,7 +11,7 @@ export const BaseUserSchema = z.object({
   requiresCookieConsent: z.boolean().default(true).nullish(),
   username: z.string({ required_error: 'Username is required' }).min(2).max(50),
   type: z.nativeEnum(EUserType),
-  location: z.string().uuid(),
+  location: z.string().uuid().optional(),
 })
 
 export const UserSchema = BaseUserSchema.omit({

@@ -1,43 +1,11 @@
+import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel } from '@librora/schemas'
 import { Knex } from 'knex'
-import { AuthorModel, BookModel, ActionModel, UserModel } from '@librora/schemas'
-import { RequiredId } from './pg/types'
-
-type BooksTopicsModel = {
-  id: string
-  book: string
-  topic: string
-}
-
-type BooksSubTopicsModel = {
-  id: string
-  book: string
-  subtopic: string
-}
 
 declare module 'knex/types/tables' {
   interface Tables {
-    // This is same as specifying `knex<BookModel>('books')`
     books: BookModel
-    authors: AuthorModel
-    users: RequiredId<UserModel>
-    actions: ActionModel
-    // publishers: PublisherModel
-    // topics: TopicModel
-    // subtopics: SubTopicModel
-    // bookTopics: BooksTopicsModel
-    bookSubtopics: BooksSubTopicsModel
-
-    // For more advanced types, you can specify separate type
-    // for base model, "insert" type and "update" type.
-    // But first: notice that if you choose to use this,
-    // the basic typing showed above can be ignored.
-    // So, this is like specifying
-    //    knex
-    //    .insert<{ name: string }>({ name: 'name' })
-    //    .into<{ name: string, id: number }>('users')
     books_composite: Knex.CompositeTableType<
-      // This interface will be used for return type and
-      // `where`, `having` etc where full type is required
+      // This interface will be used for return type and `where`, `having` etc where full type is required
       BookModel,
       // Specifying "insert" type will also make sure
       // data matches interface in full. Meaning
@@ -48,7 +16,7 @@ declare module 'knex/types/tables' {
       // and make created_at and updated_at optional.
       // And "id" can't be provided at all.
       // Defaults to "base" type.
-      Pick<BookModel, 'title' | 'author' | 'user'> & Partial<Pick<BookModel, 'cover'>>,
+      Pick<BookModel, 'title' | 'author'> & Partial<Pick<BookModel, 'cover'>>,
       // This interface is used for "update()" calls.
       // As opposed to regular specifying interface only once,
       // when specifying separate update interface, user will be
@@ -68,23 +36,33 @@ declare module 'knex/types/tables' {
       Partial<Omit<BookModel, 'id'>>
     >
 
+    actions: ActionModel
+    actions_composite: Knex.CompositeTableType<
+      ActionModel,
+      Partial<Omit<ActionModel, 'id'>>,
+      Partial<Omit<ActionModel, 'id'>>
+    >
+
+    authors: AuthorModel
     authors_composite: Knex.CompositeTableType<
       AuthorModel,
-      Pick<AuthorModel, 'name'>,
+      Partial<Omit<AuthorModel, 'id'>>,
       Partial<Omit<AuthorModel, 'id'>>
     >
 
+    users: UserModel
     users_composite: Knex.CompositeTableType<
       UserModel,
-      Pick<UserModel, 'firstName' | 'lastName'>,
+      Partial<Omit<UserModel, 'id'>>,
       Partial<Omit<UserModel, 'id'>>
     >
 
-    // publishers_composite: Knex.CompositeTableType<
-    //   PublisherModel,
-    //   Pick<PublisherModel, 'name'>,
-    //   Partial<Omit<PublisherModel, 'id'>>
-    // >
+    topics: TopicModel
+    topics_composite: Knex.CompositeTableType<
+      TopicModel,
+      Partial<Omit<TopicModel, 'id'>>,
+      Partial<Omit<TopicModel, 'id'>>
+    >
   }
 }
 
