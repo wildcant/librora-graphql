@@ -1,0 +1,20 @@
+type GeoJSON {
+  type: String
+  coordinates: JSON
+}
+
+type LatLngLiteral {
+  lat: Float
+  lng: Float
+}
+
+type Location {
+  id: String!
+  country: String
+  city: String
+  zipcode: String
+  latitude: Float
+  longitude: Float
+  geojson: GeoJSON
+  bounds: [LatLngLiteral]
+}

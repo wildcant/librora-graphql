@@ -13,7 +13,7 @@ const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) 
   // Check if account is the username or the email.
   const login: 'email' | 'username' = z.string().email().safeParse(account).success ? 'email' : 'username'
 
-  const rawUser = await context.dataSources.users.findUnique({
+  const rawUser = await context.dataSources.pg.users.findUnique({
     where: account === 'email' ? { email: account } : { username: account },
   })
 
@@ -29,7 +29,7 @@ const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) 
 const forgotPassword: AuthModule.MutationResolvers['forgotPassword'] = async (_, args, context) => {
   const { email } = args.input
 
-  const user = await context.dataSources.users.findUnique({
+  const user = await context.dataSources.pg.users.findUnique({
     where: { email },
     select: ['id', 'username', 'firstName'],
   })
@@ -42,7 +42,7 @@ const forgotPassword: AuthModule.MutationResolvers['forgotPassword'] = async (_,
       metadata: { expiresAt: addHours(new Date(), 3), redeemed: false },
     }
 
-    context.dataSources.actions.create(resetPasswordAction).then((action) => {
+    context.dataSources.pg.actions.create(resetPasswordAction).then((action) => {
       if (!action || !action.id) {
         console.warn('It was not able to create the reset password action.')
         return
@@ -64,7 +64,7 @@ const resetPassword: AuthModule.MutationResolvers['resetPassword'] = async (_, a
   const { token, newPassword } = args.input
 
   // Validate reset password action.
-  const action = await context.dataSources.actions.findUnique({ where: { id: token } })
+  const action = await context.dataSources.pg.actions.findUnique({ where: { id: token } })
 
   if (!action || action.name !== EUserActionName.ResetPassword) {
     return { success: false, message: 'Action not found.' }
@@ -75,12 +75,12 @@ const resetPassword: AuthModule.MutationResolvers['resetPassword'] = async (_, a
   }
 
   // Update user password.
-  const updatedUser = await context.dataSources.users.update({
+  const updatedUser = await context.dataSources.pg.users.update({
     where: { id: action.user },
     data: { password: newPassword },
   })
 
-  await context.dataSources.actions.update({
+  await context.dataSources.pg.actions.update({
     where: { id: token },
     data: { metadata: { redeemed: true, expiresAt: action.metadata.expiresAt } },
   })

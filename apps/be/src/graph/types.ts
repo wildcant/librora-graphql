@@ -24,6 +24,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
+  JSON: any;
 };
 
 export type Author = {
@@ -153,6 +154,30 @@ export type ForgotPasswordPayload = {
   __typename?: 'ForgotPasswordPayload';
   message?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type GeoJson = {
+  __typename?: 'GeoJSON';
+  coordinates?: Maybe<Scalars['JSON']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type LatLngLiteral = {
+  __typename?: 'LatLngLiteral';
+  lat?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
+};
+
+export type Location = {
+  __typename?: 'Location';
+  bounds?: Maybe<Array<Maybe<LatLngLiteral>>>;
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  geojson?: Maybe<GeoJson>;
+  id: Scalars['String'];
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  zipcode?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -323,6 +348,7 @@ export type User = {
   initial: Scalars['String'];
   isEmailValidated: Scalars['Boolean'];
   lastName: Scalars['String'];
+  location?: Maybe<Location>;
   name?: Maybe<Scalars['String']>;
   role: EUserRole;
   type: EUserType;
@@ -442,10 +468,15 @@ export type ResolversTypes = {
   EUserType: EUserType;
   Editorial: ResolverTypeWrapper<Editorial>;
   EditorialConnection: ResolverTypeWrapper<EditorialConnection>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordPayload: ResolverTypeWrapper<ForgotPasswordPayload>;
+  GeoJSON: ResolverTypeWrapper<GeoJson>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  LatLngLiteral: ResolverTypeWrapper<LatLngLiteral>;
+  Location: ResolverTypeWrapper<Location>;
   Mutation: ResolverTypeWrapper<{}>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pagination: Pagination;
@@ -482,10 +513,15 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   Editorial: Editorial;
   EditorialConnection: EditorialConnection;
+  Float: Scalars['Float'];
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordPayload: ForgotPasswordPayload;
+  GeoJSON: GeoJson;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  JSON: Scalars['JSON'];
+  LatLngLiteral: LatLngLiteral;
+  Location: Location;
   Mutation: {};
   PageInfo: PageInfo;
   Pagination: Pagination;
@@ -575,6 +611,34 @@ export type ForgotPasswordPayloadResolvers<ContextType = Context, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GeoJsonResolvers<ContextType = Context, ParentType extends ResolversParentTypes['GeoJSON'] = ResolversParentTypes['GeoJSON']> = {
+  coordinates?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export type LatLngLiteralResolvers<ContextType = Context, ParentType extends ResolversParentTypes['LatLngLiteral'] = ResolversParentTypes['LatLngLiteral']> = {
+  lat?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  lng?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LocationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
+  bounds?: Resolver<Maybe<Array<Maybe<ResolversTypes['LatLngLiteral']>>>, ParentType, ContextType>;
+  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  geojson?: Resolver<Maybe<ResolversTypes['GeoJSON']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  zipcode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   forgotPassword?: Resolver<Maybe<ResolversTypes['ForgotPasswordPayload']>, ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'input'>>;
@@ -649,6 +713,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   initial?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isEmailValidated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  location?: Resolver<Maybe<ResolversTypes['Location']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['EUserRole'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['EUserType'], ParentType, ContextType>;
@@ -685,6 +750,10 @@ export type Resolvers<ContextType = Context> = {
   Editorial?: EditorialResolvers<ContextType>;
   EditorialConnection?: EditorialConnectionResolvers<ContextType>;
   ForgotPasswordPayload?: ForgotPasswordPayloadResolvers<ContextType>;
+  GeoJSON?: GeoJsonResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
+  LatLngLiteral?: LatLngLiteralResolvers<ContextType>;
+  Location?: LocationResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -702,3 +771,4 @@ export type Resolvers<ContextType = Context> = {
 
 
 export type Date = Scalars["Date"];
+export type Json = Scalars["JSON"];

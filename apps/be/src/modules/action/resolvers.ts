@@ -6,7 +6,7 @@ import { sendVerificationEmail, validateResetPasswordAction } from './utils'
 const validateAction: ActionModule.MutationResolvers['validateAction'] = async (_, args, context) => {
   if (!z.string().uuid().safeParse(args.id).success) return { valid: false, message: 'Invalid Action id.' }
 
-  const action = await context.dataSources.actions.findUnique({ where: { id: args.id } })
+  const action = await context.dataSources.pg.actions.findUnique({ where: { id: args.id } })
 
   if (!action) return { valid: false, message: 'Action not found' }
 
@@ -20,7 +20,7 @@ const resendVerificationEmail: ActionModule.MutationResolvers['resendVerificatio
   args,
   context
 ) => {
-  const action = await context.dataSources.actions.findUnique({ where: { id: args.token } })
+  const action = await context.dataSources.pg.actions.findUnique({ where: { id: args.token } })
 
   if (!action || action.name !== EUserActionName.EmailConfirmation)
     return {

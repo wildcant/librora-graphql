@@ -3,7 +3,7 @@ import { getFields } from '../../core'
 import { TopicModule } from './types'
 
 const topicsResolver: TopicModule.QueryResolvers['topics'] = async (_, __, context, info) => {
-  const topics = await context.dataSources.topics.findMany({
+  const topics = await context.dataSources.pg.topics.findMany({
     select: getFields(info),
   })
 

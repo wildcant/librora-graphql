@@ -5,13 +5,13 @@ import { sendVerificationEmail } from '../action/utils'
 import { UserModule } from './types'
 
 const userResolver: UserModule.QueryResolvers['user'] = async (_, args, context, info) =>
-  context.dataSources.users.findUnique({
+  context.dataSources.pg.users.findUnique({
     where: { id: args.id },
     select: getFields(info),
   })
 
 const createUser: UserModule.MutationResolvers['createUser'] = async (_, args, context) => {
-  const user = await context.dataSources.users.create({
+  const user = await context.dataSources.pg.users.create({
     ...args.input,
     type: EUserType.User,
     role: EUserRole.LenderBorrower,
@@ -27,7 +27,7 @@ const createUser: UserModule.MutationResolvers['createUser'] = async (_, args, c
 const verifyEmail: UserModule.MutationResolvers['verifyEmail'] = async (_, args, context) => {
   const { token } = args.input
   // Validate reset password action.
-  const action = await context.dataSources.actions.findUnique({
+  const action = await context.dataSources.pg.actions.findUnique({
     where: { id: token },
     // TODO: select dynamic types are overwriting discriminated types defined in zod :(
     // select: ['id', 'name', 'namespace', 'metadata'],
@@ -45,7 +45,7 @@ const verifyEmail: UserModule.MutationResolvers['verifyEmail'] = async (_, args,
     return { success: false, message: 'Action expired' }
   }
 
-  await context.dataSources.actions.update({
+  await context.dataSources.pg.actions.update({
     where: { id: token },
     data: { metadata: { redeemed: true, expiresAt: action.metadata.expiresAt } },
   })
@@ -66,5 +66,12 @@ export const resolvers: UserModule.Resolvers = {
   User: {
     initial: (user) => user.firstName.charAt(0),
     name: (user) => `${user.firstName} ${user.lastName}`,
+    location: (user, _args, context, info) =>
+      user.location
+        ? context.dataSources.pg.locations.findUnique({
+            where: { id: user.location },
+            select: getFields(info),
+          })
+        : null,
   },
 }

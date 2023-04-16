@@ -1,6 +1,8 @@
 import { useLockBodyScroll } from '@librora/utils/hooks'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 import { Icon, Link, Loader, Toast } from 'ui'
+import { BookDetailsActions } from '~components/pages/BookingDetails/Actions'
 import { useGlobalState } from '../../store/global'
 import { Portal } from '../Portal'
 
@@ -15,20 +17,33 @@ function Loading() {
   )
 }
 
-function MobileNavigation() {
+function DefaultActions() {
   return (
-    <nav className="fixed bottom-0 flex h-16 w-full justify-center border-t-[1px] border-t-neutral-100 bg-white md:hidden">
-      <div className="flex h-full flex-row items-center gap-10">
-        <Link href="/" variant="unstyled" className="flex flex-col items-center text-neutral-500">
-          <Icon name="search" size="lg" />
-          <span className="text-[10px] font-bold">Explore</span>
-        </Link>
+    <div className="flex h-full flex-row items-center gap-10">
+      <Link href="/" variant="unstyled" className="flex flex-col items-center text-neutral-500">
+        <Icon name="search" size="lg" />
+        <span className="text-[10px] font-bold">Explore</span>
+      </Link>
 
-        <Link href="/sign-in" variant="unstyled" className="flex flex-col items-center text-neutral-500">
-          <Icon name="account-circle" size="lg" />
-          <span className="text-[10px] font-bold">Sign in</span>
-        </Link>
-      </div>
+      <Link href="/sign-in" variant="unstyled" className="flex flex-col items-center text-neutral-500">
+        <Icon name="account-circle" size="lg" />
+        <span className="text-[10px] font-bold">Sign in</span>
+      </Link>
+    </div>
+  )
+}
+
+const pageActions: { [key: string]: JSX.Element } = {
+  '/books/[slug]': <BookDetailsActions />,
+  default: <DefaultActions />,
+}
+
+function MobileNavigation() {
+  const router = useRouter()
+
+  return (
+    <nav className="fixed bottom-0 flex h-16 w-full justify-center border-t-[1px] border-t-neutral-100 bg-white md:hidden z-[8999]">
+      {pageActions[router.route] ?? pageActions.default}
     </nav>
   )
 }

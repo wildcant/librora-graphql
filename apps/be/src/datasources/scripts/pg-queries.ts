@@ -42,6 +42,13 @@ export async function seed(knex: Knex, args: string[]) {
     await knex('topics').insert(topics)
 
     const [subtopic] = await knex('subtopics').insert({ name: 'History of the world' }).returning('id')
+    const [location] = await knex('locations')
+      .insert({
+        city: 'Santa Marta',
+        country: 'Colombia',
+        zipcode: '470006',
+      })
+      .returning('id')
 
     const booksData: Pick<BookModel, 'title' | 'cover' | 'description'>[] = [
       {
@@ -116,6 +123,7 @@ export async function seed(knex: Knex, args: string[]) {
         role: EUserRole.LenderBorrower,
         type: EUserType.User,
         username: faker.internet.userName(),
+        location: location.id,
       })
       .returning('id')
 

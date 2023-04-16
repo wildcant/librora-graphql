@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 
-import * as Types from "../../graphql/types";
+import * as Types from "../../graph/types";
 export namespace BookModule {
   interface DefinedFields {
     Book: 'id' | 'author' | 'cover' | 'coverThumbnail' | 'date' | 'description' | 'editorial' | 'format' | 'language' | 'numPages' | 'slug' | 'subtitle' | 'title' | 'owner';

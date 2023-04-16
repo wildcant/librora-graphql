@@ -1,11 +1,15 @@
-import { AuthorSchema, BookModel, BookSchema, UserModel, UserSchema } from '@librora/schemas'
-import { GraphQLResolveInfo } from 'graphql'
-import { Author, Book, User } from '../graphql/types'
 import {
-  parseResolveInfo,
-  ResolveTree,
-  simplifyParsedResolveInfoFragmentWithType,
-} from '../graphql/parse-info'
+  AuthorSchema,
+  BookModel,
+  BookSchema,
+  LocationModel,
+  LocationSchema,
+  UserModel,
+  UserSchema,
+} from '@librora/schemas'
+import { GraphQLResolveInfo } from 'graphql'
+import { ResolveTree, parseResolveInfo, simplifyParsedResolveInfoFragmentWithType } from '../graph/parse-info'
+import { Author, Book, Location, User } from '../graph/types'
 
 // Remove undefined from T
 type NonUndefined<T> = Exclude<T, undefined>
@@ -13,16 +17,18 @@ type TypeName =
   | NonUndefined<User['__typename']>
   | NonUndefined<Author['__typename']>
   | NonUndefined<Book['__typename']>
+  | NonUndefined<Location['__typename']>
 
 // Postgres table shape for each graphql type.
 const allowedPropertiesForType: { [key in TypeName]: string[] } = {
   Author: Object.keys(AuthorSchema.shape),
   Book: Object.keys(BookSchema.shape),
   User: Object.keys(UserSchema.shape),
+  Location: Object.keys(LocationSchema.shape),
 }
 
-type GraphqlSchemaType = User | Book | User
-type SqlSchemaType = UserModel | BookModel | UserModel
+type GraphqlSchemaType = User | Book | User | Location
+type SqlSchemaType = UserModel | BookModel | UserModel | LocationModel
 
 // sql dependencies arrays that will get retrieved if the GraphQL field is requested.
 // These are exposed to your resolver, so you can write a resolve function to compute values.
@@ -33,12 +39,22 @@ const userComputedPropertiesDependencies: {
   initial: ['firstName'],
 }
 
+const locationComputedPropertiesDependencies: {
+  [key in keyof Omit<Location, keyof LocationModel | '__typename'>]?: (keyof LocationModel)[]
+} = {
+  geojson: ['city', 'country', 'zipcode'],
+  latitude: ['city', 'country', 'zipcode'],
+  longitude: ['city', 'country', 'zipcode'],
+  bounds: ['city', 'country', 'zipcode'],
+}
+
 const computedPropertiesDependenciesForType: {
   [key in TypeName]?: {
     [k in keyof Omit<GraphqlSchemaType, keyof SqlSchemaType | '__typename'>]?: (keyof SqlSchemaType)[]
   }
 } = {
   User: userComputedPropertiesDependencies,
+  Location: locationComputedPropertiesDependencies,
 }
 
 /** We make sure we only return properties that are allowed in our db schemas. */

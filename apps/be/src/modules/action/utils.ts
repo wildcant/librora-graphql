@@ -29,13 +29,13 @@ export async function sendVerificationEmail(args: { userId: string; context: Con
     metadata: { expiresAt: addHours(new Date(), 24), redeemed: false },
   }
 
-  args.context.dataSources.actions.create(emailConfirmationAction).then(async (action) => {
+  args.context.dataSources.pg.actions.create(emailConfirmationAction).then(async (action) => {
     if (!action || !action.id) {
       console.warn('It was not able to create the confirm email action.')
       return
     }
 
-    const user = await args.context.dataSources.users.findUnique({ where: { id: action.user } })
+    const user = await args.context.dataSources.pg.users.findUnique({ where: { id: action.user } })
     if (!user) {
       console.warn(`User with id ${action.user} not found. Not able to send verification email.`)
       return

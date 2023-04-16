@@ -15,9 +15,10 @@ generates:
   ./src/modules/:
     preset: graphql-modules
     presetConfig:
-      baseTypesPath: ../graphql/types.ts
+      baseTypesPath: ../graph/types.ts
       filename: types.ts
       useGraphQLModules: false
+
     plugins:
       - add: *top-comment
       - typescript

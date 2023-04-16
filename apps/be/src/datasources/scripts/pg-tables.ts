@@ -1,22 +1,21 @@
 #!/usr/bin/env tsx
 
-import {
-  ACTION_NAMES,
-  EActionNamespace,
-  ECountryCode,
-  EFormat,
-  ELanguage,
-  EUserRole,
-  EUserType,
-} from '@librora/schemas'
+import { ACTION_NAMES, EActionNamespace, EFormat, ELanguage, EUserRole, EUserType } from '@librora/schemas'
 import { Knex } from 'knex'
 
 export async function createTables(knex: Knex) {
   await knex.raw(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
 
+  await knex.schema.createTable('locations', function (table) {
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
+    table.string('country')
+    table.string('city')
+    table.string('zipcode')
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
+  })
+
   await knex.schema.createTable('users', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
-    table.enum('countryCode', Object.values(ECountryCode)).nullable()
     table.string('email').index()
     table.string('firstName')
     table.boolean('hasConversations')
@@ -27,20 +26,10 @@ export async function createTables(knex: Knex) {
     table.enum('role', Object.values(EUserRole))
     table.enum('type', Object.values(EUserType))
     table.string('username').index()
-    table.uuid('location').references('locations.id').onDelete('SET NULL').onUpdate('CASCADE').index()
 
-    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
-  })
+    table.uuid('location')
+    table.foreign('location').references('id').inTable('locations')
 
-  await knex.schema.createTable('locations', function (table) {
-    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
-    table.string('country')
-    table.string('city')
-    table.string('zipcode')
-
-    // table.string('countryCode', 2)
-    // table.string('latitude')
-    // table.string('longitude')
     table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 

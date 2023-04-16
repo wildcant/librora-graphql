@@ -5,8 +5,13 @@ import isSameDay from 'date-fns/isSameDay'
 import differenceInDays from 'date-fns/differenceInDays'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Icon, Link, RangeCalendar, RangeValue } from 'ui'
+import { Button, Icon, Link, RangeCalendar, RangeValue } from 'ui'
 import s from './BookDetails.module.css'
+import dynamic from 'next/dynamic'
+
+const Location = dynamic(() => import('./Location'), {
+  ssr: false,
+})
 
 // TODO: Add default image.
 const defaultBookImage = ''
@@ -34,8 +39,17 @@ function BookingForm() {
   return (
     <div>
       <h3 className={s.Subtitle}>{title}</h3>
-      {label ? <span className="text-lg font-light">{label}</span> : <></>}
-      <RangeCalendar onChange={setDateRange} value={dateRange} />
+      {label ? <p className="text-lg font-light">{label}</p> : <></>}
+      <div className="flex flex-col ">
+        <div className="self-center">
+          <RangeCalendar onChange={setDateRange} value={dateRange} />
+        </div>
+        <div className="hidden sm:block sm:self-end">
+          <Button size="md" className="w-48">
+            Reserve
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -68,7 +82,7 @@ export function BookingDetails({
 
       <div className={s.QuickFacts}>
         <h3 className={s.Subtitle}>Quick Facts</h3>
-        <div className="md:flex md:gap-4">
+        <div>
           <div className="mt-2 flex items-center gap-2">
             <Icon name="pages" />
             <p className="text-md">Number of pages: {numPages}</p>
@@ -101,7 +115,17 @@ export function BookingDetails({
         </Link>
       </div>
 
-      <div className={s.Location}></div>
+      {owner.location ? (
+        <div className={s.Location}>
+          <h3 className={s.Subtitle}>You&apos;ll meet in</h3>
+          <p className="text-lg font-light">
+            {owner.location.city}, {owner.location.country}
+          </p>
+          <Location {...owner.location} />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel } from '@librora/schemas'
+import { ActionModel, AuthorModel, BookModel, LocationModel, TopicModel, UserModel } from '@librora/schemas'
 import DataLoader, { Options } from 'dataloader'
 import { Knex } from 'knex'
 import { mapTo } from '../utils'
@@ -55,6 +55,9 @@ export const createLoaders = (knex: Knex) => ({
   userByEmail: createLoader<UserModel>(knex, { table: 'users', key: 'email' }),
   userById: createLoader<UserModel>(knex, { table: 'users', key: 'id' }),
   userByUsername: createLoader<UserModel>(knex, { table: 'users', key: 'username' }),
+
+  /** Location */
+  locationById: createLoader<LocationModel>(knex, { table: 'locations', key: 'id' }),
 })
 
 export type Loaders = ReturnType<typeof createLoaders>

@@ -3,6 +3,7 @@
 }
 
 .Container {
+  @apply mb-16;
   display: grid;
   grid-template-areas:
     'book-title'
@@ -20,9 +21,24 @@
       'book-cover book-author'
       'book-cover quick-facts'
       'book-cover book-description'
-      'book-cover booking';
+      'booking booking'
+      'owner-info location';
 
-    grid-template-columns: 30% 1fr;
+    grid-template-columns: 30% 1fr%;
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 30px;
+  }
+  @media (min-width: 1024px) {
+    grid-template-areas:
+      'book-cover . book-title'
+      'book-cover . book-author'
+      'book-cover . book-description'
+      'book-cover . booking'
+      'book-cover . booking'
+      'quick-facts . location'
+      'owner-info . location';
+
+    grid-template-columns: 30% 1fr 65%;
     grid-template-rows: auto auto auto 1fr;
     column-gap: 30px;
   }
@@ -34,7 +50,7 @@
 }
 
 .Title {
-  @apply mt-2 text-2xl font-extrabold md:text-2xl lg:text-4xl;
+  @apply mt-2 text-2xl font-extrabold md:text-2xl lg:text-3xl;
   grid-area: book-title;
 }
 
@@ -64,6 +80,6 @@
 }
 
 .Location {
-  @apply mt-6 border-t pt-6;
+  @apply mt-6 border-t pt-6 h-96;
   grid-area: location;
 }

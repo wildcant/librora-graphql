@@ -28,6 +28,7 @@ export type Scalars = {
   Int: number
   Float: number
   Date: any
+  JSON: any
 }
 
 export type Author = {
@@ -132,6 +133,30 @@ export type ForgotPasswordPayload = {
   __typename?: 'ForgotPasswordPayload'
   message?: Maybe<Scalars['String']>
   success?: Maybe<Scalars['Boolean']>
+}
+
+export type GeoJson = {
+  __typename?: 'GeoJSON'
+  coordinates?: Maybe<Scalars['JSON']>
+  type?: Maybe<Scalars['String']>
+}
+
+export type LatLngLiteral = {
+  __typename?: 'LatLngLiteral'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+}
+
+export type Location = {
+  __typename?: 'Location'
+  bounds?: Maybe<Array<Maybe<LatLngLiteral>>>
+  city?: Maybe<Scalars['String']>
+  country?: Maybe<Scalars['String']>
+  geojson?: Maybe<GeoJson>
+  id: Scalars['String']
+  latitude?: Maybe<Scalars['Float']>
+  longitude?: Maybe<Scalars['Float']>
+  zipcode?: Maybe<Scalars['String']>
 }
 
 export type Mutation = {
@@ -282,13 +307,14 @@ export type User = {
   __typename?: 'User'
   books: BookConnection
   countryCode?: Maybe<ECountryCode>
-  createdAt?: Maybe<Scalars['Date']>
+  createdAt: Scalars['Date']
   email: Scalars['String']
   firstName: Scalars['String']
   id: Scalars['String']
   initial: Scalars['String']
   isEmailValidated: Scalars['Boolean']
   lastName: Scalars['String']
+  location?: Maybe<Location>
   name?: Maybe<Scalars['String']>
   role: EUserRole
   type: EUserType
@@ -330,7 +356,21 @@ export type BookDetailsFragmentFragment = {
   description?: string | null
   date: string
   author?: { __typename?: 'Author'; name: string } | null
-  owner: { __typename?: 'User'; name?: string | null; createdAt?: any | null }
+  owner: {
+    __typename?: 'User'
+    name?: string | null
+    createdAt: any
+    location?: {
+      __typename?: 'Location'
+      zipcode?: string | null
+      latitude?: number | null
+      longitude?: number | null
+      city?: string | null
+      country?: string | null
+      geojson?: { __typename?: 'GeoJSON'; type?: string | null; coordinates?: any | null } | null
+      bounds?: Array<{ __typename?: 'LatLngLiteral'; lat?: number | null; lng?: number | null } | null> | null
+    } | null
+  }
 }
 
 export type CreateUserMutationVariables = Exact<{
@@ -435,7 +475,7 @@ export type BookQuery = {
     subtitle?: string | null
     description?: string | null
     author?: { __typename?: 'Author'; id: string; name: string } | null
-    owner: { __typename?: 'User'; id: string; firstName: string; lastName: string; createdAt?: any | null }
+    owner: { __typename?: 'User'; id: string; firstName: string; lastName: string; createdAt: any }
   } | null
 }
 
@@ -457,7 +497,25 @@ export type BookBySlugQuery = {
     description?: string | null
     date: string
     author?: { __typename?: 'Author'; name: string } | null
-    owner: { __typename?: 'User'; name?: string | null; createdAt?: any | null }
+    owner: {
+      __typename?: 'User'
+      name?: string | null
+      createdAt: any
+      location?: {
+        __typename?: 'Location'
+        zipcode?: string | null
+        latitude?: number | null
+        longitude?: number | null
+        city?: string | null
+        country?: string | null
+        geojson?: { __typename?: 'GeoJSON'; type?: string | null; coordinates?: any | null } | null
+        bounds?: Array<{
+          __typename?: 'LatLngLiteral'
+          lat?: number | null
+          lng?: number | null
+        } | null> | null
+      } | null
+    }
   } | null
 }
 

@@ -6,10 +6,10 @@
 
 /* eslint-disable */
 
-import * as Types from "../../graphql/types";
+import * as Types from "../../graph/types";
 export namespace UserModule {
   interface DefinedFields {
-    User: 'id' | 'books' | 'countryCode' | 'email' | 'firstName' | 'initial' | 'isEmailValidated' | 'lastName' | 'name' | 'role' | 'type' | 'username' | 'createdAt';
+    User: 'id' | 'books' | 'countryCode' | 'email' | 'firstName' | 'initial' | 'isEmailValidated' | 'lastName' | 'name' | 'role' | 'type' | 'username' | 'createdAt' | 'location';
     UserConnection: 'nodes' | 'pageInfo' | 'totalCount';
     CreateUserPayload: 'message' | 'success' | 'user';
     VerifyEmailPayload: 'success' | 'message';
@@ -38,6 +38,7 @@ export namespace UserModule {
   export type User = Pick<Types.User, DefinedFields['User']>;
   export type BookConnection = Types.BookConnection;
   export type Date = Types.Date;
+  export type Location = Types.Location;
   export type UserConnection = Pick<Types.UserConnection, DefinedFields['UserConnection']>;
   export type PageInfo = Types.PageInfo;
   export type CreateUserInput = Pick<Types.CreateUserInput, DefinedInputFields['CreateUserInput']>;

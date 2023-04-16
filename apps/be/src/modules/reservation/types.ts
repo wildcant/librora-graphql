@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 
-import * as Types from "../../graphql/types";
+import * as Types from "../../graph/types";
 export namespace ReservationModule {
   interface DefinedFields {
     Reservation: 'id' | 'state' | 'subState';

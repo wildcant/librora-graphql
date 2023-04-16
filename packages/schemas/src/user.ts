@@ -12,8 +12,8 @@ export const BaseUserSchema = z.object({
   username: z.string({ required_error: 'Username is required' }).min(2).max(50),
   type: z.nativeEnum(EUserType),
   location: z.string().uuid().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 })
 
 export const UserSchema = BaseUserSchema.omit({

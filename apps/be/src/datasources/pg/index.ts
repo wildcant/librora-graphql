@@ -7,6 +7,7 @@ import { booksDataSource } from './book'
 import { createLoaders } from './loaders'
 import { topicsDataSource } from './topic'
 import { usersDataSource } from './user'
+import { locationsDataSource } from './location'
 
 export const knexConfig = {
   client: 'postgres',
@@ -33,18 +34,18 @@ if (!knexInstance) {
       database: knexConfig.connection.database,
     },
     // debug: env.NODE_ENV === 'development',
-    debug: false,
   })
 }
 
 const loaders = createLoaders(knexInstance)
 
-export const dataSources = {
+export const pgDataSources = {
   books: booksDataSource(knexInstance, loaders),
   authors: authorsDataSource(knexInstance, loaders),
   users: usersDataSource(knexInstance, loaders),
   actions: actionsDataSource(knexInstance, loaders),
   topics: topicsDataSource(knexInstance, loaders),
+  locations: locationsDataSource(knexInstance, loaders),
   /** Loaders could be used to invalidate data loaders cache. */
   loaders,
 }

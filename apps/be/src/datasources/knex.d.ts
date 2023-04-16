@@ -1,4 +1,4 @@
-import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel } from '@librora/schemas'
+import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel, LocationModel } from '@librora/schemas'
 import { Knex } from 'knex'
 
 declare module 'knex/types/tables' {
@@ -62,6 +62,13 @@ declare module 'knex/types/tables' {
       TopicModel,
       Partial<Omit<TopicModel, 'id'>>,
       Partial<Omit<TopicModel, 'id'>>
+    >
+
+    locations: LocationModel
+    locations_composite: Knex.CompositeTableType<
+      LocationModel,
+      Partial<Omit<LocationModel, 'id'>>,
+      Partial<Omit<LocationModel, 'id'>>
     >
   }
 }

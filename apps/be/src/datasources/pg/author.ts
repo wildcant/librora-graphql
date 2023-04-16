@@ -9,10 +9,7 @@ export type AuthorDataSource = PgDataSource<AuthorModel>
 
 export const authorsDataSource = (knex: Knex, loaders: Loaders): AuthorDataSource => ({
   findUnique: async ({ where, select }) => {
-    if (where.id) {
-      const author = await loaders.authorById.load({ value: where.id, select })
-      return author
-    }
+    if (where.id) return await loaders.authorById.load({ value: where.id, select })
 
     throw new GraphQLError(`Unexpected query params for data source. No loader found for ${where}`, {
       extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },

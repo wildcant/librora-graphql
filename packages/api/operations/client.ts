@@ -28,6 +28,21 @@ export const BookDetailsFragmentFragmentDoc = gql`
     owner {
       name
       createdAt
+      location {
+        zipcode
+        latitude
+        longitude
+        city
+        country
+        geojson {
+          type
+          coordinates
+        }
+        bounds {
+          lat
+          lng
+        }
+      }
     }
   }
 `
