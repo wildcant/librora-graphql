@@ -7,7 +7,7 @@ import { writeFileSync } from 'fs'
 import { print } from 'graphql'
 import path from 'path'
 
-const dir = `${path.dirname(__dirname)}/src/**/*.graphql`
+const dir = `${path.dirname(__dirname)}/**/*.graphql`
 const prefix = `# 
 # -------------------------------------------------------
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)

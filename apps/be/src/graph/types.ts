@@ -7,8 +7,8 @@
 /* eslint-disable */
 
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { BookModel, AuthorModel, PublicUserModel, ActionModel } from '@librora/schemas';
-import { Context } from '../context';
+import { BookModel, AuthorModel, PublicUserModel } from '@librora/schemas';
+import { Context } from 'context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };

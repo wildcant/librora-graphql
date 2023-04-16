@@ -1,5 +1,5 @@
 import sgMail from '@sendgrid/mail'
-import { env } from '../env'
+import { env } from 'env'
 
 const from = env.EMAIL_FROM
 const replyTo = env.EMAIL_REPLY_TO
@@ -11,7 +11,7 @@ const templates = {
 
 export async function sendEmailConfirmation(userEmail: string, templateData: { token: string }) {
   try {
-    return sgMail.send({
+    await sgMail.send({
       from,
       replyTo,
       to: userEmail,

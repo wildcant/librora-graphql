@@ -4,7 +4,7 @@ import { Knex } from 'knex'
 import { mapTo } from '../utils'
 import { ListKeys } from './types'
 
-type LoadFnKey<T> = { value: string; select?: (keyof T)[] }
+type LoadFnKey<T> = { value: string; select?: (keyof T)[] | undefined }
 type CreateLoader<T, K, V> = { table: string; key: keyof T; options?: Options<K, V> }
 
 type GetEntityPayload<T, S extends LoadFnKey<T>, U = keyof S> = 'select' extends U
@@ -21,7 +21,7 @@ const createLoader = <
 ) =>
   new DataLoader<K, V>((keys) => {
     const keyValues = keys.map(({ value }) => value)
-    const select = keys[0].select
+    const select = keys[0]?.select
     // Include key to selection in case it was not provided. We do this in order to map the results properly.
     if (select && !select.includes(keyName)) select.push(keyName)
 

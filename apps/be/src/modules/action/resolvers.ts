@@ -1,7 +1,7 @@
 import { EUserActionName } from '@librora/schemas'
 import z from 'zod'
 import { ActionModule } from './types'
-import { sendVerificationEmail, validateResetPasswordAction } from './utils'
+import { validateResetPasswordAction } from 'core/action'
 
 const validateAction: ActionModule.MutationResolvers['validateAction'] = async (_, args, context) => {
   if (!z.string().uuid().safeParse(args.id).success) return { valid: false, message: 'Invalid Action id.' }
@@ -28,7 +28,7 @@ const resendVerificationEmail: ActionModule.MutationResolvers['resendVerificatio
       message: 'It was not possible to send you a new verification email. Please contact support.',
     }
 
-  sendVerificationEmail({ userId: action.user, context })
+  context.sideEffects.auth.sendVerificationEmail(action.user)
 
   return { success: true, message: 'Verification email sent' }
 }

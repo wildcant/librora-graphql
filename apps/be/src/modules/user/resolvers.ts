@@ -1,14 +1,14 @@
-import { EUserActionName, EUserRole, EUserType } from '@librora/schemas'
+import { EUserActionName, EUserRole, EUserType, UserModel } from '@librora/schemas'
 import isAfter from 'date-fns/isAfter'
-import { getFields } from '../../core/graphql-to-sql'
-import { sendVerificationEmail } from '../action/utils'
+import { getFields } from 'graph/graphql-to-sql'
 import { UserModule } from './types'
 
-const userResolver: UserModule.QueryResolvers['user'] = async (_, args, context, info) =>
-  context.dataSources.pg.users.findUnique({
+const userResolver: UserModule.QueryResolvers['user'] = async (_, args, context, info) => {
+  return context.dataSources.pg.users.findUnique({
     where: { id: args.id },
-    select: getFields(info),
+    select: getFields<UserModel>(info),
   })
+}
 
 const createUser: UserModule.MutationResolvers['createUser'] = async (_, args, context) => {
   const user = await context.dataSources.pg.users.create({
@@ -19,7 +19,7 @@ const createUser: UserModule.MutationResolvers['createUser'] = async (_, args, c
 
   if (!user) return { success: false, message: 'There was a problem creating your account.', user: null }
 
-  sendVerificationEmail({ userId: user.id, context })
+  context.sideEffects.auth.sendVerificationEmail(user.id)
 
   return { user, success: true, message: 'User was created successfully.' }
 }

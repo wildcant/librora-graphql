@@ -6,7 +6,7 @@ import SendGrid from '@sendgrid/mail'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { context, Context } from './context'
-import { formatError } from './core'
+import { formatError } from 'side-effects/handle-errors'
 import { env } from './env'
 
 SendGrid.setApiKey(env.SENDGRID_API_KEY)

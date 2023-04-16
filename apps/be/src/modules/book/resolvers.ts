@@ -1,9 +1,10 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
+import { getFields } from 'graph/graphql-to-sql'
+import { createTypeConnection, DEFAULT_PAGE_SIZE } from 'graph/pagination'
 import { GraphQLError } from 'graphql'
-// import z from 'zod'
-import { CustomErrorCode, getFields } from '../../core'
-import { createTypeConnection, DEFAULT_PAGE_SIZE } from '../../graph/pagination'
+import { CustomErrorCode } from 'side-effects/handle-errors'
 import { BookModule } from './types'
+import { BookModel } from '@librora/schemas'
 
 const searchBooks: BookModule.QueryResolvers['searchBooks'] = async (_, args, context, info) => {
   // TODO: Add sorting.
@@ -18,7 +19,7 @@ const searchBooks: BookModule.QueryResolvers['searchBooks'] = async (_, args, co
   const { count, nodes } = await context.dataSources.pg.books.search({
     limit,
     offset,
-    select: getFields(info),
+    select: getFields<BookModel>(info),
     where: { freeText: filters.freeText },
   })
 

@@ -2,9 +2,13 @@ import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas
 import addHours from 'date-fns/addHours'
 import omit from 'lodash/fp/omit'
 import z from 'zod'
-import { sendPasswordInstructions } from '../../comms/email'
-import { validateResetPasswordAction } from '../action/utils'
+import { sendPasswordInstructions } from 'side-effects/comms/email'
 import { AuthModule } from './types'
+import bcrypt from 'bcrypt'
+import { validateResetPasswordAction } from 'core/action'
+import { OptionalId } from 'datasources/pg/types'
+import { GraphQLError } from 'graphql'
+import { ApolloServerErrorCode } from '@apollo/server/dist/esm/errors'
 
 /** Sign in mutation. */
 const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) => {
@@ -17,10 +21,18 @@ const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) 
     where: account === 'email' ? { email: account } : { username: account },
   })
 
-  // TODO: Encrypt password to improve security and update validation.
-  if (!rawUser || password !== rawUser?.password) {
+  const passwordMatched = await bcrypt.compare(password, rawUser?.password ?? '')
+
+  if (!rawUser || !passwordMatched) {
     return { success: false, message: `Invalid ${login} or password.` }
   }
+
+  // const secret = new TextEncoder().encode(env.JWT_SECRET)
+  // const loginToken = await new SignJWT(user)
+  //   .setProtectedHeader({ alg: 'HS256' })
+  //   .setExpirationTime(env.JWT_EXPIRATION)
+  //   .sign(secret)
+  // const loginExpiration = decodeJwt(loginToken).exp
 
   return { success: true, message: 'Logged in.', user: omit(['password'], rawUser) }
 }
@@ -35,7 +47,7 @@ const forgotPassword: AuthModule.MutationResolvers['forgotPassword'] = async (_,
   })
 
   if (user) {
-    const resetPasswordAction: ActionModel = {
+    const resetPasswordAction: OptionalId<ActionModel> = {
       namespace: EActionNamespace.UserFlow,
       name: EUserActionName.ResetPassword,
       user: user.id,
@@ -79,6 +91,13 @@ const resetPassword: AuthModule.MutationResolvers['resetPassword'] = async (_, a
     where: { id: action.user },
     data: { password: newPassword },
   })
+
+  if (!updatedUser)
+    throw new GraphQLError('It was not able to update the user.', {
+      extensions: {
+        code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR,
+      },
+    })
 
   await context.dataSources.pg.actions.update({
     where: { id: token },

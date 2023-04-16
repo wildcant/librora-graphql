@@ -1,6 +1,6 @@
 import { RESTDataSource } from '@apollo/datasource-rest'
 import { LocationModel } from '@librora/schemas'
-import { GeoJson } from '../../graph/types'
+import { GeoJson } from 'graph/types'
 
 export interface Place {
   place_id: number

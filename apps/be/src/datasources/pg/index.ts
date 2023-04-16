@@ -1,13 +1,13 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 import knexBuilder, { Knex } from 'knex'
-import { env } from '../../env'
+import { env } from 'env'
 import { actionsDataSource } from './action'
 import { authorsDataSource } from './author'
 import { booksDataSource } from './book'
 import { createLoaders } from './loaders'
+import { locationsDataSource } from './location'
 import { topicsDataSource } from './topic'
 import { usersDataSource } from './user'
-import { locationsDataSource } from './location'
 
 export const knexConfig = {
   client: 'postgres',

@@ -1,7 +1,7 @@
-import PrettyError from 'pretty-error'
-import { ZodError } from 'zod'
+// import PrettyError from 'pretty-error'
+// import { ZodError } from 'zod'
 
-const pe = new PrettyError()
+// const pe = new PrettyError()
 
 export type LogSeverity =
   | 'DEFAULT'
@@ -15,11 +15,11 @@ export type LogSeverity =
   | 'EMERGENCY'
 
 export function log(severity: LogSeverity, data: string | Record<string, unknown> | Error | unknown) {
-  if (data instanceof Error || data instanceof ZodError) {
-    // TODO: Use winston in prod.
-    console.error(pe.render(data))
-    return
-  }
+  // if (data instanceof Error || data instanceof ZodError) {
+  //   // TODO: Use winston in prod.
+  //   console.error(pe.render(data))
+  //   return
+  // }
 
   console.debug(severity, data)
 }

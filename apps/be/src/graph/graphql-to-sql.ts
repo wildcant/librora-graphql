@@ -8,8 +8,8 @@ import {
   UserSchema,
 } from '@librora/schemas'
 import { GraphQLResolveInfo } from 'graphql'
-import { ResolveTree, parseResolveInfo, simplifyParsedResolveInfoFragmentWithType } from '../graph/parse-info'
-import { Author, Book, Location, User } from '../graph/types'
+import { ResolveTree, parseResolveInfo, simplifyParsedResolveInfoFragmentWithType } from './parse-info'
+import { Author, Book, Location, User } from './types'
 
 // Remove undefined from T
 type NonUndefined<T> = Exclude<T, undefined>
@@ -124,8 +124,10 @@ export function getFields<T>(info?: GraphQLResolveInfo): (keyof T)[] | undefined
       // In case this is a connection query we must get the fields form the nodes.
       if (fieldsList.includes('nodes')) {
         const [nodeType] = Object.keys(fields.nodes.fieldsByTypeName)
-        fieldsList = Object.keys(fields.nodes.fieldsByTypeName[nodeType])
-        typeName = nodeType as TypeName
+        if (nodeType) {
+          fieldsList = Object.keys(fields.nodes.fieldsByTypeName[nodeType])
+          typeName = nodeType as TypeName
+        }
       }
 
       // Resolve computed properties dependencies.

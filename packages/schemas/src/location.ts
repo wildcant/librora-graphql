@@ -8,8 +8,8 @@ export const LocationSchema = z.object({
 
   // countryCode: z.nativeEnum(ECountryCode).optional(),
 
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 })
 
 export type LocationModel = z.infer<typeof LocationSchema>

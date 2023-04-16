@@ -4,6 +4,8 @@
  */
 
 /* eslint-disable */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import {
   getNamedType,
@@ -84,7 +86,7 @@ export function getAliasFromResolveInfo(resolveInfo: GraphQLResolveInfo): string
     resolveInfo.fieldNodes || resolveInfo.fieldASTs
   for (let i = 0, l = asts.length; i < l; i++) {
     const val = asts[i]
-    if (val.kind === 'Field') {
+    if (val?.kind === 'Field') {
       const alias = val.alias ? val.alias.value : val.name && val.name.value
       if (alias) {
         return alias
@@ -138,7 +140,7 @@ export function parseResolveInfo(
       return null
     }
     const fields = tree[typeKey]
-    const fieldKey = firstKey(fields)
+    const fieldKey = firstKey(fields!)
     if (!fieldKey) {
       if (forceParse) {
         throw new Error(
@@ -147,7 +149,7 @@ export function parseResolveInfo(
       }
       return null
     }
-    return fields[fieldKey]
+    return fields![fieldKey]
   }
   return tree
 }
@@ -225,7 +227,7 @@ function fieldTreeFromAST<T extends SelectionNode>(
             val,
             variableValues
           ) || {}
-        if (parentType.name && !tree[parentType.name][alias]) {
+        if (parentType.name && !tree[parentType.name]![alias]) {
           const newTreeRoot: ResolveTree = {
             name,
             alias,
@@ -236,7 +238,7 @@ function fieldTreeFromAST<T extends SelectionNode>(
                 }
               : {},
           }
-          tree[parentType.name][alias] = newTreeRoot
+          tree[parentType.name]![alias] = newTreeRoot
         }
         const selectionSet = val.selectionSet
         if (selectionSet != null && options.deep && isCompositeType(fieldGqlType)) {
@@ -245,7 +247,7 @@ function fieldTreeFromAST<T extends SelectionNode>(
           fieldTreeFromAST(
             selectionSet.selections,
             resolveInfo,
-            tree[parentType.name][alias].fieldsByTypeName,
+            tree[parentType.name]![alias]!.fieldsByTypeName,
             options,
             newParentType,
             `${depth}  `
@@ -262,13 +264,13 @@ function fieldTreeFromAST<T extends SelectionNode>(
       const fragment = fragments[name]
 
       let fragmentType: GraphQLNamedType | null | undefined = parentType
-      if (fragment.typeCondition) {
+      if (fragment?.typeCondition) {
         fragmentType = getType(resolveInfo, fragment.typeCondition)
       }
       if (fragmentType && isCompositeType(fragmentType)) {
         const newParentType: GraphQLCompositeType = fragmentType
         fieldTreeFromAST(
-          fragment.selectionSet.selections,
+          fragment!.selectionSet.selections,
           resolveInfo,
           tree,
           options,
@@ -318,6 +320,7 @@ function firstKey(obj: object) {
       return key
     }
   }
+  return undefined
 }
 
 function getType(resolveInfo: GraphQLResolveInfo, typeCondition: NamedTypeNode) {
@@ -327,6 +330,7 @@ function getType(resolveInfo: GraphQLResolveInfo, typeCondition: NamedTypeNode) 
     const typeName = name.value
     return schema.getType(typeName)
   }
+  return undefined
 }
 
 export function simplifyParsedResolveInfoFragmentWithType(

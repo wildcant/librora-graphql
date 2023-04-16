@@ -3,7 +3,7 @@ import { BookModel, BookSchemaValidators } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
 import { z } from 'zod'
-import { Prettify } from '../../types'
+import { Prettify } from 'types'
 import { Loaders } from './loaders'
 import { FindManyArgs, PgDataSource } from './types'
 
@@ -52,7 +52,7 @@ export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource =>
     // TODO: Improve query to allow filtering by author and publication date.
     const query = freeText ? `fullText @@ to_tsquery('${freeText.replace(' ', ':* & ')}:*')` : ''
 
-    const [nodes, [{ count }]] = await Promise.all([
+    const [nodes, [countDict]] = await Promise.all([
       knex('books')
         .limit(limit)
         .offset(offset)
@@ -63,6 +63,6 @@ export const booksDataSource = (knex: Knex, loaders: Loaders): BookDataSource =>
       knex('books').whereRaw(query).count(),
     ])
 
-    return { count, nodes }
+    return { count: (countDict as { count: number }).count, nodes }
   },
 })

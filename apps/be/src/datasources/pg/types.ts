@@ -12,18 +12,18 @@ export type RecursivePartial<T> = {
 
 export type OmitId<T> = Omit<T, 'id'>
 export type RequiredId<T> = OmitId<T> & { id: string }
-export type OptionalId<T> = OmitId<T> & { id?: string }
+export type OptionalId<T> = OmitId<T> & { id?: string | undefined }
 
 export type Enumerable<T> = T | Array<T>
 
 type FindUniqueArgs<T, TUniqueProperties> = {
   where: RequireAtLeastOne<TUniqueProperties>
-  select?: (keyof T)[]
+  select?: (keyof T)[] | undefined
 }
 
 export type FindManyArgs<T> = {
   where?: RequireAtLeastOne<T>
-  select?: (keyof T)[]
+  select?: (keyof T)[] | undefined
   limit?: number
   offset?: number
 }
@@ -38,16 +38,13 @@ type GetEntityPayload<
 > = 'select' extends U ? { [P in ListKeys<T, S['select']>]: P extends keyof T ? T[P] : never } : T
 
 type HasSelect<T> = {
-  select: (keyof T)[]
+  select?: (keyof T)[] | undefined
 }
 
 export type CheckSelect<T, S, U> = T extends HasSelect<S> ? U : S
 
-export type DynamicFindManyResponse<
-  T,
-  Q extends FindManyArgs<T>,
-  TUniqueProperties = { id: string }
-> = Promise<Array<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>>
+export type DynamicFindManyResponse<T, Q extends FindManyArgs<T>, TUniqueProperties = { id: string }> =
+  Promise<Array<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>>
 
 /**
  * Contract for all data sources.
@@ -62,10 +59,10 @@ export type PgDataSource<T, TUniqueProperties = { id: string }> = {
   findMany<Q extends FindManyArgs<T>>(query: Q): DynamicFindManyResponse<T, Q, TUniqueProperties>
 
   /** Creates a new database record. */
-  create: (data: OptionalId<T>) => Promise<T | null>
+  create: (data: OmitId<T>) => Promise<T | undefined>
 
   /** Updates an existing database record. */
-  update: (query: { where: Partial<T>; data: Partial<T> }) => Promise<T | null>
+  update: (query: { where: Partial<T>; data: Partial<T> }) => Promise<T | undefined>
   /*
   TODO: Implement the following methods:
   

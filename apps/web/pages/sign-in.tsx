@@ -24,7 +24,8 @@ export default function SignUp() {
   const { notify } = useToast()
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
-    // defaultValues: { account: 'willo@mail.com', account: 'willo', password: '12345' },
+    // account: 'willo@mail.com',
+    defaultValues: { account: 'willo', password: '12345' },
   })
 
   const submit = (input: FormData) => {

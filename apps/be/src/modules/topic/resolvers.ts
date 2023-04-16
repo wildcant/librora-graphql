@@ -1,10 +1,10 @@
 import { TopicModel } from '@librora/schemas'
-import { getFields } from '../../core'
+import { getFields } from 'graph/graphql-to-sql'
 import { TopicModule } from './types'
 
 const topicsResolver: TopicModule.QueryResolvers['topics'] = async (_, __, context, info) => {
   const topics = await context.dataSources.pg.topics.findMany({
-    select: getFields(info),
+    select: getFields<TopicModel>(info),
   })
 
   return topics as TopicModel[]
