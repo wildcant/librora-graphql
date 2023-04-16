@@ -27,8 +27,21 @@ export async function createTables(knex: Knex) {
     table.enum('role', Object.values(EUserRole))
     table.enum('type', Object.values(EUserType))
     table.string('username').index()
+    table.uuid('location').references('locations.id').onDelete('SET NULL').onUpdate('CASCADE').index()
 
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
+  })
+
+  await knex.schema.createTable('locations', function (table) {
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
+    table.string('country')
+    table.string('city')
+    table.string('zipcode')
+
+    // table.string('countryCode', 2)
+    // table.string('latitude')
+    // table.string('longitude')
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('actions', function (table) {
@@ -37,21 +50,21 @@ export async function createTables(knex: Knex) {
     table.enum('namespace', Object.values(EActionNamespace))
     table.enum('name', ACTION_NAMES)
     table.jsonb('metadata').notNullable().defaultTo('{}')
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('authors', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
 
     table.string('name')
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('publishers', function (table) {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('uuid_generate_v4()'))
     table.string('name').notNullable()
     table.string('url')
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('books', function (table) {
@@ -92,10 +105,10 @@ export async function createTables(knex: Knex) {
     // table.uuid('topics')
     // table.foreign('topics').references('id').inTable('topics')
 
-    table.uuid('user')
-    table.foreign('user').references('id').inTable('users')
+    table.uuid('owner')
+    table.foreign('owner').references('id').inTable('users')
 
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.raw(`
@@ -114,7 +127,7 @@ export async function createTables(knex: Knex) {
     table.string('name').notNullable()
     table.string('colorCode')
     table.string('uniqueUrl')
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('booksTopics', function (table) {
@@ -126,7 +139,7 @@ export async function createTables(knex: Knex) {
     table.uuid('topic')
     table.foreign('topic').references('id').inTable('topics')
 
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('subtopics', function (table) {
@@ -134,7 +147,7 @@ export async function createTables(knex: Knex) {
     table.string('name').notNullable()
     table.string('colorCode')
     table.string('uniqueUrl')
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 
   await knex.schema.createTable('booksSubtopics', function (table) {
@@ -146,6 +159,6 @@ export async function createTables(knex: Knex) {
     table.uuid('subtopic')
     table.foreign('subtopic').references('id').inTable('subtopics')
 
-    table.timestamps({ useCamelCase: true, useTimestamps: true })
+    table.timestamps({ useCamelCase: true, useTimestamps: true, defaultToNow: true })
   })
 }

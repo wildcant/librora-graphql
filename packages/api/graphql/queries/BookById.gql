@@ -9,10 +9,11 @@ query Book($id: String!) {
       name
     }
 
-    user {
+    owner {
       id
       firstName
       lastName
+      createdAt
     }
   }
 }

@@ -1,15 +1,41 @@
 import { BookBySlugQuery } from '@librora/api/schema'
 import format from 'date-fns/format'
+import isSameMonth from 'date-fns/isSameMonth'
+import isSameDay from 'date-fns/isSameDay'
+import differenceInDays from 'date-fns/differenceInDays'
 import Image from 'next/image'
-import { Button, DateRangePicker, Icon } from 'ui'
+import { useState } from 'react'
+import { Icon, Link, RangeCalendar, RangeValue } from 'ui'
 import s from './BookDetails.module.css'
+
+// TODO: Add default image.
 const defaultBookImage = ''
 
 function BookingForm() {
+  const [dateRange, setDateRange] = useState<RangeValue<Date>>()
+  let label
+  let title = 'When do you want to have it'
+
+  if (dateRange) {
+    const { start, end } = dateRange
+    const startDate = format(start, 'MMM dd')
+    const endDateIsSameMonth = isSameMonth(start, end)
+    const endDate = format(end, endDateIsSameMonth ? 'dd' : 'MMM dd')
+    label = `${startDate} - ${endDate}`
+
+    if (isSameDay(start, end)) {
+      title = 'You have the for one day'
+    } else {
+      const numberOfDays = differenceInDays(end, start)
+      title = `${numberOfDays} day${numberOfDays > 1 ? 's' : ''} with the book`
+    }
+  }
+
   return (
-    <div className="border border-neutral-200 rounded-xl p-6 flex flex-col items-center max-w-md gap-8">
-      <DateRangePicker />
-      <Button size="sm">Reserve</Button>
+    <div>
+      <h3 className={s.Subtitle}>{title}</h3>
+      {label ? <span className="text-lg font-light">{label}</span> : <></>}
+      <RangeCalendar onChange={setDateRange} value={dateRange} />
     </div>
   )
 }
@@ -24,6 +50,7 @@ export function BookingDetails({
   language,
   description,
   date,
+  owner,
 }: BookingDetailsProps) {
   return (
     <div className={s.Container}>
@@ -32,7 +59,7 @@ export function BookingDetails({
       {author && <p className={s.Author}>{author.name}</p>}
 
       <div className={s.Cover}>
-        <Image src={cover ?? defaultBookImage} alt="book image" fill className="object-cover" />
+        <Image src={cover ?? defaultBookImage} alt="book image" fill className="rounded-2xl object-cover" />
       </div>
 
       <div className={s.Booking}>
@@ -40,29 +67,41 @@ export function BookingDetails({
       </div>
 
       <div className={s.QuickFacts}>
-        <h3 className="text-lg font-semibold">Quick Facts</h3>
+        <h3 className={s.Subtitle}>Quick Facts</h3>
         <div className="md:flex md:gap-4">
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 flex items-center gap-2">
             <Icon name="pages" />
-            <p className="text-sm">{numPages} pages</p>
+            <p className="text-md">Number of pages: {numPages}</p>
           </div>
 
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 flex items-center gap-2">
             <Icon name="earth" />
-            <p className="text-sm">{language}</p>
+            <p className="text-md">Language: {language}</p>
           </div>
 
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 flex items-center gap-2">
             <Icon name="time-line" />
-            <p className="text-sm">{format(new Date(date), 'yyyy')}</p>
+            <p className="text-md">Published at {format(new Date(date), 'yyyy')}</p>
           </div>
         </div>
       </div>
 
       <div className={s.Description}>
-        <h3 className="text-lg font-semibold">About this book</h3>
-        <p className="text-sm font-light">{description}</p>
+        <h3 className={s.Subtitle}>About this book</h3>
+        <p className="text-md font-light">{description}</p>
       </div>
+
+      <div className={s.OwnerInfo}>
+        <h3 className={s.Subtitle}>Lent by {owner.name}</h3>
+        <span className="text-lg font-light">Joined in {format(new Date(owner.createdAt), 'MMMM yyyy')}</span>
+
+        {/* TODO: Add link to contact book owner */}
+        <Link href={`#`} variant="button-outline" size="md" className="mt-4">
+          Contact Owner
+        </Link>
+      </div>
+
+      <div className={s.Location}></div>
     </div>
   )
 }

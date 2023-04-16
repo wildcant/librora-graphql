@@ -3,7 +3,7 @@ import { Knex } from 'knex'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 import { GraphQLError } from 'graphql'
-import { ApolloServerErrorCode } from '@apollo/server/dist/esm/errors'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
 
 export type AuthorDataSource = PgDataSource<AuthorModel>
 

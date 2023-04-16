@@ -11,4 +11,8 @@ fragment BookDetailsFragment on Book {
   author {
     name
   }
+  owner {
+    name
+    createdAt
+  }
 }

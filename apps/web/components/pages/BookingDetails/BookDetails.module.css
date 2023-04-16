@@ -1,3 +1,7 @@
+.Subtitle {
+  @apply text-2xl font-semibold;
+}
+
 .Container {
   display: grid;
   grid-template-areas:
@@ -6,7 +10,9 @@
     'book-cover'
     'quick-facts'
     'book-description'
-    'booking';
+    'booking'
+    'owner-info'
+    'location';
 
   @media (min-width: 768px) {
     grid-template-areas:
@@ -23,31 +29,41 @@
 }
 
 .Cover {
-  @apply relative aspect-[2/3];
+  @apply relative mt-4 aspect-[2/3];
   grid-area: book-cover;
 }
 
 .Title {
-  @apply mt-2 text-xl font-bold md:text-2xl lg:text-4xl;
+  @apply mt-2 text-2xl font-extrabold md:text-2xl lg:text-4xl;
   grid-area: book-title;
 }
 
 .Author {
-  @apply text-sm font-light md:text-xl lg:text-2xl;
+  @apply text-base font-light md:text-xl lg:text-2xl;
   grid-area: book-author;
 }
 
 .Booking {
-  @apply mt-4;
+  @apply mt-6 border-t pt-6;
   grid-area: booking;
 }
 
 .Description {
-  @apply mt-4;
+  @apply mt-6 border-t pt-6;
   grid-area: book-description;
 }
 
 .QuickFacts {
-  @apply mt-4;
+  @apply mt-6 border-t pt-6;
   grid-area: quick-facts;
+}
+
+.OwnerInfo {
+  @apply mt-6 flex flex-col border-t pt-6;
+  grid-area: owner-info;
+}
+
+.Location {
+  @apply mt-6 border-t pt-6;
+  grid-area: location;
 }

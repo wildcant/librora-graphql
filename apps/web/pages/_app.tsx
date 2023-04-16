@@ -1,4 +1,4 @@
-import { Merienda, Roboto_Slab, Cormorant_Garamond } from '@next/font/google'
+import { Merienda, Roboto_Slab, Cormorant_Garamond, Plus_Jakarta_Sans } from '@next/font/google'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { PropsWithChildren, useEffect } from 'react'
@@ -14,9 +14,9 @@ const robotoSlab = Roboto_Slab({
   weight: ['100', '300', '400', '500', '700', '900'],
 })
 
-const comrantGaramond = Cormorant_Garamond({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-comrant-garamond',
+  variable: '--font-plus-jakarta-sans',
   style: ['normal', 'italic'],
   weight: ['300', '400', '500', '600', '700'],
 })
@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <Providers>
-      <main className={`${merienda.variable} ${robotoSlab.variable} ${comrantGaramond.variable}`}>
+      <main className={`${merienda.variable} ${robotoSlab.variable} ${plusJakartaSans.variable}`}>
         <Layout pageProps={pageProps}>
           <Component {...pageProps} />
         </Layout>

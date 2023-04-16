@@ -4,6 +4,8 @@
 # -------------------------------------------------------
 #
 
+scalar Date
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -120,7 +122,7 @@ type Book {
   slug: String!
   subtitle: String
   title: String
-  user: User!
+  owner: User!
 }
 
 type BookConnection {
@@ -212,6 +214,7 @@ type User {
   role: EUserRole!
   type: EUserType!
   username: String!
+  createdAt: Date!
 }
 
 type UserConnection {

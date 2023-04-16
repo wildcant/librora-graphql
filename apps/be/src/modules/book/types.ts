@@ -9,7 +9,7 @@
 import * as Types from "../../graphql/types";
 export namespace BookModule {
   interface DefinedFields {
-    Book: 'id' | 'author' | 'cover' | 'coverThumbnail' | 'date' | 'description' | 'editorial' | 'format' | 'language' | 'numPages' | 'slug' | 'subtitle' | 'title' | 'user';
+    Book: 'id' | 'author' | 'cover' | 'coverThumbnail' | 'date' | 'description' | 'editorial' | 'format' | 'language' | 'numPages' | 'slug' | 'subtitle' | 'title' | 'owner';
     BookConnection: 'nodes' | 'pageInfo' | 'totalCount';
     Query: 'book' | 'searchBooks';
   };

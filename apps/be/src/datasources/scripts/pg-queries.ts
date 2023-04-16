@@ -142,7 +142,7 @@ export async function seed(knex: Knex, args: string[]) {
             publicationCountry: faker.address.country(),
             subtitle: faker.lorem.sentences(1),
             title,
-            // user: user.id,
+            owner: user.id,
             slug: title.toLowerCase().split(' ').join('-'),
           })
           .returning('id')

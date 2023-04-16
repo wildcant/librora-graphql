@@ -53,14 +53,14 @@ export const resolvers: BookModule.Resolvers = {
     author: async (book, _args, context, info) =>
       await context.dataSources.authors.findUnique({ where: { id: book.author }, select: getFields(info) }),
 
-    user: async (book, _args, context, info) => {
+    owner: async (book, _args, context, info) => {
       const user = await context.dataSources.users.findUnique({
-        where: { id: book.user },
+        where: { id: book.owner },
         select: getFields(info),
       })
 
       if (!user)
-        throw new GraphQLError(`The user for this book doesn't exist.`, {
+        throw new GraphQLError(`The owner of this book doesn't exist.`, {
           extensions: {
             code: CustomErrorCode.DATA_INCONSISTENCY,
             message: `User not found for book with ${book.id}`,

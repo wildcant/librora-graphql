@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { BookModel, AuthorModel, PublicUserModel, ActionModel } from '@librora/schemas';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
@@ -23,6 +23,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
 };
 
 export type Author = {
@@ -50,10 +51,10 @@ export type Book = {
   id: Scalars['String'];
   language?: Maybe<ELanguage>;
   numPages: Scalars['Int'];
+  owner: User;
   slug: Scalars['String'];
   subtitle?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  user: User;
 };
 
 export type BookConnection = {
@@ -315,6 +316,7 @@ export type User = {
   __typename?: 'User';
   books: BookConnection;
   countryCode?: Maybe<ECountryCode>;
+  createdAt: Scalars['Date'];
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['String'];
@@ -428,6 +430,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserInput: CreateUserInput;
   CreateUserPayload: ResolverTypeWrapper<Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversTypes['User']> }>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   EAdminRole: EAdminRole;
   ECountryCode: ECountryCode;
   EFormat: EFormat;
@@ -476,6 +479,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CreateUserInput: CreateUserInput;
   CreateUserPayload: Omit<CreateUserPayload, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
+  Date: Scalars['Date'];
   Editorial: Editorial;
   EditorialConnection: EditorialConnection;
   ForgotPasswordInput: ForgotPasswordInput;
@@ -528,10 +532,10 @@ export type BookResolvers<ContextType = Context, ParentType extends ResolversPar
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   language?: Resolver<Maybe<ResolversTypes['ELanguage']>, ParentType, ContextType>;
   numPages?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -548,6 +552,10 @@ export type CreateUserPayloadResolvers<ContextType = Context, ParentType extends
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export type EditorialResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Editorial'] = ResolversParentTypes['Editorial']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -634,6 +642,7 @@ export type TopicResolvers<ContextType = Context, ParentType extends ResolversPa
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   books?: Resolver<ResolversTypes['BookConnection'], ParentType, ContextType>;
   countryCode?: Resolver<Maybe<ResolversTypes['ECountryCode']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -672,6 +681,7 @@ export type Resolvers<ContextType = Context> = {
   Book?: BookResolvers<ContextType>;
   BookConnection?: BookConnectionResolvers<ContextType>;
   CreateUserPayload?: CreateUserPayloadResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Editorial?: EditorialResolvers<ContextType>;
   EditorialConnection?: EditorialConnectionResolvers<ContextType>;
   ForgotPasswordPayload?: ForgotPasswordPayloadResolvers<ContextType>;
@@ -690,3 +700,5 @@ export type Resolvers<ContextType = Context> = {
   VerifyEmailPayload?: VerifyEmailPayloadResolvers<ContextType>;
 };
 
+
+export type Date = Scalars["Date"];

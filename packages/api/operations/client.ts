@@ -25,6 +25,10 @@ export const BookDetailsFragmentFragmentDoc = gql`
     author {
       name
     }
+    owner {
+      name
+      createdAt
+    }
   }
 `
 export const CreateUserDocument = gql`
@@ -368,10 +372,11 @@ export const BookDocument = gql`
         id
         name
       }
-      user {
+      owner {
         id
         firstName
         lastName
+        createdAt
       }
     }
   }

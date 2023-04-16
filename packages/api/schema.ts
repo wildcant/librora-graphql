@@ -10,6 +10,8 @@ import { EAdminRole } from '@librora/schemas'
 import { ECountryCode } from '@librora/schemas'
 import { EFormat } from '@librora/schemas'
 import { ELanguage } from '@librora/schemas'
+import { EReservationChangeRequestState } from '@librora/schemas'
+import { EReservationState } from '@librora/schemas'
 import { ESort } from '@librora/schemas'
 import { EUserRole } from '@librora/schemas'
 import { EUserType } from '@librora/schemas'
@@ -25,6 +27,7 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  Date: any
 }
 
 export type Author = {
@@ -52,10 +55,10 @@ export type Book = {
   id: Scalars['String']
   language?: Maybe<ELanguage>
   numPages: Scalars['Int']
+  owner: User
   slug: Scalars['String']
   subtitle?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  user: User
 }
 
 export type BookConnection = {
@@ -99,6 +102,10 @@ export { EFormat }
 
 export { ELanguage }
 
+export { EReservationChangeRequestState }
+
+export { EReservationState }
+
 export { ESort }
 
 export { EUserRole }
@@ -132,6 +139,7 @@ export type Mutation = {
   createUser?: Maybe<CreateUserPayload>
   forgotPassword?: Maybe<ForgotPasswordPayload>
   resendVerificationEmail?: Maybe<ResendVerificationEmail>
+  reserve?: Maybe<ReservePayload>
   resetPassword?: Maybe<ResetPasswordPayload>
   signIn?: Maybe<SignInPayload>
   validateAction?: Maybe<ValidateActionPayload>
@@ -148,6 +156,10 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationResendVerificationEmailArgs = {
   token: Scalars['String']
+}
+
+export type MutationReserveArgs = {
+  input?: InputMaybe<ReserveInput>
 }
 
 export type MutationResetPasswordArgs = {
@@ -181,6 +193,7 @@ export type Query = {
   __typename?: 'Query'
   author?: Maybe<Author>
   book?: Maybe<Book>
+  reservation?: Maybe<Reservation>
   searchBooks: BookConnection
   topics: Array<Topic>
   user?: Maybe<User>
@@ -195,6 +208,10 @@ export type QueryBookArgs = {
   slug?: InputMaybe<Scalars['String']>
 }
 
+export type QueryReservationArgs = {
+  id: Scalars['String']
+}
+
 export type QuerySearchBooksArgs = {
   input: SearchBooksInput
 }
@@ -207,6 +224,22 @@ export type ResendVerificationEmail = {
   __typename?: 'ResendVerificationEmail'
   message?: Maybe<Scalars['String']>
   success?: Maybe<Scalars['Boolean']>
+}
+
+export type Reservation = {
+  __typename?: 'Reservation'
+  id: Scalars['String']
+  state?: Maybe<EReservationState>
+  subState?: Maybe<EReservationChangeRequestState>
+}
+
+export type ReserveInput = {
+  bookId: Scalars['String']
+}
+
+export type ReservePayload = {
+  __typename?: 'ReservePayload'
+  message?: Maybe<Scalars['String']>
 }
 
 export type ResetPasswordInput = {
@@ -249,6 +282,7 @@ export type User = {
   __typename?: 'User'
   books: BookConnection
   countryCode?: Maybe<ECountryCode>
+  createdAt?: Maybe<Scalars['Date']>
   email: Scalars['String']
   firstName: Scalars['String']
   id: Scalars['String']
@@ -296,6 +330,7 @@ export type BookDetailsFragmentFragment = {
   description?: string | null
   date: string
   author?: { __typename?: 'Author'; name: string } | null
+  owner: { __typename?: 'User'; name?: string | null; createdAt?: any | null }
 }
 
 export type CreateUserMutationVariables = Exact<{
@@ -400,7 +435,7 @@ export type BookQuery = {
     subtitle?: string | null
     description?: string | null
     author?: { __typename?: 'Author'; id: string; name: string } | null
-    user: { __typename?: 'User'; id: string; firstName: string; lastName: string }
+    owner: { __typename?: 'User'; id: string; firstName: string; lastName: string; createdAt?: any | null }
   } | null
 }
 
@@ -422,6 +457,7 @@ export type BookBySlugQuery = {
     description?: string | null
     date: string
     author?: { __typename?: 'Author'; name: string } | null
+    owner: { __typename?: 'User'; name?: string | null; createdAt?: any | null }
   } | null
 }
 

@@ -51,7 +51,7 @@ module.exports = {
       fontFamily: {
         merienda: ['var(--font-merienda)'],
         roboto: ['var(--font-roboto-slab)'],
-        comrant: ['var(--font-comrant-garamond)'],
+        plusjakartasans: ['var(--font-plus-jakarta-sans)'],
       },
       colors: {
         current: 'currentColor',

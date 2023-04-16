@@ -1,6 +1,6 @@
 import { fetchBookBySlug } from '@librora/api/operations/server'
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from 'ui'
+import { Icon, Link } from 'ui'
 import { BookingDetails } from '~components/pages/BookingDetails/BookDetails'
 import { MainLayout } from '../../components/layouts/MainLayout'
 import Custom404 from '../404'
@@ -42,12 +42,9 @@ export default function BookDetailsPage({ book }: InferGetStaticPropsType<typeof
 
   return (
     <MainLayout>
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Discover</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>{book.title}</BreadcrumbItem>
-      </Breadcrumb>
+      <Link href="/" variant="unstyled">
+        <Icon name="arrow-left-line" size="lg" />
+      </Link>
 
       <BookingDetails {...book} />
     </MainLayout>

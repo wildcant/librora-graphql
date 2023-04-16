@@ -53,7 +53,7 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
         {...mergeProps(buttonProps, focusProps)}
         ref={ref}
         hidden={isOutsideMonth}
-        className={`group h-8 w-8 lg:h-10 lg:w-10 outline-none ${isRoundedLeft ? 'rounded-l-full' : ''} ${
+        className={`group h-12 w-12 outline-none lg:h-10 lg:w-10 ${isRoundedLeft ? 'rounded-l-full' : ''} ${
           isRoundedRight ? 'rounded-r-full' : ''
         } ${isSelected ? 'bg-primary-200' : ''} ${isDisabled ? 'disabled' : ''}`}
       >
@@ -63,7 +63,7 @@ export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCe
           }
           ${
             // Focus ring, visible while the cell has keyboard focus.
-            isFocusVisible ? 'ring-2 group-focus:z-2 ring-violet-600 ring-offset-2' : ''
+            isFocusVisible ? 'group-focus:z-2 ring-2 ring-violet-600 ring-offset-2' : ''
           }
           ${
             // Darker selection background for the start and end.
