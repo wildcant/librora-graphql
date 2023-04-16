@@ -1,7 +1,7 @@
 import { useDeviceType } from '@librora/utils/hooks'
-import { AriaRangeCalendarProps, useRangeCalendar } from '@react-aria/calendar'
-import { useRangeCalendarState } from '@react-stately/calendar'
 import { useRef } from 'react'
+import { AriaRangeCalendarProps, useRangeCalendar } from 'react-aria'
+import { useRangeCalendarState } from 'react-stately'
 import { CalendarGrid } from './CalendarGrid'
 import { CalendarHeader } from './CalendarHeader'
 import { RangeValue } from './types'
@@ -11,7 +11,7 @@ import {
   nativeDateToCalendarDate,
   nativeRangeDateToCalendarRangeDate,
 } from './utils/calendarDate'
-import { CalendarDate, createCalendar, DateValue } from './utils/internationalized'
+import { CalendarDate, DateValue, createCalendar } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 export function AriaRangeCalendar(props: AriaRangeCalendarProps<DateValue>) {

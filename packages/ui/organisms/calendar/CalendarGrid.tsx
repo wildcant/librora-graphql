@@ -1,8 +1,8 @@
-import { DateDuration, endOfMonth, getWeeksInMonth } from './utils/internationalized'
-import { useCalendarGrid } from '@react-aria/calendar'
-import { CalendarState, RangeCalendarState } from '@react-stately/calendar'
+import { useCalendarGrid } from 'react-aria'
+import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarCell } from './CalendarCell'
 import { CalendarVariant } from './types'
+import { DateDuration, endOfMonth, getWeeksInMonth } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 type ICalendarGridProps = {

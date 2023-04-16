@@ -1,9 +1,8 @@
-import { AriaDateFieldProps, useDateField, useDateSegment } from '@react-aria/datepicker'
-import { DateFieldState, DateSegment as DateSegmentType, useDateFieldState } from '@react-stately/datepicker'
-import { DateValue } from '@react-types/datepicker'
 import cn from 'classnames'
 import { useRef } from 'react'
-import { createCalendar } from './utils/internationalized'
+import { AriaDateFieldProps, useDateField, useDateSegment } from 'react-aria'
+import { DateFieldState, DateSegment as DateSegmentType, useDateFieldState } from 'react-stately'
+import { DateValue, createCalendar } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 export function DateField(props: AriaDateFieldProps<DateValue>) {

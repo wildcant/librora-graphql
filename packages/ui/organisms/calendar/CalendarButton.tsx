@@ -1,7 +1,5 @@
-import { AriaButtonProps, useButton } from '@react-aria/button'
-import { useFocusRing } from '@react-aria/focus'
-import { mergeProps } from '@react-aria/utils'
 import { useRef } from 'react'
+import { AriaButtonProps, mergeProps, useButton, useFocusRing } from 'react-aria'
 
 export function CalendarButton(props: AriaButtonProps) {
   const ref = useRef<HTMLButtonElement>(null)

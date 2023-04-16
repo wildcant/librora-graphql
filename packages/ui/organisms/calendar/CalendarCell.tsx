@@ -1,15 +1,13 @@
-import { useCalendarCell } from '@react-aria/calendar'
-import { useFocusRing } from '@react-aria/focus'
-import { mergeProps } from '@react-aria/utils'
-import { CalendarState, RangeCalendarState } from '@react-stately/calendar'
 import { useRef } from 'react'
+import { mergeProps, useCalendarCell, useFocusRing } from 'react-aria'
+import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarVariant } from './types'
-import { CalendarDate, getDayOfWeek, isSameDay, isSameMonth } from './utils/internationalized'
+import { CalendarDate, DateValue, getDayOfWeek, isSameDay, isSameMonth } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 type ICalendarCellProps = {
-  date: CalendarDate
-  currentMonth: CalendarDate
+  date: DateValue
+  currentMonth: DateValue
   variant: CalendarVariant
 } & (
   | { variant: 'day-picker'; state: CalendarState }
@@ -19,7 +17,7 @@ type ICalendarCellProps = {
 export function CalendarCell({ variant, state, date, currentMonth }: ICalendarCellProps) {
   const ref = useRef<HTMLDivElement>(null)
   const { cellProps, buttonProps, isSelected, isDisabled, formattedDate } = useCalendarCell(
-    { date },
+    { date: date as unknown as CalendarDate },
     state,
     ref
   )

@@ -16,24 +16,18 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
-    "@internationalized/date": "^3.0.2",
+    "@internationalized/date": "^3.2.0",
     "@librora/api": "*",
     "@librora/theme": "*",
     "@librora/utils": "*",
-    "@react-aria/button": "^3.6.4",
-    "@react-aria/calendar": "^3.1.0",
-    "@react-aria/datepicker": "^3.3.0",
-    "@react-aria/focus": "^3.10.1",
-    "@react-aria/utils": "^3.14.2",
-    "@react-aria/visually-hidden": "^3.6.1",
-    "@react-stately/calendar": "^3.0.5",
-    "@react-stately/datepicker": "^3.2.1",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "classnames": "^2.3.2",
     "date-fns": "^2.29.3",
     "next": "^13.1.6",
+    "react-aria": "^3.24.0",
     "react-hook-form": "^7.42.1",
+    "react-stately": "^3.22.0",
     "react-toastify": "^9.1.1"
   }
 }

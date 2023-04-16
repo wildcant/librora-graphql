@@ -1,8 +1,6 @@
 import { Icon } from '@atoms'
-import { CalendarAria } from '@react-aria/calendar'
-import { useDateFormatter } from '@react-aria/i18n'
-import { VisuallyHidden } from '@react-aria/visually-hidden'
-import { CalendarState, RangeCalendarState } from '@react-stately/calendar'
+import { CalendarAria, VisuallyHidden, useDateFormatter } from 'react-aria'
+import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarButton } from './CalendarButton'
 
 type ICalendarHeaderProps = Pick<CalendarAria, 'calendarProps' | 'prevButtonProps' | 'nextButtonProps'> & {

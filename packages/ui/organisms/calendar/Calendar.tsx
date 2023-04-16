@@ -2,10 +2,11 @@ import { useDeviceType } from '@librora/utils/hooks'
 import { AriaCalendarProps, useCalendar } from '@react-aria/calendar'
 import { useCalendarState } from '@react-stately/calendar'
 import { useRef } from 'react'
+import type { CalendarStateOptions } from 'react-stately'
 import { CalendarGrid } from './CalendarGrid'
 import { CalendarHeader } from './CalendarHeader'
 import { calendarDateToNativeDate, nativeDateToCalendarDate } from './utils/calendarDate'
-import { CalendarDate, createCalendar, DateValue } from './utils/internationalized'
+import { DateValue, createCalendar } from './utils/internationalized'
 import { useDefaultLocale } from './utils/useDefaultLocale'
 
 export function AriaCalendar(props: AriaCalendarProps<DateValue>) {
@@ -17,7 +18,7 @@ export function AriaCalendar(props: AriaCalendarProps<DateValue>) {
     ...props,
     visibleDuration: { months: displayTwoMonths ? 2 : 1 },
     locale,
-    createCalendar,
+    createCalendar: createCalendar as unknown as CalendarStateOptions['createCalendar'],
   })
 
   const ref = useRef<HTMLDivElement>(null)
@@ -64,7 +65,7 @@ type CalendarProps = Omit<
   isDateUnavailable?: (date: Date) => boolean
   /** Whether to automatically focus the calendar when it mounts. */
   focusedValue?: Date
-  /** The date that is focused when the calendar first mounts (uncountrolled). */
+  /** The date that is focused when the calendar first mounts (uncontrolled). */
   defaultFocusedValue?: Date
   /** The element's unique identifier. See MDN. */
   value?: Date
@@ -88,13 +89,13 @@ function processCalendarProps({
     minValue: minValue ? nativeDateToCalendarDate(minValue) : undefined,
     maxValue: maxValue ? nativeDateToCalendarDate(maxValue) : undefined,
     isDateUnavailable: isDateUnavailable
-      ? (date) => isDateUnavailable(calendarDateToNativeDate(date as CalendarDate))
+      ? (date) => isDateUnavailable(calendarDateToNativeDate(date))
       : undefined,
     focusedValue: focusedValue ? nativeDateToCalendarDate(focusedValue) : undefined,
     defaultFocusedValue: defaultFocusedValue ? nativeDateToCalendarDate(defaultFocusedValue) : undefined,
     value: value ? nativeDateToCalendarDate(value) : undefined,
     defaultValue: defaultValue ? nativeDateToCalendarDate(defaultValue) : undefined,
-    onChange: onChange ? (date) => onChange(calendarDateToNativeDate(date as CalendarDate)) : undefined,
+    onChange: onChange ? (date) => onChange(calendarDateToNativeDate(date)) : undefined,
   }
 }
 

@@ -2,9 +2,9 @@ export {
   CalendarDate,
   createCalendar,
   endOfMonth,
-  getWeeksInMonth,
   getDayOfWeek,
+  getWeeksInMonth,
   isSameDay,
   isSameMonth,
 } from '@internationalized/date'
-export type { DateValue, DateDuration } from '@internationalized/date'
+export type { DateDuration, DateValue } from '@internationalized/date'
