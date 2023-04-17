@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "echo Hello",
     "generate": "graphql-codegen -r dotenv/config --config codegen.yml"
   },
   "devDependencies": {
@@ -17,7 +16,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
-    "dotenv": "^16.0.3",
-    "@librora/schemas": "*"
+    "dotenv": "^16.0.3"
   }
 }

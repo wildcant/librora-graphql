@@ -1,5 +1,5 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { UserModel, UserSchema } from '@librora/schemas'
+import { UserModel, UserSchema } from 'schemas'
 import bcrypt from 'bcrypt'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'

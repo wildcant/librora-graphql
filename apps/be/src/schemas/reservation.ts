@@ -1,5 +1,5 @@
 import z from 'zod'
-import { EReservationState } from './enums'
+import { EReservationState } from 'graph/enums'
 
 export const ReservationSchema = z.object({
   id: z.string().uuid(),

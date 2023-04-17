@@ -1,5 +1,5 @@
 import z from 'zod'
-import { EAdminRole, EUserRole, EUserType } from './enums'
+import { EAdminRole, EUserRole, EUserType } from 'graph/enums'
 
 export const BaseUserSchema = z.object({
   id: z.string().uuid(),
@@ -19,7 +19,7 @@ export const BaseUserSchema = z.object({
 export const UserSchema = BaseUserSchema.omit({
   type: true,
 }).extend({
-  type: z.literal(EUserType.User),
+  type: z.literal(EUserType.USER),
   role: z.nativeEnum(EUserRole),
 })
 
@@ -31,15 +31,15 @@ export type PublicUserModel = z.infer<typeof PublicUserSchema>
 export const AdminSchema = BaseUserSchema.omit({
   type: true,
 }).extend({
-  type: z.literal(EUserType.Admin),
+  type: z.literal(EUserType.ADMIN),
   role: z.nativeEnum(EUserRole),
 })
 
 function validateRoleMatchType(val: { role: EUserRole | EAdminRole; type: EUserType }) {
   switch (val.type) {
-    case EUserType.Admin:
+    case EUserType.ADMIN:
       return z.nativeEnum(EAdminRole).parse(val.role)
-    case EUserType.User:
+    case EUserType.USER:
       return z.nativeEnum(EUserRole).parse(val.role)
     default:
       return false

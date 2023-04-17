@@ -3,7 +3,7 @@ services:
     name: librora-backend
     env: node
     region: oregon
-    buildCommand: yarn build
+    buildCommand: yarn workspace be build
     startCommand: yarn workspace be start
     buildFilter:
       paths:

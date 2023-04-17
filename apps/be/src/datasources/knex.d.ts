@@ -1,4 +1,4 @@
-import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel, LocationModel } from '@librora/schemas'
+import { ActionModel, AuthorModel, BookModel, TopicModel, UserModel, LocationModel } from 'schemas'
 import { Knex } from 'knex'
 
 declare module 'knex/types/tables' {

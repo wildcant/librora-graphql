@@ -6,7 +6,7 @@ import {
   LocationSchema,
   UserModel,
   UserSchema,
-} from '@librora/schemas'
+} from 'schemas'
 import { GraphQLResolveInfo } from 'graphql'
 import { ResolveTree, parseResolveInfo, simplifyParsedResolveInfoFragmentWithType } from './parse-info'
 import { Author, Book, Location, User } from './types'

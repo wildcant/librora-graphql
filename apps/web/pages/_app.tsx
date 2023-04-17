@@ -1,4 +1,4 @@
-import { Merienda, Roboto_Slab, Cormorant_Garamond, Plus_Jakarta_Sans } from '@next/font/google'
+import { Merienda, Roboto_Slab, Plus_Jakarta_Sans } from '@next/font/google'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { PropsWithChildren, useEffect } from 'react'

@@ -1,4 +1,4 @@
-import { TopicModel } from '@librora/schemas'
+import { TopicModel } from 'schemas'
 import { getFields } from 'graph/graphql-to-sql'
 import { TopicModule } from './types'
 

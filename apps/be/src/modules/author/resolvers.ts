@@ -1,6 +1,6 @@
 import { getFields } from 'graph/graphql-to-sql'
 import { AuthorModule } from './types'
-import { AuthorModel } from '@librora/schemas'
+import { AuthorModel } from 'schemas'
 
 export const resolvers: AuthorModule.Resolvers = {
   Query: {

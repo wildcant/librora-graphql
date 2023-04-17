@@ -16,7 +16,6 @@
   "dependencies": {
     "@apollo/datasource-rest": "^5.0.2",
     "@apollo/server": "^4.3.1",
-    "@librora/schemas": "*",
     "@sendgrid/mail": "^7.7.0",
     "@types/lodash": "^4.14.191",
     "bcrypt": "^5.1.0",

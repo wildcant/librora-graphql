@@ -1,4 +1,4 @@
-import { ActionModel, AuthorModel, BookModel, LocationModel, TopicModel, UserModel } from '@librora/schemas'
+import { ActionModel, AuthorModel, BookModel, LocationModel, TopicModel, UserModel } from 'schemas'
 import DataLoader, { Options } from 'dataloader'
 import { Knex } from 'knex'
 import { mapTo } from '../utils'

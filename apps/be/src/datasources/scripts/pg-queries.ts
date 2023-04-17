@@ -4,21 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { faker } from '@faker-js/faker'
-import {
-  BookModel,
-  EActionNamespace,
-  EFormat,
-  ELanguage,
-  EUserActionName,
-  EUserRole,
-  EUserType,
-  LocationModel,
-  UserModel,
-} from '@librora/schemas'
 import bcrypt from 'bcrypt'
 import addHours from 'date-fns/addHours'
 import { env } from 'env'
+import { EFormat, ELanguage, EUserRole, EUserType } from 'graph/enums'
 import knexBuilder, { Knex } from 'knex'
+import { BookModel, EActionNamespace, EUserActionName, LocationModel, UserModel } from 'schemas'
 import { knexConfig } from '../pg'
 import { OmitId } from '../pg/types'
 
@@ -127,8 +118,8 @@ export async function seed(knex: Knex, args: string[]) {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         password: defaultPassword,
-        role: EUserRole.LenderBorrower,
-        type: EUserType.User,
+        role: EUserRole.LENDER_BORROWER,
+        type: EUserType.USER,
         username: faker.internet.userName(),
         location: locations[0]?.id,
       },
@@ -137,8 +128,8 @@ export async function seed(knex: Knex, args: string[]) {
         firstName: 'willy',
         lastName: 'Wonka',
         password: defaultPassword,
-        role: EUserRole.LenderBorrower,
-        type: EUserType.User,
+        role: EUserRole.LENDER_BORROWER,
+        type: EUserType.USER,
         username: 'willo',
         location: locations[1]?.id,
       },
@@ -159,12 +150,12 @@ export async function seed(knex: Knex, args: string[]) {
             date: faker.date.past().toISOString(),
             description,
             editionNumber: faker.datatype.number({ min: 0, max: 10 }),
-            format: EFormat.Book,
+            format: EFormat.BOOK,
             isbn: faker.phone.number('#############'),
             isDisabled: false,
             isRestricted: false,
             isWithdrawn: false,
-            language: ELanguage.English,
+            language: ELanguage.ENGLISH,
             numPages: faker.datatype.number({ min: 1, max: 10000 }),
             publicationCity: faker.address.cityName(),
             publicationCountry: faker.address.country(),

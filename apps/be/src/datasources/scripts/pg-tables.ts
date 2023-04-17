@@ -1,7 +1,8 @@
 #!/usr/bin/env tsx
 
-import { ACTION_NAMES, EActionNamespace, EFormat, ELanguage, EUserRole, EUserType } from '@librora/schemas'
+import { EFormat, ELanguage, EUserRole, EUserType } from 'graph/enums'
 import { Knex } from 'knex'
+import { ACTION_NAMES, EActionNamespace } from 'schemas'
 
 export async function createTables(knex: Knex) {
   await knex.raw(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)

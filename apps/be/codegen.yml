@@ -12,7 +12,17 @@ definitions:
       /* eslint-disable */
 
 generates:
-  ./src/modules/:
+  src/graph/enums.ts:
+    config:
+      namingConvention:
+        enumValues: keep
+      onlyEnums: true
+
+    plugins:
+      - add: *top-comment
+      - 'typescript'
+
+  src/modules/:
     preset: graphql-modules
     presetConfig:
       baseTypesPath: ../graph/types.ts
@@ -24,7 +34,7 @@ generates:
       - typescript
       - typescript-resolvers:
           mappers:
-            Book: '@librora/schemas#BookModel'
-            Author: '@librora/schemas#AuthorModel'
-            User: '@librora/schemas#PublicUserModel'
+            Book: schemas#BookModel
+            Author: schemas#AuthorModel
+            User: schemas#PublicUserModel
           contextType: context#Context

@@ -1,9 +1,9 @@
-import { AuthorModel, AuthorSchema } from '@librora/schemas'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
+import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
+import { AuthorModel, AuthorSchema } from 'schemas'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
-import { GraphQLError } from 'graphql'
-import { ApolloServerErrorCode } from '@apollo/server/errors'
 
 export type AuthorDataSource = PgDataSource<AuthorModel>
 

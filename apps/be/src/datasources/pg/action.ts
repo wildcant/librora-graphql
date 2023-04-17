@@ -1,9 +1,9 @@
-import { ActionModel } from '@librora/schemas'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
+import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
+import { ActionModel } from 'schemas'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
-import { GraphQLError } from 'graphql'
-import { ApolloServerErrorCode } from '@apollo/server/errors'
 
 export type ActionDataSource = PgDataSource<ActionModel>
 

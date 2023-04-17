@@ -1,7 +1,6 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
-import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
 import { DataSources } from 'datasources'
 import addHours from 'date-fns/addHours'
+import { ActionModel, EActionNamespace, EUserActionName } from 'schemas'
 import { sendEmailConfirmation } from './comms/email'
 
 const authSideEffects = (dataSources: DataSources) => ({

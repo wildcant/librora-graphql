@@ -1,4 +1,4 @@
-import { EFormat, ELanguage } from './enums'
+import { EFormat, ELanguage } from 'graph/enums'
 import z from 'zod'
 
 export const BookSchema = z.object({

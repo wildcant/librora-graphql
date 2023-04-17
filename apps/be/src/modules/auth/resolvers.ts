@@ -1,4 +1,4 @@
-import { ActionModel, EActionNamespace, EUserActionName } from '@librora/schemas'
+import { ActionModel, EActionNamespace, EUserActionName } from 'schemas'
 import addHours from 'date-fns/addHours'
 import omit from 'lodash/fp/omit'
 import z from 'zod'
@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt'
 import { validateResetPasswordAction } from 'core/action'
 import { OptionalId } from 'datasources/pg/types'
 import { GraphQLError } from 'graphql'
-import { ApolloServerErrorCode } from '@apollo/server/dist/esm/errors'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
 
 /** Sign in mutation. */
 const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) => {

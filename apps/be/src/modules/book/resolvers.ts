@@ -4,7 +4,7 @@ import { createTypeConnection, DEFAULT_PAGE_SIZE } from 'graph/pagination'
 import { GraphQLError } from 'graphql'
 import { CustomErrorCode } from 'side-effects/handle-errors'
 import { BookModule } from './types'
-import { BookModel } from '@librora/schemas'
+import { BookModel } from 'schemas'
 
 const searchBooks: BookModule.QueryResolvers['searchBooks'] = async (_, args, context, info) => {
   // TODO: Add sorting.

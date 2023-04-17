@@ -1,6 +1,7 @@
-import { EUserActionName, EUserRole, EUserType, UserModel } from '@librora/schemas'
 import isAfter from 'date-fns/isAfter'
+import { EUserRole, EUserType } from 'graph/enums'
 import { getFields } from 'graph/graphql-to-sql'
+import { EUserActionName, UserModel } from 'schemas'
 import { UserModule } from './types'
 
 const userResolver: UserModule.QueryResolvers['user'] = async (_, args, context, info) => {
@@ -13,8 +14,8 @@ const userResolver: UserModule.QueryResolvers['user'] = async (_, args, context,
 const createUser: UserModule.MutationResolvers['createUser'] = async (_, args, context) => {
   const user = await context.dataSources.pg.users.create({
     ...args.input,
-    type: EUserType.User,
-    role: EUserRole.LenderBorrower,
+    type: EUserType.USER,
+    role: EUserRole.LENDER_BORROWER,
   })
 
   if (!user) return { success: false, message: 'There was a problem creating your account.', user: null }

@@ -16,12 +16,12 @@ definitions:
 
 generates:
   schema.ts:
+    namingConvention:
+      enumValues: keep
     plugins:
       - add: *top-comment
       - 'typescript'
       - 'typescript-operations'
-    config:
-      enumValues: '@librora/schemas'
 
   operations/client.ts:
     plugins:

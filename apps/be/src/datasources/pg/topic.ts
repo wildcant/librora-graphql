@@ -1,7 +1,7 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { TopicModel, TopicSchema } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
+import { TopicModel, TopicSchema } from 'schemas'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 

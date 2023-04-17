@@ -1,11 +1,11 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { BookModel, BookSchemaValidators } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
 import { z } from 'zod'
 import { Prettify } from 'types'
 import { Loaders } from './loaders'
 import { FindManyArgs, PgDataSource } from './types'
+import { BookModel, BookSchemaValidators } from 'schemas'
 
 export type BookDataSource = PgDataSource<BookModel, Pick<BookModel, 'id' | 'slug'>> & {
   search: (

@@ -6,15 +6,6 @@
 
 /* eslint-disable */
 
-import { EAdminRole } from '@librora/schemas'
-import { ECountryCode } from '@librora/schemas'
-import { EFormat } from '@librora/schemas'
-import { ELanguage } from '@librora/schemas'
-import { EReservationChangeRequestState } from '@librora/schemas'
-import { EReservationState } from '@librora/schemas'
-import { ESort } from '@librora/schemas'
-import { EUserRole } from '@librora/schemas'
-import { EUserType } from '@librora/schemas'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -95,23 +86,57 @@ export type CreateUserPayload = {
   user?: Maybe<User>
 }
 
-export { EAdminRole }
+export enum EAdminRole {
+  Billing = 'BILLING',
+  Super = 'SUPER',
+}
 
-export { ECountryCode }
+export enum ECountryCode {
+  Co = 'CO',
+}
 
-export { EFormat }
+export enum EFormat {
+  Book = 'BOOK',
+  Epub = 'EPUB',
+  Pdf = 'PDF',
+}
 
-export { ELanguage }
+export enum ELanguage {
+  English = 'ENGLISH',
+}
 
-export { EReservationChangeRequestState }
+export enum EReservationChangeRequestState {
+  ChangeCancelled = 'CHANGE_CANCELLED',
+  ChangeConfirmed = 'CHANGE_CONFIRMED',
+  ChangeDenied = 'CHANGE_DENIED',
+  ChangePending = 'CHANGE_PENDING',
+}
 
-export { EReservationState }
+export enum EReservationState {
+  Active = 'ACTIVE',
+  Canceled = 'CANCELED',
+  Confirmed = 'CONFIRMED',
+  Denied = 'DENIED',
+  Expired = 'EXPIRED',
+  Pending = 'PENDING',
+  Returned = 'RETURNED',
+  Withdrawn = 'WITHDRAWN',
+}
 
-export { ESort }
+export enum ESort {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
 
-export { EUserRole }
+export enum EUserRole {
+  LenderBorrower = 'LENDER_BORROWER',
+  Visitor = 'VISITOR',
+}
 
-export { EUserType }
+export enum EUserType {
+  Admin = 'ADMIN',
+  User = 'USER',
+}
 
 export type Editorial = {
   __typename?: 'Editorial'

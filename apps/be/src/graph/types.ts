@@ -7,7 +7,7 @@
 /* eslint-disable */
 
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { BookModel, AuthorModel, PublicUserModel } from '@librora/schemas';
+import { BookModel, AuthorModel, PublicUserModel } from 'schemas';
 import { Context } from 'context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;

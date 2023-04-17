@@ -1,7 +1,7 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { LocationModel, LocationSchema } from '@librora/schemas'
 import { GraphQLError } from 'graphql'
 import { Knex } from 'knex'
+import { LocationModel, LocationSchema } from 'schemas'
 import { Loaders } from './loaders'
 import { PgDataSource } from './types'
 
