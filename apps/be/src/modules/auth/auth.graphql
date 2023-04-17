@@ -5,7 +5,9 @@ input SignInInput {
 
 type SignInPayload {
   user: User
-  success: Boolean
+  token: String
+  expires: Int
+  success: Boolean!
   message: String
 }
 

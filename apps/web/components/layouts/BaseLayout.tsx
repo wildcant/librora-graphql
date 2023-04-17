@@ -1,8 +1,9 @@
 import { useLockBodyScroll } from '@librora/utils/hooks'
-import classNames from 'classnames'
+import cn from 'classnames'
 import { useRouter } from 'next/router'
-import { Icon, Link, Loader, Toast } from 'ui'
+import { EIconName, Icon, Link, Loader, Toast } from 'ui'
 import { BookDetailsActions } from '~components/pages/BookingDetails/Actions'
+import { useAuthFlags } from '~store/auth'
 import { useGlobalState } from '../../store/global'
 import { Portal } from '../Portal'
 
@@ -17,32 +18,85 @@ function Loading() {
   )
 }
 
-function DefaultActions() {
+type Route = { href: string; iconName: `${EIconName}`; label: string }
+function NavigationLink(route: Route) {
+  const router = useRouter()
+
+  return (
+    <Link
+      key={route.href}
+      href={route.href}
+      variant="unstyled"
+      className="flex flex-col items-center text-neutral-500"
+    >
+      <Icon
+        name={route.iconName}
+        size="lg"
+        className={cn({
+          'text-primary-400': router.pathname === route.href,
+          'text-neutral-400': router.pathname !== route.href,
+        })}
+      />
+      <span
+        className={cn('text-[10px] font-bold', {
+          'text-neutral-800': router.pathname === route.href,
+          'text-neutral-400': router.pathname !== route.href,
+        })}
+      >
+        {route.label}
+      </span>
+    </Link>
+  )
+}
+
+function DefaultPublicActions() {
+  const routes: Route[] = [
+    { href: '/', iconName: 'search', label: 'Explore' },
+    { href: '/sign-in', iconName: 'account-circle', label: 'Sign in' },
+  ]
+
   return (
     <div className="flex h-full flex-row items-center gap-10">
-      <Link href="/" variant="unstyled" className="flex flex-col items-center text-neutral-500">
-        <Icon name="search" size="lg" />
-        <span className="text-[10px] font-bold">Explore</span>
-      </Link>
-
-      <Link href="/sign-in" variant="unstyled" className="flex flex-col items-center text-neutral-500">
-        <Icon name="account-circle" size="lg" />
-        <span className="text-[10px] font-bold">Sign in</span>
-      </Link>
+      {routes.map((route) => (
+        <NavigationLink key={route.href} {...route} />
+      ))}
     </div>
   )
 }
 
-const pageActions: { [key: string]: JSX.Element } = {
+function DefaultPrivateActions() {
+  const routes: Route[] = [
+    { href: '/', iconName: 'search', label: 'Explore' },
+    // { href: '/inbox', iconName: 'chat', label: 'Inbox' },
+    { href: '/account-settings', iconName: 'account-circle', label: 'Profile' },
+  ]
+
+  return (
+    <div className="flex h-full flex-row items-center gap-10">
+      {routes.map((route) => (
+        <NavigationLink key={route.href} {...route} />
+      ))}
+    </div>
+  )
+}
+
+const publicPageActions: { [key: string]: JSX.Element } = {
   '/books/[slug]': <BookDetailsActions />,
-  default: <DefaultActions />,
+  default: <DefaultPublicActions />,
+}
+
+const privatePageActions: { [key: string]: JSX.Element } = {
+  '/books/[slug]': <BookDetailsActions />,
+  default: <DefaultPrivateActions />,
 }
 
 function MobileNavigation() {
   const router = useRouter()
+  const { isAuthenticated } = useAuthFlags()
+  const pageActions = isAuthenticated ? privatePageActions : publicPageActions
 
   return (
-    <nav className="fixed bottom-0 flex h-16 w-full justify-center border-t-[1px] border-t-neutral-100 bg-white md:hidden z-[8999]">
+    <nav className="fixed bottom-0 z-[8999] flex h-16 w-full justify-center border-t-[1px] border-t-neutral-100 bg-white md:hidden">
       {pageActions[router.route] ?? pageActions.default}
     </nav>
   )
@@ -58,7 +112,7 @@ export function BaseLayout({ children }: LayoutProps) {
   return (
     <>
       {isLoadingGlobal && <Loading />}
-      <div className={classNames({ 'blur-sm': isLoadingGlobal })}>
+      <div className={cn({ 'blur-sm': isLoadingGlobal })}>
         {children}
         <MobileNavigation />
       </div>

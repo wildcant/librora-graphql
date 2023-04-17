@@ -103,20 +103,13 @@ function addDependencies(fieldsList: string[], type: TypeName) {
   return fieldsListWithDependencies
 }
 
-/** Transform the graphql query from the info object into an sql table selection. */
-export function getFields<T>(info?: GraphQLResolveInfo): (keyof T)[] | undefined {
-  if (!info) return
-
-  const parsedResolveInfoFragment = parseResolveInfo(info)
-
-  const fields = simplifyParsedResolveInfoFragmentWithType(
-    parsedResolveInfoFragment as ResolveTree,
-    info.returnType
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ).fields as any
-
-  let fieldsList = Object.keys(fields)
-
+/** Resolve field list dependencies and clean up computed properties from selection. */
+function processFieldList<T>(
+  fieldsList: string[],
+  parsedResolveInfoFragment: ResolveTree,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fields: any
+): (keyof T)[] {
   if (parsedResolveInfoFragment?.fieldsByTypeName) {
     // Resolve which types we are getting the fields for.
     Object.keys(parsedResolveInfoFragment.fieldsByTypeName).forEach((type) => {
@@ -144,4 +137,46 @@ export function getFields<T>(info?: GraphQLResolveInfo): (keyof T)[] | undefined
   }
 
   return fieldsList as (keyof T)[]
+}
+
+/** Transform the graphql query from the info object into an sql table selection. */
+export function getFields<T>(info?: GraphQLResolveInfo): (keyof T)[] | undefined {
+  if (!info) return
+
+  const parsedResolveInfoFragment = parseResolveInfo(info)
+  if (!parsedResolveInfoFragment) return
+  const fields = simplifyParsedResolveInfoFragmentWithType(
+    parsedResolveInfoFragment,
+    info.returnType
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ).fields as any
+
+  const fieldsList = Object.keys(fields)
+
+  return processFieldList(fieldsList, parsedResolveInfoFragment, fields)
+}
+
+/** Return the projection for a given nested property within the info object.*/
+export function getFieldsFor<T>(
+  info: GraphQLResolveInfo,
+  propertyName: string,
+  graphqlTypeName: TypeName
+): (keyof T)[] | undefined {
+  const parsedResolveInfoFragment = parseResolveInfo(info)
+  if (!parsedResolveInfoFragment) return
+
+  const rootFields = simplifyParsedResolveInfoFragmentWithType(
+    parsedResolveInfoFragment,
+    info.returnType
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ).fields as any
+
+  let fieldsList
+  try {
+    const fields = rootFields[propertyName].fieldsByTypeName[graphqlTypeName]
+    fieldsList = Object.keys(fields) as string[]
+    return processFieldList(fieldsList, rootFields[propertyName], fields)
+  } catch (error) {
+    return
+  }
 }

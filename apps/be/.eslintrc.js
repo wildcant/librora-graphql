@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: ['@librora/custom'],
-  ignorePatterns: ['**/dist/*'],
+  ignorePatterns: ['**/dist/*', 'tsconfig.tsbuildinfo'],
   rules: {
     'import/no-restricted-paths': [
       'error',

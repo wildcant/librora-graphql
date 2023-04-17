@@ -246,9 +246,12 @@ export const SignInDocument = gql`
       message
       user {
         id
+        username
         firstName
         lastName
       }
+      token
+      expires
     }
   }
 `

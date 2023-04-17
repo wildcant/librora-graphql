@@ -10,8 +10,8 @@ import { env } from 'env'
 import { EFormat, ELanguage, EUserRole, EUserType } from 'graph/enums'
 import knexBuilder, { Knex } from 'knex'
 import { BookModel, EActionNamespace, EUserActionName, LocationModel, UserModel } from 'schemas'
+import { OmitId } from 'types'
 import { knexConfig } from '../pg'
-import { OmitId } from '../pg/types'
 
 const topicsData = [
   { name: 'History' },

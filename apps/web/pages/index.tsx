@@ -87,7 +87,7 @@ export default function Home({
 
       <div className="mb-4 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-20">
         {books?.map((book) => (
-          <Link href={`/books/${book.slug}`} variant={'unstyled'}>
+          <Link key={book.slug} href={`/books/${book.slug}`} variant={'unstyled'}>
             <BookCard {...(book as Book)} />
           </Link>
         ))}

@@ -24,7 +24,6 @@ export const getStaticProps = async (
 
   const bookSlug = context.params.slug.toString()
   const response = await fetchBookBySlug({ variables: { slug: bookSlug } })
-
   const book = response.data.book
 
   return {

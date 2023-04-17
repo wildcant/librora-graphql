@@ -317,8 +317,10 @@ export type SignInInput = {
 
 export type SignInPayload = {
   __typename?: 'SignInPayload'
+  expires?: Maybe<Scalars['Int']>
   message?: Maybe<Scalars['String']>
-  success?: Maybe<Scalars['Boolean']>
+  success: Scalars['Boolean']
+  token?: Maybe<Scalars['String']>
   user?: Maybe<User>
 }
 
@@ -459,9 +461,11 @@ export type SignInMutation = {
   __typename?: 'Mutation'
   signIn?: {
     __typename?: 'SignInPayload'
-    success?: boolean | null
+    success: boolean
     message?: string | null
-    user?: { __typename?: 'User'; id: string; firstName: string; lastName: string } | null
+    token?: string | null
+    expires?: number | null
+    user?: { __typename?: 'User'; id: string; username: string; firstName: string; lastName: string } | null
   } | null
 }
 

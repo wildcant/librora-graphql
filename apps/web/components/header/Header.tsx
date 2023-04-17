@@ -35,7 +35,7 @@ export function Header() {
 
   return (
     <div className="container mx-auto hidden md:block">
-      <header className="p-6 md:pt-8 md:pb-4 md:px-0">
+      <header className="p-6 md:px-0 md:pt-8 md:pb-4">
         <div className="md:flex md:flex-row md:justify-between">
           <div className="hidden md:block">
             <Link href="/" variant="unstyled">
@@ -65,7 +65,7 @@ export function Header() {
               >
                 <div className="grid w-40 grid-cols-1">
                   {publicMenuItems.map((menuItem) => (
-                    <Link href={menuItem.href} className="py-3 px-4 text-neutral-900">
+                    <Link key={menuItem.href} href={menuItem.href} className="py-3 px-4 text-neutral-900">
                       {menuItem.title}
                     </Link>
                   ))}

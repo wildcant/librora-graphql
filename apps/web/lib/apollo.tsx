@@ -55,7 +55,7 @@ export function getApolloClient(ctx?: ApolloClientContext, initialState?: Normal
 }
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-export function useApollo(pageProps: AppProps['pageProps']) {
+export function useApollo(pageProps: AppProps['pageProps'] = {}) {
   const state = pageProps[APOLLO_STATE_PROP_NAME]
   const store = useMemo(() => initializeApollo({ initialState: state }), [state])
   return store

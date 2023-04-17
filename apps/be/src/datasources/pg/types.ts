@@ -1,3 +1,5 @@
+import { OmitId } from 'types'
+
 export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>
 }[keyof T]
@@ -9,10 +11,6 @@ export type RecursivePartial<T> = {
     ? RecursivePartial<T[P]>
     : T[P]
 }
-
-export type OmitId<T> = Omit<T, 'id'>
-export type RequiredId<T> = OmitId<T> & { id: string }
-export type OptionalId<T> = OmitId<T> & { id?: string | undefined }
 
 export type Enumerable<T> = T | Array<T>
 
@@ -43,8 +41,11 @@ type HasSelect<T> = {
 
 export type CheckSelect<T, S, U> = T extends HasSelect<S> ? U : S
 
-export type DynamicFindManyResponse<T, Q extends FindManyArgs<T>, TUniqueProperties = { id: string }> =
-  Promise<Array<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>>
+export type DynamicFindManyResponse<
+  T,
+  Q extends FindManyArgs<T>,
+  TUniqueProperties = { id: string }
+> = Promise<Array<CheckSelect<Q, T, GetEntityPayload<T, TUniqueProperties, Q>> | null>>
 
 /**
  * Contract for all data sources.

@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSignInMutation } from '@librora/api/operations/client'
-import { useDeepCompareEffect } from '@librora/utils/hooks'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { Button, Link, Logo, TextField, useToast } from 'ui'
 import z from 'zod'
+import { setAuthValues, useAuthLocalStorage } from '~store/auth'
+import { AUTH_TOKEN_COOKIE_KEY } from '~store/auth/constants'
 import { AuthLayout } from '../components/layouts/AuthLayout'
 import signInPic from '../public/sign-in.webp'
 
@@ -18,33 +20,33 @@ const FormSchema = z.object({
 
 type FormData = z.infer<typeof FormSchema>
 
-export default function SignUp() {
-  const [signIn, { loading, data, called, error }] = useSignInMutation()
-
+export default function SignIn() {
+  const router = useRouter()
+  const [signIn, { loading }] = useSignInMutation()
   const { notify } = useToast()
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
-    // account: 'willo@mail.com',
     defaultValues: { account: 'willo', password: '12345' },
   })
+  const [_, storeAuth] = useAuthLocalStorage()
 
   const submit = (input: FormData) => {
-    signIn({ variables: { input } })
+    signIn({
+      variables: { input },
+      onCompleted: (response) => {
+        const { success, message, user, token, expires } = response?.signIn ?? {}
+        if (!success) {
+          notify(message ?? 'There was a problem trying to login.', { type: 'warning' })
+        } else if (success && user && token && expires) {
+          setAuthValues({ user, token, expires })
+          storeAuth({ user, token, expires })
+          Cookies.set(AUTH_TOKEN_COOKIE_KEY, token, { expires: new Date(expires * 1000) })
+          router.replace('/')
+        }
+      },
+      onError: (error) => notify(error.message, { type: 'error' }),
+    })
   }
-
-  useDeepCompareEffect(() => {
-    if (error) {
-      notify(error.message, { type: 'error' })
-    }
-  }, [error])
-
-  const { message, success } = data?.signIn ?? {}
-
-  useEffect(() => {
-    if (called && !success && message) {
-      notify(message, { type: 'warning' })
-    }
-  }, [called, message, notify, success])
 
   return (
     <AuthLayout

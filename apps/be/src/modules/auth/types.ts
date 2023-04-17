@@ -9,7 +9,7 @@
 import * as Types from "../../graph/types";
 export namespace AuthModule {
   interface DefinedFields {
-    SignInPayload: 'user' | 'success' | 'message';
+    SignInPayload: 'user' | 'token' | 'expires' | 'success' | 'message';
     ForgotPasswordPayload: 'success' | 'message';
     ResetPasswordPayload: 'success' | 'message' | 'user';
     Mutation: 'signIn' | 'forgotPassword' | 'resetPassword';

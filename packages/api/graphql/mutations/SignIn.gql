@@ -4,8 +4,11 @@ mutation SignIn($input: SignInInput!) {
     message
     user {
       id
+      username
       firstName
       lastName
     }
+    token
+    expires
   }
 }

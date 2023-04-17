@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import { PropsWithChildren, useEffect } from 'react'
 import { Providers } from '../providers'
 import '../styles/globals.css'
+import { useAuthEffects } from '~store/auth'
 
 const merienda = Merienda({ subsets: ['latin'], variable: '--font-merienda' })
 
@@ -32,6 +33,7 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? (({ children }: PropsWithChildren<{}>) => <>{children}</>)
+  useAuthEffects()
 
   useEffect(() => {
     // TODO: Double check.

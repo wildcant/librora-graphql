@@ -1,24 +1,31 @@
-import { ActionModel, EActionNamespace, EUserActionName } from 'schemas'
-import addHours from 'date-fns/addHours'
-import omit from 'lodash/fp/omit'
-import z from 'zod'
-import { sendPasswordInstructions } from 'side-effects/comms/email'
-import { AuthModule } from './types'
+import { ApolloServerErrorCode } from '@apollo/server/errors'
 import bcrypt from 'bcrypt'
 import { validateResetPasswordAction } from 'core/action'
-import { OptionalId } from 'datasources/pg/types'
+import addHours from 'date-fns/addHours'
+import { env } from 'env'
+import { getFieldsFor } from 'graph/graphql-to-sql'
 import { GraphQLError } from 'graphql'
-import { ApolloServerErrorCode } from '@apollo/server/errors'
+import { SignJWT, decodeJwt } from 'jose'
+import omit from 'lodash/fp/omit'
+import { ActionModel, EActionNamespace, EUserActionName, UserModel } from 'schemas'
+import { sendPasswordInstructions } from 'side-effects/comms/email'
+import { OptionalId } from 'types'
+import z from 'zod'
+import { AuthModule } from './types'
 
 /** Sign in mutation. */
-const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) => {
+const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context, info) => {
   const { account, password } = args.input
 
   // Check if account is the username or the email.
   const login: 'email' | 'username' = z.string().email().safeParse(account).success ? 'email' : 'username'
 
+  const userProjection = getFieldsFor<UserModel>(info, 'user', 'User') ?? []
+  userProjection.push('password')
+
   const rawUser = await context.dataSources.pg.users.findUnique({
     where: account === 'email' ? { email: account } : { username: account },
+    select: userProjection,
   })
 
   const passwordMatched = await bcrypt.compare(password, rawUser?.password ?? '')
@@ -27,14 +34,15 @@ const signIn: AuthModule.MutationResolvers['signIn'] = async (_, args, context) 
     return { success: false, message: `Invalid ${login} or password.` }
   }
 
-  // const secret = new TextEncoder().encode(env.JWT_SECRET)
-  // const loginToken = await new SignJWT(user)
-  //   .setProtectedHeader({ alg: 'HS256' })
-  //   .setExpirationTime(env.JWT_EXPIRATION)
-  //   .sign(secret)
-  // const loginExpiration = decodeJwt(loginToken).exp
+  const user = omit(['password'], rawUser)
+  const secret = new TextEncoder().encode(env.JWT_SECRET)
+  const token = await new SignJWT(user)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime(env.JWT_EXPIRATION)
+    .sign(secret)
+  const expires = decodeJwt(token).exp as number
 
-  return { success: true, message: 'Logged in.', user: omit(['password'], rawUser) }
+  return { success: true, message: 'Logged in.', user, token, expires }
 }
 
 /** Forgot Password mutation. */

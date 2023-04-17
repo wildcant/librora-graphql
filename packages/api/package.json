@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "generate": "graphql-codegen -r dotenv/config --config codegen.yml"
+    "generate": "graphql-codegen -r dotenv/config --config codegen.yml",
+    "dev": "yarn generate --watch"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^3.2.3",

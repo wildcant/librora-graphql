@@ -326,8 +326,10 @@ export type SignInInput = {
 
 export type SignInPayload = {
   __typename?: 'SignInPayload';
+  expires?: Maybe<Scalars['Int']>;
   message?: Maybe<Scalars['String']>;
-  success?: Maybe<Scalars['Boolean']>;
+  success: Scalars['Boolean'];
+  token?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
 };
 
@@ -691,8 +693,10 @@ export type ResetPasswordPayloadResolvers<ContextType = Context, ParentType exte
 };
 
 export type SignInPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
+  expires?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -15,6 +15,7 @@ export const authorsDataSource = (knex: Knex, loaders: Loaders): AuthorDataSourc
       extensions: { code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR },
     })
   },
+
   findMany: async ({ where = {}, select }) => {
     const authors = await knex('authors')
       .where(where)
