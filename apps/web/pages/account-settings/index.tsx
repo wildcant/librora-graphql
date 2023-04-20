@@ -1,7 +1,8 @@
-import { Avatar, Divider, Icon } from '@atoms'
+import { Avatar, Divider, Icon, Link } from '@atoms'
 import { Button } from '@molecules'
 import { MainLayout } from '~components/layouts/MainLayout'
 import { useAuthState, useLogout } from '~store/auth'
+import cn from 'classnames'
 
 function capitalize(str?: string) {
   if (!str) return ''
@@ -9,12 +10,11 @@ function capitalize(str?: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-function AccountSettings() {
+function Mobile({ className }: { className?: string }) {
   const { user } = useAuthState()
   const { logout } = useLogout()
-
   return (
-    <MainLayout>
+    <div className={className}>
       <h2 className="text-3xl">Profile</h2>
       <div className="mt-4 flex  flex-row items-center gap-2 pt-4">
         <div>
@@ -56,6 +56,42 @@ function AccountSettings() {
           Log out
         </Button>
       </div>
+    </div>
+  )
+}
+
+function Desktop({ className }: { className?: string }) {
+  const { user } = useAuthState()
+  return (
+    <div className={cn('mx-auto mt-6 max-w-screen-xl', className)}>
+      <h2 className="text-3xl font-bold">Account</h2>
+      <p className="mt-4 text-xl">
+        <span className="font-normal">
+          {capitalize(user?.firstName)} {capitalize(user?.lastName)}
+        </span>
+        , <span className="font-light">{user?.email}</span>
+      </p>
+
+      <div className="grid grid-cols-2 gap-24 lg:grid-cols-3">
+        <div className="mt-8 rounded-md bg-white p-4 shadow-md">
+          <Link href="/account-settings/personal-info">
+            <div className="flex flex-col">
+              <Icon name="profile" />
+              <span>Personal info</span>
+              <p>Provide personal details and how we can reach you</p>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AccountSettings() {
+  return (
+    <MainLayout>
+      <Mobile className="md:hidden" />
+      <Desktop className="hidden md:block" />
     </MainLayout>
   )
 }

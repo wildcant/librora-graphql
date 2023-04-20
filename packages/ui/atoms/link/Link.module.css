@@ -1,5 +1,5 @@
 .Link {
-  @apply cursor-pointer hover:underline;
+  @apply font-plusjakartasans cursor-pointer;
   &.primary {
     @apply text-primary-600;
     @apply hover:text-primary-700;
@@ -7,6 +7,10 @@
   &.secondary {
     @apply text-secondary-600;
     @apply hover:text-secondary-700;
+  }
+  &.neutral {
+    @apply text-neutral-600;
+    @apply hover:text-neutral-700;
   }
 
   &.responsive {
@@ -27,6 +31,10 @@
 
   &.lg {
     @apply text-lg;
+  }
+
+  &.textUnderline {
+    @apply hover:underline;
   }
 }
 

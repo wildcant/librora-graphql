@@ -465,7 +465,14 @@ export type SignInMutation = {
     message?: string | null
     token?: string | null
     expires?: number | null
-    user?: { __typename?: 'User'; id: string; username: string; firstName: string; lastName: string } | null
+    user?: {
+      __typename?: 'User'
+      id: string
+      username: string
+      firstName: string
+      lastName: string
+      email: string
+    } | null
   } | null
 }
 

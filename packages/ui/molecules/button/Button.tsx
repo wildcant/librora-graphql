@@ -4,7 +4,7 @@ import { ComponentPropsWithoutRef, ReactElement } from 'react'
 import s from './Button.module.css'
 
 export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
-  color?: 'primary' | 'secondary'
+  color?: 'primary' | 'secondary' | 'neutral'
   icon?: ReactElement | `${EIconName}`
   iconClassName?: string
   iconPosition?: 'left' | 'right'
@@ -12,6 +12,7 @@ export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
   loadingText?: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
   variant?: 'unstyled' | 'solid' | 'outline' | 'ghost' | 'link'
+  underline?: boolean
 }
 
 /**
@@ -28,9 +29,9 @@ export const Button = ({
   isLoading,
   loadingText,
   size,
-  variant = 'solid',
   ...props
 }: ButtonProps) => {
+  const { variant = 'solid' } = props
   let iconElement = typeof icon === 'string' ? <Icon name={icon} size="lg" className={iconClassName} /> : icon
 
   if (isLoading) {
@@ -44,10 +45,12 @@ export const Button = ({
     {
       [s.primary]: color === 'primary' && !unstyled,
       [s.secondary]: color === 'secondary' && !unstyled,
+      [s.neutral]: color === 'neutral' && !unstyled,
       [s.solid]: variant === 'solid',
       [s.outline]: variant === 'outline',
       [s.ghost]: variant === 'ghost',
       [s.link]: variant === 'link',
+      [s.textUnderline]: props.variant === 'link' && props.underline,
       [s.animated]: variant !== 'link' && !unstyled && !isLoading,
       [s.xs]: size === 'xs' && !unstyled,
       [s.sm]: size === 'sm' && !unstyled,

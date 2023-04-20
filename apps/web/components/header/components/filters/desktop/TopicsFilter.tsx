@@ -17,7 +17,7 @@ export function TopicsFilter() {
         loading={loading}
         multiple
         onChange={(selectedTopics) =>
-          // TODO: Usability could be improved a lot here by having a local state before requesting a new search.
+          // TODO: Usability could be improved here by having a local state before requesting a new search.
           router.push(
             buildSearchQuery({ ...currentFilters, topics: selectedTopics.map(({ label }) => label) })
           )

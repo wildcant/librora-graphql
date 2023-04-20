@@ -57,6 +57,6 @@ export const useAuthEffects = () => {
 }
 
 export const useAuthFlags = () => {
-  const isAuthenticated = !!useAuthState().token
-  return { isAuthenticated }
+  const authState = useAuthState()
+  return { isAuthenticated: !!authState.token }
 }

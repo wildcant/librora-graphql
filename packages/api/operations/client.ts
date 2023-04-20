@@ -249,6 +249,7 @@ export const SignInDocument = gql`
         username
         firstName
         lastName
+        email
       }
       token
       expires

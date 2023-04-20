@@ -7,7 +7,7 @@ export type ILinkProps = {
   // icon?: 'arrow' | 'chevron' // TODO
   children: ReactNode
   className?: string
-  color?: 'primary' | 'secondary'
+  color?: 'primary' | 'secondary' | 'neutral'
   size?: 'xs' | 'sm' | 'md' | 'lg'
   target?: string
   underline?: boolean // Applies only for link variant.
@@ -26,7 +26,7 @@ type NativeLinkProps = {
 export function Link({
   children,
   className,
-  color = 'primary',
+  color = 'neutral',
   size,
   target,
   variant = 'default',
@@ -44,6 +44,7 @@ export function Link({
       [s.Button]: isBtn,
       [s.primary]: color === 'primary',
       [s.secondary]: color === 'secondary',
+      [s.neutral]: color === 'neutral',
       [s.solid]: isBtn && !isOutline,
       [s.outline]: isBtn && isOutline,
       [s.xs]: size === 'xs' && !unstyled,
@@ -51,7 +52,7 @@ export function Link({
       [s.md]: size === 'md' && !unstyled,
       [s.lg]: size === 'lg' && !unstyled,
       [s.responsive]: !size,
-      [s.underline]: underline,
+      [s.textUnderline]: underline,
     },
     className
   )

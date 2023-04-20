@@ -99,7 +99,7 @@ export function Filters({ className }: { className: string }) {
   const { filters } = useFiltersState()
 
   return (
-    <div className={cn('mb-8 flex w-full flex-row rounded-full border max-w-4xl mx-auto', className)}>
+    <div className={cn('mx-auto mb-8 flex w-full max-w-4xl flex-row rounded-full border', className)}>
       <FilterField
         fieldName="When"
         placement="bottom-start"

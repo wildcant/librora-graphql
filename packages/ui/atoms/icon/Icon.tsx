@@ -40,6 +40,7 @@ export enum EIconName {
   chat = 'chat',
   settings = 'settings',
   listSettings = 'list-settings',
+  profile = 'profile',
 }
 
 const icon: { [key in EIconName]: ReactElement } = {
@@ -72,6 +73,7 @@ const icon: { [key in EIconName]: ReactElement } = {
   chat: Icons.chat,
   settings: Icons.settings,
   'list-settings': Icons.listSettings,
+  profile: Icons.profile,
 }
 
 export type IconProps = ComponentPropsWithoutRef<'svg'> & {

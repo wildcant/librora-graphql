@@ -7,6 +7,7 @@ mutation SignIn($input: SignInInput!) {
       username
       firstName
       lastName
+      email
     }
     token
     expires

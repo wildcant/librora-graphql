@@ -54,6 +54,13 @@
     }
   }
 
+  &.neutral {
+    &.link {
+      @apply text-neutral-600;
+      @apply hover:text-neutral-700;
+    }
+  }
+
   &.xs {
     @apply px-4 py-2 text-xs font-semibold;
     &.icon-only {
@@ -103,6 +110,9 @@
     @apply p-0;
     &.responsive {
       @apply text-xs sm:text-sm md:text-base lg:text-lg;
+    }
+    &.textUnderline {
+      @apply underline;
     }
   }
 
